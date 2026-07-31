@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提醒中心 · 日历助手</title>
+    <style id="theme-vars">
+/* ============================================================
+   智能日历助手 — Brand CSS (colors_and_type.css)
+   精炼暗色专业风 · 单一品牌主色 + 语义状态色
+   暗色为默认主题，写入 :root
+   ============================================================ */
+
+:root {
+  /* --- Brand Primary Tint Scale (blue #4a9eff family) --- */
+  --cal-primary-50: #eef6ff;
+  --cal-primary-100: #d9ecff;
+  --cal-primary-200: #bcdfff;
+  --cal-primary-300: #8ecaff;
+  --cal-primary-400: #69b5ff;
+  --cal-primary-500: #4a9eff;
+  --cal-primary-600: #2b87f0;
+  --cal-primary-700: #1f6fd6;
+  --cal-primary-800: #1f5aad;
+  --cal-primary-900: #1e4d8a;
+  --cal-primary-950: #172e52;
+
+  /* --- Semantic State Colors (mapped to priority levels) --- */
+  --state-error: #ff4757;
+  --state-error-foreground: #ffffff;
+  --state-error-muted: rgba(255, 71, 87, 0.12);
+  --state-error-border: rgba(255, 71, 87, 0.3);
+  --state-warning: #ffa502;
+  --state-warning-foreground: #1a1200;
+  --state-warning-muted: rgba(255, 165, 2, 0.12);
+  --state-warning-border: rgba(255, 165, 2, 0.3);
+  --state-info: #4a9eff;
+  --state-info-foreground: #ffffff;
+  --state-info-muted: rgba(74, 158, 255, 0.12);
+  --state-info-border: rgba(74, 158, 255, 0.3);
+  --state-success: #2ed573;
+  --state-success-foreground: #062d14;
+  --state-success-muted: rgba(46, 213, 115, 0.12);
+  --state-success-border: rgba(46, 213, 115, 0.3);
+
+  /* --- Dark Theme (Primary Experience, defaults in :root) --- */
+  --cal-background: #0b1220;
+  --cal-foreground: #dde4ec;
+  --cal-card: #131e2e;
+  --cal-card-foreground: #dde4ec;
+  --cal-card-elevated: #1a2838;
+  --cal-popover: #1a2838;
+  --cal-popover-foreground: #dde4ec;
+  --cal-primary: #4a9eff;
+  --cal-primary-foreground: #ffffff;
+  --cal-secondary: #1a2838;
+  --cal-secondary-foreground: #9aabbf;
+  --cal-muted: #0f1923;
+  --cal-muted-foreground: #6b7c8f;
+  --cal-accent: #1a2838;
+  --cal-accent-foreground: #9aabbf;
+  --cal-destructive: #ff4757;
+  --cal-destructive-foreground: #ffffff;
+  --cal-border: #1f3045;
+  --cal-border-subtle: #16212f;
+  --cal-input: #243447;
+  --cal-ring: #4a9eff;
+
+  /* --- Radius Scale --- */
+  --cal-radius-small: 4px;
+  --cal-radius-medium: 8px;
+  --cal-radius-large: 12px;
+  --cal-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --cal-font-sans: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --cal-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", Consolas, monospace;
+
+  /* --- Spacing Base --- */
+  --cal-spacing-base: 4px;
+}
+
+/* --- Light Mode Override (not used by default) --- */
+.light {
+  --cal-background: #f4f7fa;
+  --cal-foreground: #0f1923;
+  --cal-card: #ffffff;
+  --cal-card-foreground: #0f1923;
+  --cal-card-elevated: #ffffff;
+  --cal-popover: #ffffff;
+  --cal-popover-foreground: #0f1923;
+  --cal-secondary: #e8edf2;
+  --cal-secondary-foreground: #3a4a5a;
+  --cal-muted: #eef2f6;
+  --cal-muted-foreground: #6b7c8f;
+  --cal-accent: #e8edf2;
+  --cal-accent-foreground: #3a4a5a;
+  --cal-border: #dfe6ee;
+  --cal-border-subtle: #eef2f6;
+  --cal-input: #dfe6ee;
+}
+
+/* ============================================================
+   Typography Classes
+   ============================================================ */
+.cal-h1 {
+  font-family: var(--cal-font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--cal-foreground);
+}
+
+.cal-h2 {
+  font-family: var(--cal-font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--cal-foreground);
+}
+
+.cal-h3 {
+  font-family: var(--cal-font-sans);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--cal-foreground);
+}
+
+.cal-h4 {
+  font-family: var(--cal-font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--cal-foreground);
+}
+
+.cal-body {
+  font-family: var(--cal-font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--cal-foreground);
+}
+
+.cal-body-sm {
+  font-family: var(--cal-font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--cal-foreground);
+}
+
+.cal-body-xs {
+  font-family: var(--cal-font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cal-muted-foreground);
+}
+
+.cal-label {
+  font-family: var(--cal-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--cal-muted-foreground);
+  letter-spacing: 0.02em;
+}
+
+.cal-mono {
+  font-family: var(--cal-font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cal-foreground);
+}
+
+/* --- Utility text classes --- */
+.cal-text-primary { color: var(--cal-foreground); }
+.cal-text-muted { color: var(--cal-muted-foreground); }
+.cal-text-primary-brand { color: var(--cal-primary); }
+.cal-text-error { color: var(--state-error); }
+.cal-text-warning { color: var(--state-warning); }
+.cal-text-info { color: var(--state-info); }
+.cal-text-success { color: var(--state-success); }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--cal-background);
+    --color-foreground: var(--cal-foreground);
+    --color-card: var(--cal-card);
+    --color-card-foreground: var(--cal-card-foreground);
+    --color-popover: var(--cal-popover);
+    --color-popover-foreground: var(--cal-popover-foreground);
+    --color-primary: var(--cal-primary);
+    --color-primary-foreground: var(--cal-primary-foreground);
+    --color-secondary: var(--cal-secondary);
+    --color-secondary-foreground: var(--cal-secondary-foreground);
+    --color-muted: var(--cal-muted);
+    --color-muted-foreground: var(--cal-muted-foreground);
+    --color-accent: var(--cal-accent);
+    --color-accent-foreground: var(--cal-accent-foreground);
+    --color-destructive: var(--cal-destructive);
+    --color-destructive-foreground: var(--cal-destructive-foreground);
+    --color-border: var(--cal-border);
+    --color-input: var(--cal-input);
+    --color-ring: var(--cal-ring);
+    --radius-sm: var(--cal-radius-small);
+    --radius-md: var(--cal-radius-medium);
+    --radius-lg: var(--cal-radius-large);
+  }
+  @layer base {
+    body { background: var(--cal-background); color: var(--cal-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--cal-background); }
+      .text-background { color: var(--cal-background); }
+      .border-background { border-color: var(--cal-background); }
+      .ring-background { --tw-ring-color: var(--cal-background); }
+      .bg-foreground { background-color: var(--cal-foreground); }
+      .text-foreground { color: var(--cal-foreground); }
+      .border-foreground { border-color: var(--cal-foreground); }
+      .ring-foreground { --tw-ring-color: var(--cal-foreground); }
+      .bg-card { background-color: var(--cal-card); }
+      .text-card { color: var(--cal-card); }
+      .border-card { border-color: var(--cal-card); }
+      .ring-card { --tw-ring-color: var(--cal-card); }
+      .bg-card-foreground { background-color: var(--cal-card-foreground); }
+      .text-card-foreground { color: var(--cal-card-foreground); }
+      .border-card-foreground { border-color: var(--cal-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--cal-card-foreground); }
+      .bg-popover { background-color: var(--cal-popover); }
+      .text-popover { color: var(--cal-popover); }
+      .border-popover { border-color: var(--cal-popover); }
+      .ring-popover { --tw-ring-color: var(--cal-popover); }
+      .bg-popover-foreground { background-color: var(--cal-popover-foreground); }
+      .text-popover-foreground { color: var(--cal-popover-foreground); }
+      .border-popover-foreground { border-color: var(--cal-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--cal-popover-foreground); }
+      .bg-primary { background-color: var(--cal-primary); }
+      .text-primary { color: var(--cal-primary); }
+      .border-primary { border-color: var(--cal-primary); }
+      .ring-primary { --tw-ring-color: var(--cal-primary); }
+      .bg-primary-foreground { background-color: var(--cal-primary-foreground); }
+      .text-primary-foreground { color: var(--cal-primary-foreground); }
+      .border-primary-foreground { border-color: var(--cal-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--cal-primary-foreground); }
+      .bg-secondary { background-color: var(--cal-secondary); }
+      .text-secondary { color: var(--cal-secondary); }
+      .border-secondary { border-color: var(--cal-secondary); }
+      .ring-secondary { --tw-ring-color: var(--cal-secondary); }
+      .bg-secondary-foreground { background-color: var(--cal-secondary-foreground); }
+      .text-secondary-foreground { color: var(--cal-secondary-foreground); }
+      .border-secondary-foreground { border-color: var(--cal-secondary-foreground); }
+      .ring-secondary-foreground { --tw-ring-color: var(--cal-secondary-foreground); }
+      .bg-muted { background-color: var(--cal-muted); }
+      .text-muted { color: var(--cal-muted); }
+      .border-muted { border-color: var(--cal-muted); }
+      .ring-muted { --tw-ring-color: var(--cal-muted); }
+      .bg-muted-foreground { background-color: var(--cal-muted-foreground); }
+      .text-muted-foreground { color: var(--cal-muted-foreground); }
+      .border-muted-foreground { border-color: var(--cal-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--cal-muted-foreground); }
+      .bg-accent { background-color: var(--cal-accent); }
+      .text-accent { color: var(--cal-accent); }
+      .border-accent { border-color: var(--cal-accent); }
+      .ring-accent { --tw-ring-color: var(--cal-accent); }
+      .bg-accent-foreground { background-color: var(--cal-accent-foreground); }
+      .text-accent-foreground { color: var(--cal-accent-foreground); }
+      .border-accent-foreground { border-color: var(--cal-accent-foreground); }
+      .ring-accent-foreground { --tw-ring-color: var(--cal-accent-foreground); }
+      .bg-destructive { background-color: var(--cal-destructive); }
+      .text-destructive { color: var(--cal-destructive); }
+      .border-destructive { border-color: var(--cal-destructive); }
+      .ring-destructive { --tw-ring-color: var(--cal-destructive); }
+      .bg-destructive-foreground { background-color: var(--cal-destructive-foreground); }
+      .text-destructive-foreground { color: var(--cal-destructive-foreground); }
+      .border-destructive-foreground { border-color: var(--cal-destructive-foreground); }
+      .ring-destructive-foreground { --tw-ring-color: var(--cal-destructive-foreground); }
+      .bg-border { background-color: var(--cal-border); }
+      .text-border { color: var(--cal-border); }
+      .border-border { border-color: var(--cal-border); }
+      .ring-border { --tw-ring-color: var(--cal-border); }
+      .bg-input { background-color: var(--cal-input); }
+      .text-input { color: var(--cal-input); }
+      .border-input { border-color: var(--cal-input); }
+      .ring-input { --tw-ring-color: var(--cal-input); }
+      .bg-ring { background-color: var(--cal-ring); }
+      .text-ring { color: var(--cal-ring); }
+      .border-ring { border-color: var(--cal-ring); }
+      .ring-ring { --tw-ring-color: var(--cal-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+    <style id="page-components">
+      /* Custom switch (rounded-full track + circle knob) */
+      .cal-switch {
+        position: relative;
+        flex-shrink: 0;
+        width: 36px;
+        height: 20px;
+        padding: 0;
+        border: none;
+        border-radius: var(--cal-radius-full);
+        background: var(--cal-input);
+        cursor: pointer;
+        transition: background-color 0.18s ease;
+      }
+      .cal-switch[data-on="true"] { background: var(--cal-primary); }
+      .cal-switch:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--cal-background), 0 0 0 4px var(--cal-ring);
+      }
+      .cal-switch-knob {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: var(--cal-radius-full);
+        background: #ffffff;
+        transition: transform 0.18s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      }
+      .cal-switch[data-on="true"] .cal-switch-knob { transform: translateX(16px); }
+
+      /* Custom checkbox */
+      .cal-check {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        border-radius: var(--cal-radius-small);
+        border: 1.5px solid var(--cal-input);
+        background: transparent;
+        color: var(--cal-primary-foreground);
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+      }
+      .cal-check[data-checked="true"] {
+        background: var(--cal-primary);
+        border-color: var(--cal-primary);
+      }
+      .cal-check[data-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+      .cal-check[data-disabled="true"][data-checked="false"] {
+        background: var(--cal-muted);
+        border-color: var(--cal-border);
+      }
+
+      /* Timeline dot halo (masks the connecting line behind the dot) */
+      .cal-dot { box-shadow: 0 0 0 3px var(--cal-card); }
+      .cal-dot-current {
+        box-shadow: 0 0 0 3px var(--cal-card), 0 0 0 5px rgba(74, 158, 255, 0.25);
+        animation: cal-pulse 2s ease-in-out infinite;
+      }
+      @keyframes cal-pulse {
+        0%, 100% { box-shadow: 0 0 0 3px var(--cal-card), 0 0 0 5px rgba(74, 158, 255, 0.28); }
+        50%      { box-shadow: 0 0 0 3px var(--cal-card), 0 0 0 8px rgba(74, 158, 255, 0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cal-dot-current { animation: none; }
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+
+<!-- Reduced-motion safety (scoped to shell only) -->
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    [data-cal-shell] *,
+    [data-cal-shell] *::before,
+    [data-cal-shell] *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<!-- ============ ROOT FRAME ============ -->
+<div data-cal-shell
+     class="flex h-screen overflow-hidden bg-[var(--cal-background)] text-[var(--cal-foreground)]"
+     style="font-family: var(--cal-font-sans);">
+
+  <!-- ============ LEFT SIDEBAR (240px) ============ -->
+  <aside class="flex w-60 shrink-0 flex-col border-r border-[var(--cal-border)] bg-[var(--cal-card)]">
+
+    <!-- Sidebar Header -->
+    <div class="flex h-14 shrink-0 items-center gap-2.5 border-b border-[var(--cal-border-subtle)] px-4">
+      <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--cal-radius-medium)] bg-[var(--cal-primary)] text-[var(--cal-primary-foreground)]">
+        <i data-lucide="calendar-check" class="h-5 w-5"></i>
+      </div>
+      <span class="cal-h3">日历助手</span>
+    </div>
+
+    <!-- Nav Section -->
+    <nav class="flex flex-col gap-1 px-3 py-3" aria-label="主导航">
+
+      <a href="#" data-nav-key="dashboard" data-dom-id="nav-dashboard"
+         class="group relative flex h-9 items-center gap-2.5 rounded-[var(--cal-radius-medium)] px-3 cal-body-sm text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)] data-[active=true]:bg-[rgba(74,158,255,0.08)] data-[active=true]:text-[var(--cal-foreground)]">
+        <span aria-hidden="true" class="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-full bg-[var(--cal-primary)] opacity-0 transition-opacity group-data-[active=true]:opacity-100"></span>
+        <i data-lucide="layout-dashboard" class="h-4 w-4 shrink-0"></i>
+        <span>工作台</span>
+      </a>
+
+      <a href="#" data-nav-key="smart-import" data-dom-id="nav-smart-import"
+         class="group relative flex h-9 items-center gap-2.5 rounded-[var(--cal-radius-medium)] px-3 cal-body-sm text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)] data-[active=true]:bg-[rgba(74,158,255,0.08)] data-[active=true]:text-[var(--cal-foreground)]">
+        <span aria-hidden="true" class="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-full bg-[var(--cal-primary)] opacity-0 transition-opacity group-data-[active=true]:opacity-100"></span>
+        <i data-lucide="download" class="h-4 w-4 shrink-0"></i>
+        <span>智能导入</span>
+      </a>
+
+      <a href="#" data-nav-key="reminder" data-dom-id="nav-reminder" data-active="true"
+         class="group relative flex h-9 items-center gap-2.5 rounded-[var(--cal-radius-medium)] px-3 cal-body-sm text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)] data-[active=true]:bg-[rgba(74,158,255,0.08)] data-[active=true]:text-[var(--cal-foreground)]">
+        <span aria-hidden="true" class="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-full bg-[var(--cal-primary)] opacity-0 transition-opacity group-data-[active=true]:opacity-100"></span>
+        <i data-lucide="bell" class="h-4 w-4 shrink-0"></i>
+        <span>提醒中心</span>
+      </a>
+
+      <a href="#" data-nav-key="integration" data-dom-id="nav-integration"
+         class="group relative flex h-9 items-center gap-2.5 rounded-[var(--cal-radius-medium)] px-3 cal-body-sm text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)] data-[active=true]:bg-[rgba(74,158,255,0.08)] data-[active=true]:text-[var(--cal-foreground)]">
+        <span aria-hidden="true" class="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-full bg-[var(--cal-primary)] opacity-0 transition-opacity group-data-[active=true]:opacity-100"></span>
+        <i data-lucide="plug" class="h-4 w-4 shrink-0"></i>
+        <span>集成设置</span>
+      </a>
+
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="mt-auto flex items-center gap-2.5 border-t border-[var(--cal-border)] px-3 py-3">
+      <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--cal-radius-full)] bg-[var(--cal-primary-700)] cal-body-sm font-semibold text-[var(--cal-primary-foreground)]">马</div>
+      <div class="min-w-0 flex-1 leading-tight">
+        <div class="cal-body-sm font-medium text-[var(--cal-foreground)] truncate">马工</div>
+        <div class="cal-body-xs truncate">采购成本分析</div>
+      </div>
+      <button type="button" aria-label="设置"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--cal-radius-medium)] text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+        <i data-lucide="settings" class="h-4 w-4"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN WRAPPER (flex-1) ============ -->
+  <div class="flex flex-1 flex-col overflow-hidden">
+
+    <!-- ============ TOP HEADER (56px) ============ -->
+    <header class="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-[var(--cal-border)] bg-[var(--cal-card)] px-6">
+
+      <!-- Left: Page Title Slot -->
+      <div class="flex min-w-0 items-center gap-3">
+        <h2 class="cal-h2">提醒中心</h2>
+        <span class="cal-body-xs text-[var(--cal-muted-foreground)]">2026年7月31日 星期五</span>
+      </div>
+
+      <!-- Right: Actions -->
+      <div class="flex shrink-0 items-center gap-2">
+
+        <!-- Global Search -->
+        <div class="relative">
+          <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--cal-muted-foreground)]"></i>
+          <input type="text" placeholder="搜索待办..." aria-label="搜索待办"
+                 class="h-9 w-[280px] rounded-[var(--cal-radius-medium)] border border-[var(--cal-input)] bg-[var(--cal-background)] pl-9 pr-3 cal-body-sm text-[var(--cal-foreground)] placeholder:text-[var(--cal-muted-foreground)] transition-colors focus:border-[var(--cal-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--cal-ring)]" />
+        </div>
+
+        <!-- Primary CTA: 新建待办 -->
+        <button type="button"
+                class="flex h-9 items-center gap-1.5 rounded-[var(--cal-radius-medium)] bg-[var(--cal-primary)] px-3.5 cal-body-sm font-medium text-[var(--cal-primary-foreground)] transition-colors hover:bg-[var(--cal-primary-600)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+          <i data-lucide="plus" class="h-4 w-4"></i>
+          <span>新建待办</span>
+        </button>
+
+        <!-- Ghost: 导出 -->
+        <button type="button"
+                class="flex h-9 items-center gap-1.5 rounded-[var(--cal-radius-medium)] px-3 cal-body-sm text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+          <i data-lucide="download" class="h-4 w-4"></i>
+          <span>导出</span>
+        </button>
+
+        <!-- Ghost: 导入 -->
+        <button type="button"
+                class="flex h-9 items-center gap-1.5 rounded-[var(--cal-radius-medium)] px-3 cal-body-sm text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+          <i data-lucide="upload" class="h-4 w-4"></i>
+          <span>导入</span>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- ============ CONTENT AREA ============ -->
+    <main class="flex-1 overflow-y-auto p-6">
+
+      <!-- ===== Overdue alert banner ===== -->
+      <div role="alert"
+           class="flex items-center gap-3 rounded-[var(--cal-radius-large)] border-l-[3px] border-[var(--state-error)] bg-[rgba(255,71,87,0.08)] px-4 py-3">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--cal-radius-medium)] bg-[var(--state-error-muted)] text-[var(--state-error)]">
+          <i data-lucide="alert-triangle" class="h-5 w-5"></i>
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="cal-body-sm font-medium text-[var(--cal-foreground)]">2 项待办已逾期</div>
+          <div class="cal-body-xs text-[var(--cal-muted-foreground)]">建议立即处理，以免影响后续采购与付款安排</div>
+        </div>
+        <button type="button"
+                class="flex h-8 items-center gap-1.5 rounded-[var(--cal-radius-medium)] bg-[var(--state-error)] px-3 cal-body-xs font-medium text-[var(--state-error-foreground)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+          <i data-lucide="zap" class="h-3.5 w-3.5"></i>
+          <span>立即处理</span>
+        </button>
+        <button type="button" aria-label="关闭提醒"
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--cal-radius-medium)] text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
+      </div>
+
+      <!-- ===== Split layout: timeline (left) + settings (right) ===== -->
+      <div class="mt-5 flex gap-5">
+
+        <!-- ============ LEFT COLUMN ============ -->
+        <div class="flex min-w-0 flex-1 flex-col gap-5">
+
+          <!-- ----- Today Timeline ----- -->
+          <section class="rounded-[var(--cal-radius-large)] border border-[var(--cal-border)] bg-[var(--cal-card)]">
+            <!-- header -->
+            <div class="flex items-center justify-between gap-3 border-b border-[var(--cal-border-subtle)] px-5 py-4">
+              <div class="flex items-center gap-2.5">
+                <div class="flex h-8 w-8 items-center justify-center rounded-[var(--cal-radius-medium)] bg-[var(--state-info-muted)] text-[var(--state-info)]">
+                  <i data-lucide="list-checks" class="h-4 w-4"></i>
+                </div>
+                <div>
+                  <h3 class="cal-h3">今日提醒</h3>
+                  <div class="cal-body-xs text-[var(--cal-muted-foreground)]">2026年7月31日 星期五</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-[var(--cal-radius-full)] bg-[var(--cal-muted)] px-2.5 py-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                  <i data-lucide="check-check" class="h-3 w-3"></i>
+                  <span>已完成 2 / 6</span>
+                </span>
+                <button type="button" aria-label="筛选"
+                        class="flex h-8 w-8 items-center justify-center rounded-[var(--cal-radius-medium)] text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+                  <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- timeline body -->
+            <div class="px-5 py-5">
+              <div class="relative">
+                <!-- continuous vertical line (aligned to dot center) -->
+                <div class="pointer-events-none absolute top-3 bottom-3 w-px bg-[var(--cal-border)]" style="left: 68px;"></div>
+
+                <div class="flex flex-col gap-4">
+
+                  <!-- 09:00 · completed -->
+                  <div class="relative flex items-start gap-3">
+                    <div class="w-12 pt-1 text-right cal-mono text-[13px] text-[var(--cal-muted-foreground)]">09:00</div>
+                    <div class="relative z-10 flex w-4 justify-center pt-1.5">
+                      <span class="cal-dot h-2.5 w-2.5 rounded-full bg-[var(--state-success)]"></span>
+                    </div>
+                    <div class="flex-1 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border-subtle)] bg-[var(--cal-card)] p-3 opacity-70">
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center gap-1 rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-success-muted); color: var(--state-success);">
+                          <i data-lucide="check" class="h-3 w-3"></i>已完成
+                        </span>
+                        <span class="inline-flex items-center gap-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                          <i data-lucide="message-square" class="h-3 w-3"></i>飞书
+                        </span>
+                      </div>
+                      <div class="mt-1 cal-body-sm text-[var(--cal-muted-foreground)] line-through decoration-[var(--cal-border)]">每日采购晨会纪要整理</div>
+                    </div>
+                  </div>
+
+                  <!-- 10:00 · completed -->
+                  <div class="relative flex items-start gap-3">
+                    <div class="w-12 pt-1 text-right cal-mono text-[13px] text-[var(--cal-muted-foreground)]">10:00</div>
+                    <div class="relative z-10 flex w-4 justify-center pt-1.5">
+                      <span class="cal-dot h-2.5 w-2.5 rounded-full bg-[var(--state-success)]"></span>
+                    </div>
+                    <div class="flex-1 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border-subtle)] bg-[var(--cal-card)] p-3 opacity-70">
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center gap-1 rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-success-muted); color: var(--state-success);">
+                          <i data-lucide="check" class="h-3 w-3"></i>已完成
+                        </span>
+                        <span class="inline-flex items-center gap-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                          <i data-lucide="pencil" class="h-3 w-3"></i>手动
+                        </span>
+                      </div>
+                      <div class="mt-1 cal-body-sm text-[var(--cal-muted-foreground)] line-through decoration-[var(--cal-border)]">检查昨日钢材入库记录</div>
+                    </div>
+                  </div>
+
+                  <!-- 14:00 · 紧急 · current/next (highlighted) -->
+                  <div class="relative flex items-start gap-3">
+                    <div class="w-12 pt-1 text-right cal-mono text-[13px] font-medium text-[var(--state-info)]">14:00</div>
+                    <div class="relative z-10 flex w-4 justify-center pt-1.5">
+                      <span class="cal-dot cal-dot-current h-2.5 w-2.5 rounded-full bg-[var(--state-error)]"></span>
+                    </div>
+                    <div class="flex-1 rounded-[var(--cal-radius-medium)] border border-[var(--state-info-border)] bg-[rgba(74,158,255,0.05)] p-3 shadow-[0_0_0_4px_rgba(74,158,255,0.08)]">
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-error-muted); color: var(--state-error);">紧急</span>
+                        <span class="inline-flex items-center gap-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                          <i data-lucide="message-square" class="h-3 w-3"></i>飞书
+                        </span>
+                        <span class="ml-auto inline-flex items-center gap-1 rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-info-muted); color: var(--state-info);">
+                          <i data-lucide="clock" class="h-3 w-3"></i>即将到来
+                        </span>
+                      </div>
+                      <div class="mt-1 cal-body-sm font-medium text-[var(--cal-foreground)]">核对Q3钢材采购报价单</div>
+                      <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                        <span class="inline-flex items-center gap-1"><i data-lucide="link" class="h-3 w-3"></i>采购报价单 #Q3-2026</span>
+                        <span class="inline-flex items-center gap-1"><i data-lucide="users" class="h-3 w-3"></i>3 位负责人</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 15:30 · 正常 -->
+                  <div class="relative flex items-start gap-3">
+                    <div class="w-12 pt-1 text-right cal-mono text-[13px] text-[var(--cal-foreground)]">15:30</div>
+                    <div class="relative z-10 flex w-4 justify-center pt-1.5">
+                      <span class="cal-dot h-2.5 w-2.5 rounded-full bg-[var(--state-info)]"></span>
+                    </div>
+                    <div class="flex-1 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-info-muted); color: var(--state-info);">正常</span>
+                        <span class="inline-flex items-center gap-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                          <i data-lucide="mail" class="h-3 w-3"></i>邮件
+                        </span>
+                        <span class="ml-auto cal-body-xs text-[var(--cal-muted-foreground)]">待处理</span>
+                      </div>
+                      <div class="mt-1 cal-body-sm font-medium text-[var(--cal-foreground)]">供应商月度评估电话会议</div>
+                      <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                        <span class="inline-flex items-center gap-1"><i data-lucide="video" class="h-3 w-3"></i>电话会议</span>
+                        <span class="inline-flex items-center gap-1"><i data-lucide="users" class="h-3 w-3"></i>5 位参会人</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 16:30 · 紧急 -->
+                  <div class="relative flex items-start gap-3">
+                    <div class="w-12 pt-1 text-right cal-mono text-[13px] text-[var(--cal-foreground)]">16:30</div>
+                    <div class="relative z-10 flex w-4 justify-center pt-1.5">
+                      <span class="cal-dot h-2.5 w-2.5 rounded-full bg-[var(--state-error)]"></span>
+                    </div>
+                    <div class="flex-1 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-error-muted); color: var(--state-error);">紧急</span>
+                        <span class="inline-flex items-center gap-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                          <i data-lucide="mail" class="h-3 w-3"></i>邮件
+                        </span>
+                        <span class="ml-auto cal-body-xs text-[var(--cal-muted-foreground)]">待处理</span>
+                      </div>
+                      <div class="mt-1 cal-body-sm font-medium text-[var(--cal-foreground)]">提交供应商付款审批流程</div>
+                      <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                        <span class="inline-flex items-center gap-1"><i data-lucide="file-text" class="h-3 w-3"></i>付款审批单</span>
+                        <span class="inline-flex items-center gap-1"><i data-lucide="timer" class="h-3 w-3"></i>预计 15 分钟</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 18:00 · 次要 -->
+                  <div class="relative flex items-start gap-3">
+                    <div class="w-12 pt-1 text-right cal-mono text-[13px] text-[var(--cal-foreground)]">18:00</div>
+                    <div class="relative z-10 flex w-4 justify-center pt-1.5">
+                      <span class="cal-dot h-2.5 w-2.5 rounded-full bg-[var(--state-warning)]"></span>
+                    </div>
+                    <div class="flex-1 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center rounded-[var(--cal-radius-full)] px-2 py-0.5 cal-body-xs font-medium" style="background: var(--state-warning-muted); color: var(--state-warning);">次要</span>
+                        <span class="inline-flex items-center gap-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                          <i data-lucide="pencil" class="h-3 w-3"></i>手动
+                        </span>
+                        <span class="ml-auto cal-body-xs text-[var(--cal-muted-foreground)]">待处理</span>
+                      </div>
+                      <div class="mt-1 cal-body-sm font-medium text-[var(--cal-foreground)]">整理今日工作日报</div>
+                      <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 cal-body-xs text-[var(--cal-muted-foreground)]">
+                        <span class="inline-flex items-center gap-1"><i data-lucide="file-edit" class="h-3 w-3"></i>日报模板</span>
+                        <span class="inline-flex items-center gap-1"><i data-lucide="timer" class="h-3 w-3"></i>预计 20 分钟</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ----- 未来7天 preview ----- -->
+          <section class="rounded-[var(--cal-radius-large)] border border-[var(--cal-border)] bg-[var(--cal-card)]">
+            <div class="flex items-center justify-between gap-3 border-b border-[var(--cal-border-subtle)] px-5 py-4">
+              <div class="flex items-center gap-2.5">
+                <div class="flex h-8 w-8 items-center justify-center rounded-[var(--cal-radius-medium)] bg-[var(--cal-muted)] text-[var(--cal-muted-foreground)]">
+                  <i data-lucide="calendar-days" class="h-4 w-4"></i>
+                </div>
+                <div>
+                  <h3 class="cal-h3">未来7天</h3>
+                  <div class="cal-body-xs text-[var(--cal-muted-foreground)]">8月1日 - 8月7日 · 共 18 项提醒</div>
+                </div>
+              </div>
+              <button type="button"
+                      class="flex h-8 items-center gap-1 rounded-[var(--cal-radius-medium)] px-2.5 cal-body-xs text-[var(--cal-muted-foreground)] transition-colors hover:bg-[var(--cal-muted)] hover:text-[var(--cal-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+                <span>查看全部</span>
+                <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+              </button>
+            </div>
+            <div class="px-5 py-4">
+              <div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+
+                <!-- 8月1日 · 周六 -->
+                <div class="w-[156px] shrink-0 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <div class="cal-body-sm font-semibold text-[var(--cal-foreground)]">8月1日</div>
+                      <div class="cal-body-xs text-[var(--state-warning)]">周六</div>
+                    </div>
+                    <span class="inline-flex h-6 min-w-[24px] items-center justify-center rounded-[var(--cal-radius-full)] bg-[var(--state-info-muted)] px-1.5 cal-body-xs font-semibold text-[var(--state-info)]">3</span>
+                  </div>
+                  <div class="mt-2.5 flex flex-col gap-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-warning)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">周报汇总整理</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-info)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">供应商合同复审</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 8月2日 · 周日 -->
+                <div class="w-[156px] shrink-0 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <div class="cal-body-sm font-semibold text-[var(--cal-foreground)]">8月2日</div>
+                      <div class="cal-body-xs text-[var(--state-warning)]">周日</div>
+                    </div>
+                    <span class="inline-flex h-6 min-w-[24px] items-center justify-center rounded-[var(--cal-radius-full)] bg-[var(--state-info-muted)] px-1.5 cal-body-xs font-semibold text-[var(--state-info)]">2</span>
+                  </div>
+                  <div class="mt-2.5 flex flex-col gap-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-error)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">月度库存盘点</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-info)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">客户回访跟进</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 8月3日 · 周一 -->
+                <div class="w-[156px] shrink-0 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <div class="cal-body-sm font-semibold text-[var(--cal-foreground)]">8月3日</div>
+                      <div class="cal-body-xs text-[var(--cal-muted-foreground)]">周一</div>
+                    </div>
+                    <span class="inline-flex h-6 min-w-[24px] items-center justify-center rounded-[var(--cal-radius-full)] bg-[var(--state-info-muted)] px-1.5 cal-body-xs font-semibold text-[var(--state-info)]">4</span>
+                  </div>
+                  <div class="mt-2.5 flex flex-col gap-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-error)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">Q3采购计划评审</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-info)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">新材料样品测试</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 8月4日 · 周二 -->
+                <div class="w-[156px] shrink-0 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <div class="cal-body-sm font-semibold text-[var(--cal-foreground)]">8月4日</div>
+                      <div class="cal-body-xs text-[var(--cal-muted-foreground)]">周二</div>
+                    </div>
+                    <span class="inline-flex h-6 min-w-[24px] items-center justify-center rounded-[var(--cal-radius-full)] bg-[var(--state-info-muted)] px-1.5 cal-body-xs font-semibold text-[var(--state-info)]">1</span>
+                  </div>
+                  <div class="mt-2.5 flex flex-col gap-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-info)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">季度财务对账</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--cal-border)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">暂无更多</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 8月5日 · 周三 -->
+                <div class="w-[156px] shrink-0 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] p-3 transition-colors hover:border-[var(--cal-primary)]">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <div class="cal-body-sm font-semibold text-[var(--cal-foreground)]">8月5日</div>
+                      <div class="cal-body-xs text-[var(--cal-muted-foreground)]">周三</div>
+                    </div>
+                    <span class="inline-flex h-6 min-w-[24px] items-center justify-center rounded-[var(--cal-radius-full)] bg-[var(--state-info-muted)] px-1.5 cal-body-xs font-semibold text-[var(--state-info)]">2</span>
+                  </div>
+                  <div class="mt-2.5 flex flex-col gap-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-info)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">供应商拜访准备</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--state-warning)]"></span>
+                      <span class="truncate cal-body-xs text-[var(--cal-muted-foreground)]">成本分析报告</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============ RIGHT COLUMN: Reminder Settings (320px) ============ -->
+        <aside class="w-80 shrink-0">
+          <div class="flex flex-col gap-3">
+
+            <!-- settings header -->
+            <div class="flex items-center gap-2 px-1">
+              <i data-lucide="settings-2" class="h-4 w-4 text-[var(--cal-muted-foreground)]"></i>
+              <h3 class="cal-h3">提醒设置</h3>
+            </div>
+
+            <!-- Card 1: 默认提醒时间 -->
+            <div class="rounded-[var(--cal-radius-large)] border border-[var(--cal-border)] bg-[var(--cal-card)]">
+              <div class="flex items-center gap-2 border-b border-[var(--cal-border-subtle)] px-4 py-3">
+                <i data-lucide="clock" class="h-4 w-4 text-[var(--cal-primary)]"></i>
+                <span class="cal-h4">默认提醒时间</span>
+              </div>
+              <div class="divide-y divide-[var(--cal-border-subtle)] px-4">
+                <div class="flex items-center justify-between gap-3 py-3">
+                  <div class="min-w-0">
+                    <div class="cal-body-sm text-[var(--cal-foreground)]">提前30分钟提醒</div>
+                    <div class="cal-body-xs text-[var(--cal-muted-foreground)]">事件开始前 30 分钟推送</div>
+                  </div>
+                  <button role="switch" aria-checked="true" class="cal-switch" data-on="true"><span class="cal-switch-knob"></span></button>
+                </div>
+                <div class="flex items-center justify-between gap-3 py-3">
+                  <div class="min-w-0">
+                    <div class="cal-body-sm text-[var(--cal-foreground)]">提前1天提醒</div>
+                    <div class="cal-body-xs text-[var(--cal-muted-foreground)]">事件前一日 09:00 推送</div>
+                  </div>
+                  <button role="switch" aria-checked="true" class="cal-switch" data-on="true"><span class="cal-switch-knob"></span></button>
+                </div>
+                <div class="flex items-center justify-between gap-3 py-3">
+                  <div class="min-w-0">
+                    <div class="cal-body-sm text-[var(--cal-foreground)]">提前3天提醒</div>
+                    <div class="cal-body-xs text-[var(--cal-muted-foreground)]">事件前 3 日 09:00 推送</div>
+                  </div>
+                  <button role="switch" aria-checked="false" class="cal-switch" data-on="false"><span class="cal-switch-knob"></span></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: 提醒方式 (+ CTA 配置集成通知) -->
+            <div class="rounded-[var(--cal-radius-large)] border border-[var(--cal-border)] bg-[var(--cal-card)]">
+              <div class="flex items-center gap-2 border-b border-[var(--cal-border-subtle)] px-4 py-3">
+                <i data-lucide="bell-ring" class="h-4 w-4 text-[var(--cal-primary)]"></i>
+                <span class="cal-h4">提醒方式</span>
+              </div>
+              <div class="divide-y divide-[var(--cal-border-subtle)] px-4">
+                <label class="flex cursor-pointer items-center gap-2.5 py-3">
+                  <span class="cal-check" data-checked="true"><i data-lucide="check" class="h-3 w-3"></i></span>
+                  <span class="cal-body-sm text-[var(--cal-foreground)]">应用内通知</span>
+                  <i data-lucide="smartphone" class="ml-auto h-3.5 w-3.5 text-[var(--cal-muted-foreground)]"></i>
+                </label>
+                <label class="flex cursor-pointer items-center gap-2.5 py-3">
+                  <span class="cal-check" data-checked="true"><i data-lucide="check" class="h-3 w-3"></i></span>
+                  <span class="cal-body-sm text-[var(--cal-foreground)]">邮件通知</span>
+                  <i data-lucide="mail" class="ml-auto h-3.5 w-3.5 text-[var(--cal-muted-foreground)]"></i>
+                </label>
+                <label class="flex cursor-pointer items-center gap-2.5 py-3">
+                  <span class="cal-check" data-checked="true"><i data-lucide="check" class="h-3 w-3"></i></span>
+                  <span class="cal-body-sm text-[var(--cal-foreground)]">飞书推送</span>
+                  <i data-lucide="message-square" class="ml-auto h-3.5 w-3.5 text-[var(--cal-muted-foreground)]"></i>
+                </label>
+                <div class="flex items-center gap-2.5 py-3">
+                  <span class="cal-check" data-checked="false" data-disabled="true"></span>
+                  <span class="cal-body-sm text-[var(--cal-muted-foreground)]">微信通知</span>
+                  <span class="ml-auto inline-flex items-center rounded-[var(--cal-radius-full)] bg-[var(--cal-muted)] px-2 py-0.5 cal-body-xs text-[var(--cal-muted-foreground)]">未连接</span>
+                </div>
+              </div>
+              <div class="border-t border-[var(--cal-border-subtle)] px-4 py-3">
+                <button type="button" data-dom-id="cta-integration"
+                        class="flex w-full items-center justify-center gap-1.5 rounded-[var(--cal-radius-medium)] border border-[var(--cal-border)] bg-[var(--cal-card-elevated)] px-3 py-2 cal-body-sm font-medium text-[var(--cal-foreground)] transition-colors hover:border-[var(--cal-primary)] hover:text-[var(--cal-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cal-ring)]">
+                  <i data-lucide="plug" class="h-4 w-4"></i>
+                  <span>配置集成通知</span>
+                  <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: 免打扰时段 -->
+            <div class="rounded-[var(--cal-radius-large)] border border-[var(--cal-border)] bg-[var(--cal-card)]">
+              <div class="flex items-center gap-2 border-b border-[var(--cal-border-subtle)] px-4 py-3">
+                <i data-lucide="moon" class="h-4 w-4 text-[var(--cal-primary)]"></i>
+                <span class="cal-h4">免打扰时段</span>
+              </div>
+              <div class="px-4 py-3">
+                <div class="flex items-center justify-between gap-3 rounded-[var(--cal-radius-medium)] bg-[var(--cal-card-elevated)] px-3 py-2.5">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="moon-star" class="h-4 w-4 text-[var(--state-warning)]"></i>
+                    <span class="cal-body-sm text-[var(--cal-muted-foreground)]">夜间免打扰</span>
+                  </div>
+                  <div class="flex items-center gap-1.5 cal-mono text-[var(--cal-foreground)]">
+                    <span>22:00</span>
+                    <i data-lucide="arrow-right" class="h-3.5 w-3.5 text-[var(--cal-muted-foreground)]"></i>
+                    <span>08:00</span>
+                  </div>
+                </div>
+              </div>
+              <div class="border-t border-[var(--cal-border-subtle)] px-4">
+                <div class="flex items-center justify-between gap-3 py-3">
+                  <div class="min-w-0">
+                    <div class="cal-body-sm text-[var(--cal-foreground)]">周末免打扰</div>
+                    <div class="cal-body-xs text-[var(--cal-muted-foreground)]">周六、周日不推送提醒</div>
+                  </div>
+                  <button role="switch" aria-checked="false" class="cal-switch" data-on="false"><span class="cal-switch-knob"></span></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: 逾期自动提醒 -->
+            <div class="rounded-[var(--cal-radius-large)] border border-[var(--cal-border)] bg-[var(--cal-card)]">
+              <div class="flex items-center gap-2 border-b border-[var(--cal-border-subtle)] px-4 py-3">
+                <i data-lucide="alert-circle" class="h-4 w-4 text-[var(--cal-primary)]"></i>
+                <span class="cal-h4">逾期自动提醒</span>
+              </div>
+              <div class="px-4 py-3">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="min-w-0">
+                    <div class="cal-body-sm text-[var(--cal-foreground)]">逾期项每日提醒</div>
+                    <div class="cal-body-xs text-[var(--cal-muted-foreground)]">每天 09:00 重新提醒未完成项</div>
+                  </div>
+                  <button role="switch" aria-checked="true" class="cal-switch" data-on="true"><span class="cal-switch-knob"></span></button>
+                </div>
+                <div class="mt-3 flex items-center gap-2 rounded-[var(--cal-radius-medium)] bg-[var(--state-warning-muted)] px-3 py-2">
+                  <i data-lucide="info" class="h-3.5 w-3.5 shrink-0 text-[var(--state-warning)]"></i>
+                  <span class="cal-body-xs text-[var(--cal-foreground)]">当前有 2 项逾期待办将在明日 09:00 提醒</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
