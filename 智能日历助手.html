@@ -440,6 +440,94 @@ input,textarea,select{font-family:inherit;font-size:14px}
   .week-day-num{font-size:16px}
   .cal-day{min-height:60px}
 }
+
+/* ============ 日期范围条 ============ */
+.date-range-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;padding:0 20px}
+.range-tag{
+  padding:5px 12px;border-radius:9999px;font-size:12px;font-weight:500;
+  border:1px solid var(--border);background:var(--card);color:var(--muted);
+  transition:all .15s;white-space:nowrap;cursor:pointer;
+}
+.range-tag:hover{border-color:var(--primary);color:var(--text)}
+.range-tag.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.range-tag .count{margin-left:4px;opacity:.8}
+
+/* ============ 日历单元格高亮圆点 ============ */
+.cal-day.overdue{border-color:rgba(255,71,87,.55)}
+.cal-day.overdue:not(.today){background:rgba(255,71,87,.06)}
+.cal-day-num{position:relative;display:inline-flex;align-items:center;gap:3px}
+.cal-day-num .dot-indicators{display:inline-flex;gap:2px;margin-left:2px}
+.cal-day-num .dot-indicators i{width:5px;height:5px;border-radius:50%;display:inline-block}
+.cal-day-num .dot-indicators i.dot-urgent{background:#fff}
+.cal-day:not(.today) .cal-day-num .dot-indicators i.dot-urgent{background:var(--red)}
+.cal-day:not(.today) .cal-day-num .dot-indicators i.dot-normal{background:var(--blue)}
+.cal-day.today .cal-day-num .dot-indicators i.dot-normal{background:#fff}
+
+/* 周视图行逾期高亮 */
+.week-day-row.overdue{border-color:rgba(255,71,87,.5);background:rgba(255,71,87,.05)}
+
+/* ============ 快捷日期按钮 ============ */
+.quick-date-btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.quick-date-btn{
+  padding:4px 10px;border-radius:6px;font-size:12px;font-weight:500;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);
+  cursor:pointer;transition:all .15s;
+}
+.quick-date-btn:hover{border-color:var(--primary);color:var(--text)}
+.quick-date-btn.active{background:rgba(74,158,255,.12);border-color:var(--primary);color:var(--primary)}
+
+/* ============ 纪要转待办弹窗 ============ */
+.minutes-modal{max-width:640px}
+.minutes-textarea{width:100%;min-height:200px;padding:12px;border-radius:var(--radius);
+  background:var(--bg);border:1px solid var(--border);color:var(--text);
+  font-family:inherit;font-size:13px;resize:vertical;line-height:1.6}
+.minutes-textarea:focus{outline:none;border-color:var(--primary)}
+.minutes-upload{
+  display:flex;align-items:center;gap:8px;margin-top:8px;
+  padding:10px;border-radius:var(--radius);border:1px dashed var(--border);
+  background:var(--bg);font-size:12px;color:var(--muted);cursor:pointer;
+  transition:all .15s;
+}
+.minutes-upload:hover{border-color:var(--primary);color:var(--text)}
+.minutes-tips{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
+.minutes-tips b{color:var(--text);font-weight:500}
+
+/* ============ 纪要预览弹窗 ============ */
+.preview-modal{max-width:720px}
+.preview-list{max-height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.preview-item{
+  display:flex;gap:10px;padding:10px 12px;border-radius:8px;
+  border:1px solid var(--border);background:var(--bg);
+}
+.preview-item.checked{border-color:var(--primary);background:rgba(74,158,255,.05)}
+.preview-check{margin-top:2px}
+.preview-check input{width:16px;height:16px;cursor:pointer}
+.preview-fields{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.preview-title-row{display:flex;gap:6px;align-items:center}
+.preview-title-input{flex:1;padding:6px 10px;border-radius:6px;border:1px solid var(--border);
+  background:var(--card);color:var(--text);font-size:13px;font-weight:500}
+.preview-title-input:focus{outline:none;border-color:var(--primary)}
+.preview-meta-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.preview-date-input,.preview-priority-select{
+  padding:5px 8px;border-radius:6px;border:1px solid var(--border);
+  background:var(--card);color:var(--text);font-size:12px;
+}
+.preview-date-input:focus,.preview-priority-select:focus{outline:none;border-color:var(--primary)}
+.preview-desc-input{
+  width:100%;padding:6px 10px;border-radius:6px;border:1px solid var(--border);
+  background:var(--card);color:var(--text);font-size:12px;resize:vertical;min-height:40px;
+}
+.preview-item .del-btn{
+  width:24px;height:24px;border-radius:4px;border:none;background:transparent;
+  color:var(--muted);cursor:pointer;font-size:14px;
+}
+.preview-item .del-btn:hover{color:var(--red)}
+.preview-summary{font-size:13px;color:var(--muted);margin-top:8px}
+
+@media(max-width:768px){
+  .date-range-bar{padding:0 14px}
+  .minutes-modal,.preview-modal{max-width:95%}
+}
 </style>
 </head>
 <body>
@@ -461,6 +549,7 @@ input,textarea,select{font-family:inherit;font-size:14px}
       <button class="btn" onclick="exportData()">📤 <span>导出</span></button>
       <button class="btn" onclick="document.getElementById('importFile').click()">📥 <span>导入</span></button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+      <button class="btn" onclick="openMinutesModal()">📝 <span>纪要转待办</span></button>
       <button class="btn btn-primary" onclick="openModal()">➕ <span>新建</span></button>
     </div>
   </header>
@@ -525,6 +614,7 @@ input,textarea,select{font-family:inherit;font-size:14px}
         <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索待办标题或描述..." oninput="renderTodos()">
         <div class="filters" id="filters"></div>
       </div>
+      <div class="date-range-bar" id="dateRangeBar"></div>
       <div class="todo-list" id="todoList"></div>
     </section>
   </div>
@@ -557,6 +647,11 @@ input,textarea,select{font-family:inherit;font-size:14px}
       <div class="form-group">
         <label>截止日期</label>
         <input type="date" class="form-input" id="todoDate">
+        <div class="quick-date-btns">
+          <button type="button" class="quick-date-btn" onclick="setQuickDate(0)">今天</button>
+          <button type="button" class="quick-date-btn" onclick="setQuickDate(1)">明天</button>
+          <button type="button" class="quick-date-btn" onclick="setQuickDate(7)">下周</button>
+        </div>
       </div>
       <div class="form-group">
         <label>分类</label>
@@ -648,6 +743,52 @@ input,textarea,select{font-family:inherit;font-size:14px}
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
+
+<!-- 纪要转待办输入弹窗 -->
+<div class="modal-overlay" id="minutesModal">
+  <div class="modal minutes-modal">
+    <div class="modal-header">
+      <h3>📝 会议纪要转待办</h3>
+      <button class="modal-close" onclick="closeMinutesModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>粘贴会议纪要内容</label>
+        <textarea class="minutes-textarea" id="minutesText" placeholder="粘贴会议纪要内容，支持自动识别：&#10;- 日期：今天/明天/后天/周X/下周X/X月X日/X天后&#10;- 优先级：紧急/尽快/ASAP → 红；优先/尽快 → 黄；默认蓝&#10;- 负责人：@某某 会加入描述&#10;- 条目按行、序号（1./（1）/①/-/*）自动切分"></textarea>
+      </div>
+      <label class="minutes-upload" for="minutesFile">
+        <span>📎</span>
+        <span>或上传 .txt / .md 文件</span>
+        <input type="file" id="minutesFile" accept=".txt,.md,text/plain,text/markdown" style="display:none" onchange="handleMinutesFile(event)">
+      </label>
+      <div class="minutes-tips">
+        <b>识别提示：</b>系统会按行切分条目，识别日期/优先级/负责人关键词，并在下一步展示预览，你可以勾选/编辑/删除后批量创建。未识别日期的条目默认归为"未排期"。
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeMinutesModal()">取消</button>
+      <button class="btn btn-primary" onclick="parseAndPreviewMinutes()">🔍 解析并预览</button>
+    </div>
+  </div>
+</div>
+
+<!-- 纪要预览确认弹窗 -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal preview-modal">
+    <div class="modal-header">
+      <h3>✅ 待办预览确认</h3>
+      <button class="modal-close" onclick="closePreviewModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="preview-summary" id="previewSummary"></div>
+      <div class="preview-list" id="previewList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closePreviewModal()">取消</button>
+      <button class="btn btn-primary" onclick="confirmBatchCreate()">✅ 批量创建选中项</button>
+    </div>
+  </div>
+</div>
 
 <!-- 历史查询弹窗 -->
 <div class="modal-overlay" id="historyModal">
@@ -783,6 +924,7 @@ let currentDate = new Date();
 let weekRefDate = new Date();
 let selectedDate = null;
 let currentFilter = 'all';
+let currentDateRange = 'all';
 let searchKeyword = '';
 let editingId = null;
 let selectedPriority = 'blue';
@@ -818,6 +960,40 @@ function getWeekStart(date){
   d.setDate(d.getDate() + diff);
   d.setHours(0,0,0,0);
   return d;
+}
+function getWeekRange(refDate){
+  const start = getWeekStart(refDate || new Date());
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  return {start: fmtDate(start), end: fmtDate(end)};
+}
+function getMonthRange(refDate){
+  const d = refDate ? new Date(refDate) : new Date();
+  const y = d.getFullYear(), m = d.getMonth();
+  const start = new Date(y, m, 1);
+  const end = new Date(y, m+1, 0);
+  return {start: fmtDate(start), end: fmtDate(end)};
+}
+function inDateRange(dateStr, range){
+  if(!dateStr) return range === 'all' || range === 'nodate';
+  const t = todayStr();
+  if(range === 'all') return true;
+  if(range === 'today') return dateStr === t;
+  if(range === 'week'){
+    const {start,end} = getWeekRange();
+    return dateStr >= start && dateStr <= end;
+  }
+  if(range === 'month'){
+    const {start,end} = getMonthRange();
+    return dateStr >= start && dateStr <= end;
+  }
+  if(range === 'nodate') return !dateStr;
+  return true;
+}
+function addDays(days){
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return fmtDate(d);
 }
 function getWeekDayName(dateStr){
   const d = new Date(dateStr);
@@ -908,6 +1084,10 @@ function renderMonthView(){
     const isToday = dateStr === today;
     const isSelected = dateStr === selectedDate;
     const dayTodos = todos.filter(t => t.date === dateStr);
+    const undoneTodos = dayTodos.filter(t => !t.done);
+    const hasUrgent = undoneTodos.some(t => t.priority === 'red');
+    const hasTodo = undoneTodos.length > 0;
+    const isOverdue = dateStr < today && hasTodo;
     const sortedDayTodos = dayTodos.sort((a,b) => {
       const pa = a.done ? 3 : PRIORITY_ORDER[a.priority];
       const pb = b.done ? 3 : PRIORITY_ORDER[b.priority];
@@ -932,13 +1112,22 @@ function renderMonthView(){
       todosHtml = '';
     }
 
+    let dotsHtml = '';
+    if(!isToday && hasTodo){
+      const dots = [];
+      if(hasUrgent) dots.push('<i class="dot-urgent"></i>');
+      else dots.push('<i class="dot-normal"></i>');
+      dotsHtml = `<span class="dot-indicators">${dots.join('')}</span>`;
+    }
+
     const classes = ['cal-day'];
     if(isToday) classes.push('today');
     if(isSelected) classes.push('selected');
+    if(isOverdue) classes.push('overdue');
     html += `<div class="${classes.join(' ')}" data-date="${dateStr}" 
       onclick="selectDate('${dateStr}')" 
       oncontextmenu="showContextMenu(event,'${dateStr}');return false">
-      <div class="cal-day-header"><span class="cal-day-num">${day}</span></div>
+      <div class="cal-day-header"><span class="cal-day-num">${day}${dotsHtml}</span></div>
       <div class="cal-day-todos">${todosHtml}</div>
     </div>`;
   }
@@ -975,6 +1164,8 @@ function renderWeekView(){
     const isToday = dateStr === today;
     const isSelected = dateStr === selectedDate;
     const dayTodos = todos.filter(t => t.date === dateStr);
+    const undoneDayTodos = dayTodos.filter(t => !t.done);
+    const isOverdue = dateStr < today && undoneDayTodos.length > 0;
     const sortedDayTodos = dayTodos.sort((a,b) => {
       const pa = a.done ? 3 : PRIORITY_ORDER[a.priority];
       const pb = b.done ? 3 : PRIORITY_ORDER[b.priority];
@@ -984,6 +1175,7 @@ function renderWeekView(){
     const classes = ['week-day-row'];
     if(isToday) classes.push('today');
     if(isSelected) classes.push('selected');
+    if(isOverdue) classes.push('overdue');
 
     let todosHtml = '';
     if(sortedDayTodos.length > 0){
@@ -1419,6 +1611,8 @@ function renderStats(){
 // ============ 筛选标签 ============
 function renderFilters(){
   const today = todayStr();
+  const {start:wStart,end:wEnd} = getWeekRange();
+  const {start:mStart,end:mEnd} = getMonthRange();
   const counts = {
     all: todos.filter(t=>!t.done).length,
     red: todos.filter(t=>t.priority==='red' && !t.done).length,
@@ -1438,6 +1632,22 @@ function renderFilters(){
   document.getElementById('filters').innerHTML = filters.map(f => `
     <button class="filter-tag ${currentFilter===f.key?'active':''}" onclick="setFilter('${f.key}')">${f.label}<span class="count">${f.count}</span></button>
   `).join('');
+
+  const rangeCounts = {
+    all: todos.filter(t=>!t.done).length,
+    today: todos.filter(t=>t.date===today && !t.done).length,
+    week: todos.filter(t=>t.date>=wStart && t.date<=wEnd && !t.done).length,
+    month: todos.filter(t=>t.date>=mStart && t.date<=mEnd && !t.done).length,
+  };
+  const ranges = [
+    {key:'all', label:'全部', count:rangeCounts.all},
+    {key:'today', label:'📅 今天', count:rangeCounts.today},
+    {key:'week', label:'📆 本周', count:rangeCounts.week},
+    {key:'month', label:'🗓️ 本月', count:rangeCounts.month},
+  ];
+  document.getElementById('dateRangeBar').innerHTML = ranges.map(r => `
+    <button class="range-tag ${currentDateRange===r.key?'active':''}" onclick="setDateRange('${r.key}')">${r.label}<span class="count">${r.count}</span></button>
+  `).join('');
 }
 
 function setFilter(key){
@@ -1445,6 +1655,14 @@ function setFilter(key){
   highlightedTodoId = null;
   expandedTodoId = null;
   renderStats();
+  renderFilters();
+  renderTodos();
+}
+
+function setDateRange(key){
+  currentDateRange = key;
+  highlightedTodoId = null;
+  expandedTodoId = null;
   renderFilters();
   renderTodos();
 }
@@ -1463,13 +1681,15 @@ function getFilteredTodos(){
     case 'green': result = result.filter(t=>t.done); break;
     case 'overdue': result = result.filter(t=>t.date<today && !t.done); break;
   }
+  if(currentDateRange !== 'all' && currentFilter !== 'overdue'){
+    result = result.filter(t => inDateRange(t.date, currentDateRange));
+  }
   if(searchKeyword){
     result = result.filter(t =>
       t.title.toLowerCase().includes(searchKeyword) ||
       (t.desc && t.desc.toLowerCase().includes(searchKeyword))
     );
   }
-  // 排序：按日期升序，再按优先级
   result.sort((a,b) => {
     if(a.done !== b.done) return a.done ? 1 : -1;
     const dateCmp = (a.date||'').localeCompare(b.date||'');
@@ -1483,9 +1703,12 @@ function renderTodos(){
   const list = getFilteredTodos();
   const today = todayStr();
   let headerSub = '所有待办';
+  const rangeNames = {all:'', today:'今天', week:'本周', month:'本月'};
   if(selectedDate){
     const d = new Date(selectedDate);
     headerSub = `${d.getMonth()+1}月${d.getDate()}日（${getWeekDayName(selectedDate)}）的待办`;
+  } else if(currentDateRange !== 'all'){
+    headerSub = rangeNames[currentDateRange] + '待办';
   }
   if(currentFilter !== 'all'){
     const filterNames = {red:'紧急',yellow:'次要',blue:'正常',green:'已完成',overdue:'逾期'};
@@ -1823,6 +2046,8 @@ document.addEventListener('keydown', function(e){
     closeHistory();
     closePostpone();
     closeDragConfirm();
+    closeMinutesModal();
+    closePreviewModal();
     hideContextMenu();
     hideTodoContextMenu();
     return;
@@ -1856,6 +2081,12 @@ document.getElementById('postponeModal').addEventListener('click', function(e){
 document.getElementById('dragConfirmModal').addEventListener('click', function(e){
   if(e.target === this) cancelDragMove();
 });
+document.getElementById('minutesModal').addEventListener('click', function(e){
+  if(e.target === this) closeMinutesModal();
+});
+document.getElementById('previewModal').addEventListener('click', function(e){
+  if(e.target === this) closePreviewModal();
+});
 
 // ============ 全局渲染 ============
 function renderAll(){
@@ -1863,6 +2094,325 @@ function renderAll(){
   renderFilters();
   renderCalendar();
   renderTodos();
+}
+
+// ============ 快捷日期按钮 ============
+function setQuickDate(offsetDays){
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  document.getElementById('todoDate').value = fmtDate(d);
+}
+
+// ============ 会议纪要解析 ============
+let pendingPreviewItems = [];
+
+const WEEKDAY_MAP = {'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'日':0,'天':0,'日':0};
+const CN_NUM = {'零':0,'〇':0,'一':1,'二':2,'两':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10};
+
+function cnNumToInt(str){
+  if(/^\d+$/.test(str)) return parseInt(str,10);
+  if(str === '十') return 10;
+  if(/^十[一二三四五六七八九]$/.test(str)) return 10 + CN_NUM[str[1]];
+  if(/^[一二三四五六七八九]十$/.test(str)) return CN_NUM[str[0]]*10;
+  if(/^[一二三四五六七八九]十[一二三四五六七八九]$/.test(str)) return CN_NUM[str[0]]*10 + CN_NUM[str[2]];
+  if(str.length === 1 && CN_NUM[str] !== undefined) return CN_NUM[str];
+  return parseInt(str,10) || NaN;
+}
+
+function parseChineseDate(text, baseDate){
+  const t = baseDate ? new Date(baseDate) : new Date();
+  t.setHours(0,0,0,0);
+  let out = null;
+
+  if(/今天|今日/.test(text)){ out = new Date(t); }
+  else if(/明天|明日/.test(text)){ out = new Date(t); out.setDate(t.getDate()+1); }
+  else if(/后天/.test(text)){ out = new Date(t); out.setDate(t.getDate()+2); }
+  else if(/大后天/.test(text)){ out = new Date(t); out.setDate(t.getDate()+3); }
+  else if(/昨天/.test(text)){ out = new Date(t); out.setDate(t.getDate()-1); }
+
+  if(!out){
+    const m = text.match(/下?周([一二三四五六日天])/);
+    if(m){
+      const isNext = /下周/.test(m[0]);
+      const isThis = /(?<![上下下个])本?周([一二三四五六日天])/.test(text) && !isNext;
+      const wd = WEEKDAY_MAP[m[1]];
+      const cur = t.getDay();
+      const curMon = cur === 0 ? 7 : cur;
+      const tgtMon = wd === 0 ? 7 : wd;
+      let diff = tgtMon - curMon;
+      if(isNext) diff += 7;
+      else if(isThis && diff < 0) diff += 7;
+      else if(!isNext && !isThis && diff < 0) diff += 7;
+      out = new Date(t); out.setDate(t.getDate()+diff);
+    }
+  }
+
+  if(!out){
+    const m = text.match(/((\d+)|([一二两三四五六七八九十]+))\s*天[后以内]/);
+    if(m){
+      const n = m[2] ? parseInt(m[2],10) : cnNumToInt(m[3]);
+      if(!isNaN(n)){ out = new Date(t); out.setDate(t.getDate()+n); }
+    }
+  }
+
+  if(!out){
+    const m = text.match(/(\d{1,2})\s*月\s*(\d{1,2})\s*[日号]?/);
+    if(m){
+      const month = parseInt(m[1],10), day = parseInt(m[2],10);
+      const year = t.getFullYear();
+      let cand = new Date(year, month-1, day);
+      if(cand < t){ cand = new Date(year+1, month-1, day); }
+      out = cand;
+    }
+  }
+
+  if(!out){
+    const m = text.match(/([一二三四五六七八九十]+)月([一二三四五六七八九十]+)[日号]?/);
+    if(m){
+      const month = cnNumToInt(m[1]), day = cnNumToInt(m[2]);
+      if(!isNaN(month) && !isNaN(day) && month>=1 && month<=12 && day>=1 && day<=31){
+        const year = t.getFullYear();
+        let cand = new Date(year, month-1, day);
+        if(cand < t){ cand = new Date(year+1, month-1, day); }
+        out = cand;
+      }
+    }
+  }
+
+  if(!out){
+    const m = text.match(/(\d{1,2})\s*[日号]/);
+    if(m){
+      const day = parseInt(m[1],10);
+      const year = t.getFullYear(), month = t.getMonth();
+      let cand = new Date(year, month, day);
+      if(cand < t) cand = new Date(year, month+1, day);
+      out = cand;
+    }
+  }
+
+  if(!out){
+    const m = text.match(/([一二三四五六七八九十]+)[日号]/);
+    if(m){
+      const day = cnNumToInt(m[1]);
+      if(!isNaN(day) && day>=1 && day<=31){
+        const year = t.getFullYear(), month = t.getMonth();
+        let cand = new Date(year, month, day);
+        if(cand < t) cand = new Date(year, month+1, day);
+        out = cand;
+      }
+    }
+  }
+
+  if(!out && /(本周内|这周内|周内)/.test(text)){
+    const {end} = getWeekRange(t);
+    out = new Date(end);
+  }
+  if(!out && /(本月底|月底|本月内|这月内)/.test(text)){
+    const {end} = getMonthRange(t);
+    out = new Date(end);
+  }
+
+  return out ? fmtDate(out) : null;
+}
+
+function parsePriority(text){
+  if(/紧急|立刻|立即|马上|尽快|ASAP|asap|urgent|Urgent|URGENT|今日必|今天必须/.test(text)) return 'red';
+  if(/优先|高优|重点|重要|尽快处理|优先处理/.test(text)) return 'yellow';
+  return 'blue';
+}
+
+function extractAssignees(text){
+  const matches = text.match(/@[\u4e00-\u9fa5a-zA-Z0-9_]+/g);
+  if(!matches) return [];
+  return matches.map(m => m.slice(1));
+}
+
+function splitMinutesToLines(text){
+  const rawLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const items = [];
+  const numRe = /^(\(\d+\)|（\d+）|\d+[\.、)）]|[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮]|[-*·•●▪◆])\s*/;
+  rawLines.forEach(line => {
+    line = line.replace(/^\s*[-*·•●▪◆]\s*[-*·•●▪◆]\s*/, '').trim();
+    const cleaned = line.replace(numRe, '').trim();
+    if(cleaned.length > 1) items.push(cleaned);
+  });
+  return items;
+}
+
+function isMeetingHeader(line){
+  if(!line) return false;
+  const kw = /纪要|会议记录|会议议题|会议主题|周会|例会|项目会|对齐会|评审会|晨会|站会|议程|会议时间|时间[:：]/;
+  const hasDate = /\d{1,2}\s*月\s*\d{1,2}\s*[日号]?|\d{4}[-/年]\d{1,2}[-/月]\d{1,2}/.test(line);
+  const noVerb = !/(完成|提交|交付|推进|对接|跟进|落实|确认|准备|召开|安排|优化|开发|核对|采购|交付|回复|输出|编写|制作|审批|评审|讨论|汇报|通知|测试|上线|部署|发布|整理|发送|联系|处理|解决|跟进|安排|制定|修复|更新|升级|迁移|迁移)/.test(line);
+  return (kw.test(line) && (hasDate || line.length < 20)) || (hasDate && noVerb && line.length < 25);
+}
+
+function parseMeetingMinutes(text){
+  const lines = splitMinutesToLines(text);
+
+  return lines.map(line => {
+    if(isMeetingHeader(line)) return null;
+    let date = parseChineseDate(line, new Date()) || '';
+    let priority = parsePriority(line);
+    const assignees = extractAssignees(line);
+    let title = line
+      .replace(/截止[：:]?\s*[^\s,，;；。]+/g, '')
+      .replace(/((\d+)|([一二两三四五六七八九十]+))\s*天[后以内之前]/g, '')
+      .replace(/(今天|今日|明天|明日|后天|大后天|昨天|本周[一二三四五六日天][前以后内]?|这周[一二三四五六日天][前以后内]?|下周[一二三四五六日天][前以后内]?|本?周[一二三四五六日天][前以后内]?|\d{1,2}\s*月\s*\d{1,2}\s*[日号][前后左右以内]?|[\u4e00-\u9fa5]{1,3}月[\u4e00-\u9fa5]{1,3}[日号][前后以内]?|\d{1,2}\s*[日号][前后以内]?|[\u4e00-\u9fa5]{1,3}[日号][前后以内]?|本月底|月底|本周内|这周内|周内|本月内|这月内)/g, '')
+      .replace(/(@[\u4e00-\u9fa5a-zA-Z0-9_]+)/g, '')
+      .replace(/(紧急|立刻|立即|马上|尽快|ASAP|asap|urgent|Urgent|URGENT|今日必|今天必须|优先|高优|重点|重要)/g, '')
+      .replace(/(事项|事宜)/g, '')
+      .replace(/^[\s\-*·•●▪◆\d\.、)）(（]+/g, '')
+      .replace(/[，,。；;：:\s]+$/g, '')
+      .replace(/^[，,。；;：:]+/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+    if(!title) title = line.replace(/[\s,，。;；:：]+$/,'').slice(0, 40);
+    let desc = '';
+    if(assignees.length) desc += '负责人：' + assignees.join('、');
+    return {
+      id: genId(),
+      title: title.slice(0, 60),
+      desc,
+      date,
+      priority,
+      category: detectCategory(title + ' ' + line),
+      checked: true,
+    };
+  }).filter(Boolean).filter(it => it.title && it.title.length > 0);
+}
+
+function detectCategory(text){
+  if(/采购|询价|供应商|物料|BOM|Bom|bom/.test(text)) return '采购';
+  if(/成本|核算|报价|价格|CostGuardian|cost/.test(text)) return '成本';
+  if(/会议|纪要|推进|对接|沟通|评审|讨论|汇报/.test(text)) return '会议';
+  if(/项目|开发|模块|功能|版本|上线|迭代/.test(text)) return '项目';
+  return '';
+}
+
+// ============ 纪要弹窗 ============
+function openMinutesModal(){
+  document.getElementById('minutesText').value = '';
+  document.getElementById('minutesFile').value = '';
+  document.getElementById('minutesModal').classList.add('show');
+  setTimeout(()=>document.getElementById('minutesText').focus(), 100);
+}
+function closeMinutesModal(){
+  document.getElementById('minutesModal').classList.remove('show');
+}
+
+function handleMinutesFile(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById('minutesText').value = e.target.result;
+    showToast('📎 文件已载入，请点击「解析并预览」');
+  };
+  reader.readAsText(file, 'utf-8');
+  event.target.value = '';
+}
+
+function parseAndPreviewMinutes(){
+  const text = document.getElementById('minutesText').value.trim();
+  if(!text){
+    showToast('⚠️ 请先粘贴或上传会议纪要');
+    return;
+  }
+  const items = parseMeetingMinutes(text);
+  if(items.length === 0){
+    showToast('⚠️ 未识别到有效条目，请检查内容');
+    return;
+  }
+  pendingPreviewItems = items;
+  closeMinutesModal();
+  renderPreviewList();
+  document.getElementById('previewModal').classList.add('show');
+}
+
+function renderPreviewList(){
+  const list = pendingPreviewItems;
+  const checked = list.filter(i => i.checked).length;
+  document.getElementById('previewSummary').textContent = `共识别 ${list.length} 条待办，已选 ${checked} 条。可在下方修改标题/日期/优先级后批量创建。`;
+  const priorityOpts = [
+    {v:'red',l:'🔴 紧急'},
+    {v:'yellow',l:'🟡 次要'},
+    {v:'blue',l:'🔵 正常'},
+  ];
+  document.getElementById('previewList').innerHTML = list.map((it, idx) => `
+    <div class="preview-item ${it.checked?'checked':''}" data-idx="${idx}">
+      <div class="preview-check">
+        <input type="checkbox" ${it.checked?'checked':''} onchange="togglePreviewItem(${idx}, this.checked)">
+      </div>
+      <div class="preview-fields">
+        <div class="preview-title-row">
+          <input type="text" class="preview-title-input" value="${escapeHtml(it.title)}" oninput="updatePreviewField(${idx},'title',this.value)">
+        </div>
+        <div class="preview-meta-row">
+          <input type="date" class="preview-date-input" value="${it.date||''}" oninput="updatePreviewField(${idx},'date',this.value)">
+          <select class="preview-priority-select" onchange="updatePreviewField(${idx},'priority',this.value)">
+            ${priorityOpts.map(o => `<option value="${o.v}" ${it.priority===o.v?'selected':''}>${o.l}</option>`).join('')}
+          </select>
+          ${it.date ? `<span style="font-size:11px;color:var(--muted)">${it.date}</span>` : '<span style="font-size:11px;color:var(--red)">未排期</span>'}
+        </div>
+        <input type="text" class="preview-desc-input" value="${escapeHtml(it.desc||'')}" placeholder="描述/负责人（可选）" oninput="updatePreviewField(${idx},'desc',this.value)">
+      </div>
+      <button class="del-btn" onclick="removePreviewItem(${idx})" title="删除">×</button>
+    </div>
+  `).join('');
+}
+
+function togglePreviewItem(idx, checked){
+  pendingPreviewItems[idx].checked = checked;
+  renderPreviewList();
+}
+function updatePreviewField(idx, field, value){
+  pendingPreviewItems[idx][field] = value;
+  if(field === 'title' || field === 'priority'){
+    // 不整体重绘避免焦点丢失
+    return;
+  }
+  renderPreviewList();
+}
+function removePreviewItem(idx){
+  pendingPreviewItems.splice(idx, 1);
+  if(pendingPreviewItems.length === 0){
+    closePreviewModal();
+    showToast('已全部移除');
+    return;
+  }
+  renderPreviewList();
+}
+
+function closePreviewModal(){
+  document.getElementById('previewModal').classList.remove('show');
+  pendingPreviewItems = [];
+}
+
+function confirmBatchCreate(){
+  const toCreate = pendingPreviewItems.filter(i => i.checked && i.title && i.title.trim());
+  if(toCreate.length === 0){
+    showToast('⚠️ 请至少勾选一条有效待办');
+    return;
+  }
+  const now = Date.now();
+  toCreate.forEach((it, i) => {
+    todos.push({
+      id: genId(),
+      title: it.title.trim(),
+      desc: (it.desc||'').trim(),
+      date: it.date || todayStr(),
+      priority: it.priority || 'blue',
+      category: it.category || '',
+      done: false,
+      created: now + i,
+    });
+  });
+  saveData();
+  const count = toCreate.length;
+  closePreviewModal();
+  renderAll();
+  showToast(`✅ 已批量创建 ${count} 条待办`);
 }
 
 // ============ 启动 ============
