@@ -909,7 +909,7 @@ input,textarea,select{font-family:inherit;font-size:14px}
         <button id="btnMonthView" class="active" onclick="switchView('month')">📅 月视图</button>
         <button id="btnWeekView" onclick="switchView('week')">📊 周视图</button>
       </div>
-      <button class="btn" id="btnDashboardView" onclick="switchView('dashboard')" title="经理汇总看板">📈 <span>汇总</span></button>
+      <button class="btn" id="btnDashboardView" onclick="switchAppView('dashboard')" title="经理汇总看板">📈 <span>汇总</span></button>
       <button class="btn" onclick="openHistory()">🕐 <span>历史查询</span></button>
       <button class="btn" onclick="exportData()">📤 <span>导出</span></button>
       <button class="btn" onclick="document.getElementById('importFile').click()">📥 <span>导入</span></button>
@@ -957,6 +957,9 @@ input,textarea,select{font-family:inherit;font-size:14px}
     </select>
     <select class="quick-tag" id="filterGroup" onchange="renderTodos()" style="appearance:none;padding-right:20px">
       <option value="">👥 全部分组</option>
+    </select>
+    <select class="quick-tag" id="filterFunc" onchange="renderTodos()" style="appearance:none;padding-right:20px">
+      <option value="">🎯 全部职能</option>
     </select>
     <div class="filter-spacer"></div>
     <div class="storage-bar">
@@ -1579,6 +1582,8 @@ let pushHistory = {};
 let _currentTodoAtts = null;
 let _currentTodoId = null;
 let _reportMdCache = '';
+let _currentAssignees = [];
+let pendingImportMeta = null;
 
 // 拖拽状态
 let dragState = null; // { todoId, fromDate, ghostEl }
@@ -2739,6 +2744,31 @@ function getFilteredTodos(){
       (t.desc && t.desc.toLowerCase().includes(searchKeyword))
     );
   }
+  // v4 协作筛选：快速标签（节点/状态）、负责人、群组、职能
+  const meId = webhookConfig.currentUserId;
+  switch(currentListFilter){
+    case 'mine': result = result.filter(t => (t.assignees||[]).includes(meId)); break;
+    case 'inprogress': result = result.filter(t => !t.done && getTodoStatus(t)==='inprogress'); break;
+    case 'overdue': result = result.filter(t => !t.done && getTodoStatus(t)==='overdue'); break;
+    case 'duesoon': result = result.filter(t => !t.done && getTodoStatus(t)==='duesoon'); break;
+    case 'done': result = result.filter(t => t.done); break;
+    case 'deliverable': result = result.filter(t => t.requireDeliverable); break;
+  }
+  const assigneeFilter = document.getElementById('filterAssignee')?.value;
+  if(assigneeFilter) result = result.filter(t => (t.assignees||[]).includes(assigneeFilter));
+  const groupFilter = document.getElementById('filterGroup')?.value;
+  if(groupFilter){
+    const g = getGroupById(groupFilter);
+    const gids = g ? g.memberIds : [];
+    result = result.filter(t => (t.assignees||[]).some(id => gids.includes(id)));
+  }
+  const funcFilter = document.getElementById('filterFunc')?.value;
+  if(funcFilter){
+    result = result.filter(t => {
+      const m = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+      return m && m.func === funcFilter;
+    });
+  }
   result.sort((a,b) => {
     if(a.done !== b.done) return a.done ? 1 : -1;
     const aState = getEffectiveState(a);
@@ -2816,23 +2846,33 @@ function renderTodos(){
         <div class="todo-checkbox ${t.done?'checked':''}" onclick="event.stopPropagation();toggleDone('${t.id}')"></div>
         <div class="todo-content">
           <div class="todo-title">${escapeHtml(t.title)}</div>
-          ${t.desc ? `<div class="todo-desc">${escapeHtml(t.desc)}</div>` : ''}
+          ${t.desc ? `<div class="todo-desc">${renderDescWithMentions(t.desc)}</div>` : ''}
+          ${renderTodoAssignees(t)}
           <div class="todo-meta">
+            <span class="status-badge ${getTodoStatus(t)}">${getStatusLabel(getTodoStatus(t))}</span>
             <span class="todo-tag priority ${priority}">${PRIORITY[priority]}</span>
             <span class="scope-badge scope-${scopeCls}">${SCOPE_LABEL[scopeCls]}</span>
             ${t.category ? `<span class="todo-tag category">${escapeHtml(t.category)}</span>` : ''}
             <span class="todo-tag date">${dateLabel}</span>
-            ${state.isOverdue ? '<span class="todo-tag overdue">⏰ 逾期</span>' : ''}
+            ${t.requireDeliverable ? `<span class="tag deliver">📎 需交付</span>` : ''}
+            ${t.deliverables ? `<span class="tag deliver">✅ 已交付</span>` : ''}
+            ${renderAttPreview(t)}
           </div>
           ${isExpanded ? `
           <div class="todo-detail show">
             <div class="detail-row"><span class="detail-label">标题</span><span class="detail-value">${escapeHtml(t.title)}</span></div>
-            ${t.desc ? `<div class="detail-row"><span class="detail-label">描述</span><span class="detail-value">${escapeHtml(t.desc)}</span></div>` : ''}
+            ${t.desc ? `<div class="detail-row"><span class="detail-label">描述</span><span class="detail-value">${renderDescWithMentions(t.desc)}</span></div>` : ''}
+            ${renderDetailAssignees(t)}
             <div class="detail-row"><span class="detail-label">范围</span><span class="detail-value">${SCOPE_LABEL[scopeCls]}</span></div>
             <div class="detail-row"><span class="detail-label">日期</span><span class="detail-value">${dateLabel}</span></div>
             <div class="detail-row"><span class="detail-label">优先级</span><span class="detail-value">${PRIORITY[priority]}${state.isOverdue?' · 逾期':''}</span></div>
             ${t.category ? `<div class="detail-row"><span class="detail-label">分类</span><span class="detail-value">${escapeHtml(t.category)}</span></div>` : ''}
-            <div class="detail-row"><span class="detail-label">状态</span><span class="detail-value">${t.done ? '✅ 已完成' : '⏳ 未完成'}</span></div>
+            <div class="detail-row"><span class="detail-label">状态</span><span class="detail-value"><span class="status-badge ${getTodoStatus(t)}">${getStatusLabel(getTodoStatus(t))}</span></span></div>
+            ${renderDetailDeliverables(t)}
+            ${renderDetailAttachments(t)}
+            <div class="detail-actions" style="display:flex;gap:6px;margin-top:8px">
+              ${!t.done && t.requireDeliverable ? `<button class="btn btn-primary" style="font-size:12px;padding:4px 10px" onclick="event.stopPropagation();openDeliverModal('${t.id}')">📎 提交交付物</button>` : ''}
+            </div>
           </div>` : ''}
         </div>
         <div class="todo-actions">
@@ -2862,17 +2902,26 @@ function toggleDone(id){
   if(t.done){
     if(!t._origPriority) t._origPriority = t.priority;
     t.priority = 'green';
+    t.completedAt = new Date().toISOString();
+    addTodoHistory(t, 'completed', '完成任务');
   } else {
     t.priority = t._origPriority || 'blue';
     delete t._origPriority;
+    t.completedAt = null;
+    addTodoHistory(t, 'reopened', '重新打开任务');
   }
   saveData();
   renderAll();
+  // 完成后若需交付物，弹窗提交（仅汇总，无审批流）
+  if(t.done && t.requireDeliverable && !t.deliverables){
+    openDeliverModal(t.id);
+  }
 }
 
 // ============ 弹窗 ============
 function openModal(id, defaultDate){
   editingId = id || null;
+  _currentTodoId = id || null;
   if(id){
     const t = todos.find(t=>t.id===id);
     if(!t) return;
@@ -2883,6 +2932,9 @@ function openModal(id, defaultDate){
     document.getElementById('todoCategory').value = t.category || '';
     selectPriority(t.priority === 'green' ? 'blue' : t.priority);
     selectScope(t.scope || 'day');
+    setAssignees(t.assignees || []);
+    document.getElementById('todoNotifyFeishu').checked = t.notify !== false;
+    document.getElementById('todoRequireDeliverable').checked = !!t.requireDeliverable;
   } else {
     document.getElementById('modalTitle').textContent = '新建待办';
     document.getElementById('todoTitle').value = '';
@@ -2891,6 +2943,9 @@ function openModal(id, defaultDate){
     document.getElementById('todoCategory').value = '';
     selectPriority('blue');
     selectScope('day');
+    setAssignees([webhookConfig.currentUserId].filter(Boolean));
+    document.getElementById('todoNotifyFeishu').checked = true;
+    document.getElementById('todoRequireDeliverable').checked = false;
   }
   document.getElementById('titleError').classList.remove('show');
   document.getElementById('todoModal').classList.add('show');
@@ -2959,6 +3014,9 @@ function saveTodo(){
     category: document.getElementById('todoCategory').value,
     priority: selectedPriority,
     scope,
+    assignees: _currentAssignees.slice(),
+    notify: document.getElementById('todoNotifyFeishu').checked,
+    requireDeliverable: document.getElementById('todoRequireDeliverable').checked,
   };
   if(editingId){
     const t = todos.find(t=>t.id===editingId);
@@ -2966,11 +3024,19 @@ function saveTodo(){
       Object.assign(t, data);
       if(data.priority === 'green' && !t.done) t.done = true;
       else if(data.priority !== 'green' && t.done){ t.done = false; delete t._origPriority; }
+      addTodoHistory(t, 'updated', '更新任务信息');
     }
     showToast('✅ 已更新');
   } else {
-    todos.push({ id: genId(), ...data, done: false, created: Date.now() });
+    const nt = { id: genId(), ...data, done: false, created: Date.now(),
+      mentionAll:false, mentions: extractMentions(data.desc), attachments:[], deliverables:'', history:[], completedAt:null, notifyGroupId:'' };
+    addTodoHistory(nt, 'created', '创建待办');
+    todos.push(nt);
     showToast('✅ 已新建');
+    // 新建后通知负责人（飞书）
+    if(data.notify !== false){
+      notifyTodoAssigned(nt, '新建任务');
+    }
   }
   saveData();
   closeModal();
@@ -3000,7 +3066,7 @@ document.getElementById('confirmDelBtn').onclick = function(){
 
 // ============ 导入导出 ============
 function exportData(){
-  const data = JSON.stringify(todos, null, 2);
+  const data = JSON.stringify({version:4, todos, members, groups, webhookConfig}, null, 2);
   const blob = new Blob([data], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -3020,9 +3086,17 @@ function handleImport(event){
   reader.onload = function(e){
     try{
       const data = JSON.parse(e.target.result);
-      if(!Array.isArray(data)) throw new Error('格式错误');
-      pendingImportData = data;
-      document.getElementById('importCount').textContent = data.length;
+      if(Array.isArray(data)){
+        // v3 数组格式，合并待办
+        pendingImportData = data;
+        pendingImportMeta = null;
+      } else if(data && data.version === 4){
+        pendingImportData = data.todos || [];
+        pendingImportMeta = {members:data.members, groups:data.groups, webhookConfig:data.webhookConfig};
+      } else {
+        throw new Error('格式错误');
+      }
+      document.getElementById('importCount').textContent = pendingImportData.length;
       importMode = 'merge';
       document.querySelectorAll('.import-option').forEach(opt => {
         opt.classList.toggle('selected', opt.dataset.mode === 'merge');
@@ -3048,8 +3122,17 @@ function closeImport(){
 }
 function doImport(){
   if(!pendingImportData) return;
-  if(importMode === 'replace') todos = [...pendingImportData];
-  else todos = [...todos, ...pendingImportData];
+  if(importMode === 'replace'){
+    todos = pendingImportData.map(t => { normalizeTodo(t); return t; });
+    if(pendingImportMeta){
+      if(pendingImportMeta.members) members = pendingImportMeta.members;
+      if(pendingImportMeta.groups) groups = pendingImportMeta.groups;
+      if(pendingImportMeta.webhookConfig) webhookConfig = Object.assign(webhookConfig, pendingImportMeta.webhookConfig);
+    }
+  } else {
+    const add = pendingImportData.map(t => { normalizeTodo(t); return t; });
+    todos = [...todos, ...add];
+  }
   saveData();
   closeImport();
   renderAll();
@@ -3212,6 +3295,7 @@ function renderAll(){
   renderFilters();
   renderCalendar();
   renderTodos();
+  renderV4Chrome();
 }
 
 // ============ 快捷日期按钮 ============
@@ -3544,9 +3628,1175 @@ function confirmBatchCreate(){
   showToast(`✅ 已批量创建 ${count} 条待办`);
 }
 
+// ============ v4.0 通用工具 ============
+function memberColor(m){ return m && m.avatarColor ? m.avatarColor : (AVATAR_COLORS[(m?m.id:'')?.length||0] || AVATAR_COLORS[0]); }
+function avatarHtml(m, size){
+  if(!m) return `<span class="avatar ${size||''}" style="background:var(--muted)">?</span>`;
+  const ch = (m.name || '?').charAt(0);
+  return `<span class="avatar ${size||''}" style="background:${memberColor(m)}" title="${escapeAttr(m.name)}">${escapeHtml(ch)}</span>`;
+}
+function addTodoHistory(t, action, detail){
+  if(!t.history) t.history = [];
+  t.history.push({action, by: webhookConfig.currentUserId || 'system', at: new Date().toISOString(), detail: detail||''});
+  if(t.history.length > 200) t.history = t.history.slice(-200);
+}
+
+// ============ @提及系统 ============
+function mentionCandidates(){
+  const list = [];
+  if(members && members.length){
+    members.forEach(m => list.push({type:'member', id:m.id, name:m.name, meta:(m.role==='manager'?'经理':'成员')+(m.func?('·'+m.func):'')}));
+  }
+  if(groups && groups.length){
+    groups.forEach(g => list.push({type:'group', id:g.id, name:'@'+g.name, meta:'群组·'+g.memberIds.length+'人'}));
+  }
+  list.push({type:'all', id:'all', name:'所有人', meta:'@所有人'});
+  return list;
+}
+function getMentionTokenAtCursor(){
+  const ta = document.getElementById('todoDesc');
+  const pos = ta.selectionStart;
+  const text = ta.value.slice(0, pos);
+  const m = text.match(/(?:^|\s)@([^\s@]*)$/);
+  if(!m) return null;
+  return {keyword: m[1], start: pos - m[1].length};
+}
+function handleDescInput(){
+  const token = getMentionTokenAtCursor();
+  if(token && token.keyword.length <= 20){
+    renderMentionDropdown(token.keyword);
+  } else {
+    hideMentionDropdown();
+  }
+}
+function handleDescClick(){ handleDescInput(); }
+function handleDescKeydown(e){
+  const dd = document.getElementById('mentionDropdown');
+  if(dd.style.display !== 'none'){
+    const items = dd.querySelectorAll('.mention-item');
+    let idx = -1;
+    items.forEach((it,i)=>{ if(it.classList.contains('active')) idx = i; });
+    if(e.key === 'ArrowDown'){ e.preventDefault(); idx = (idx+1) % items.length; setActiveMention(idx); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); idx = (idx-1+items.length) % items.length; setActiveMention(idx); }
+    else if(e.key === 'Enter' || e.key === 'Tab'){
+      if(idx >= 0){ e.preventDefault(); const it = items[idx]; it.click(); return; }
+    }
+    else if(e.key === 'Escape'){ e.preventDefault(); hideMentionDropdown(); }
+  }
+}
+function setActiveMention(idx){
+  document.querySelectorAll('#mentionDropdown .mention-item').forEach((it,i)=>it.classList.toggle('active', i===idx));
+}
+function renderMentionDropdown(keyword){
+  const kw = (keyword||'').toLowerCase();
+  let cands = mentionCandidates().filter(c => !kw || c.name.toLowerCase().includes(kw));
+  const dd = document.getElementById('mentionDropdown');
+  if(cands.length === 0){ dd.style.display='none'; return; }
+  const html = cands.map((c,i) => {
+    let icon = '';
+    if(c.type==='member') icon = avatarHtml(getMemberById(c.id),'');
+    else if(c.type==='group') icon = `<span style="width:24px;text-align:center">👥</span>`;
+    else icon = `<span style="width:24px;text-align:center">🌐</span>`;
+    return `<div class="mention-item ${i===0?'active':''}" data-id="${escapeAttr(c.id)}" data-type="${c.type}" data-name="${escapeAttr(c.name)}" onclick="insertMention('${c.type}','${c.id}','${escapeAttr(c.name)}')">${icon}<span>${escapeHtml(c.name)}</span><span class="meta">${escapeHtml(c.meta||'')}</span></div>`;
+  }).join('');
+  dd.innerHTML = html;
+  dd.style.display = 'block';
+}
+function hideMentionDropdown(){ document.getElementById('mentionDropdown').style.display='none'; }
+function insertMention(type, id, name){
+  const ta = document.getElementById('todoDesc');
+  const token = getMentionTokenAtCursor();
+  const pos = ta.selectionStart;
+  if(token){
+    const before = ta.value.slice(0, token.start);
+    const after = ta.value.slice(pos);
+    const label = type === 'all' ? '@所有人' : ('@'+name);
+    ta.value = before + label + ' ' + after;
+    const newPos = before.length + label.length + 1;
+    ta.setSelectionRange(newPos, newPos);
+  } else {
+    const label = type === 'all' ? '@所有人' : ('@'+name);
+    const before = ta.value.slice(0, pos);
+    const after = ta.value.slice(pos);
+    ta.value = before + label + ' ' + after;
+  }
+  hideMentionDropdown();
+  ta.focus();
+}
+function extractMentions(desc){
+  const out = [];
+  if(!desc) return out;
+  const allNames = ['所有人'];
+  members.forEach(m=>allNames.push(m.name));
+  groups.forEach(g=>allNames.push(g.name));
+  const regex = /@([^\s@，。、；;,\u4e00-\u9fa5]*[\u4e00-\u9fa5A-Za-z0-9]+)/g;
+  let m;
+  while((m = regex.exec(desc))){
+    const name = m[1];
+    const hit = allNames.find(n => name === n || name.startsWith(n));
+    if(hit && !out.includes(hit)) out.push(hit);
+  }
+  return out;
+}
+function renderDescWithMentions(desc){
+  if(!desc) return '';
+  let out = escapeHtml(desc);
+  const names = ['所有人'];
+  members.forEach(m=>names.push(m.name));
+  groups.forEach(g=>names.push(g.name));
+  names.sort((a,b)=>b.length-a.length);
+  names.forEach(n => {
+    const re = new RegExp('@'+n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'g');
+    out = out.replace(re, ()=>{ return n==='所有人' ? '<span class="mention-chip all">@所有人</span>' : `<span class="mention-chip">@${escapeHtml(n)}</span>`; });
+  });
+  return out;
+}
+
+// ============ 负责人选择器 ============
+function setAssignees(ids){
+  _currentAssignees = (ids||[]).filter(Boolean);
+  renderAssigneeChips();
+}
+function renderAssigneeChips(){
+  const wrap = document.getElementById('assigneeChips');
+  wrap.innerHTML = _currentAssignees.map(id => {
+    const m = getMemberById(id);
+    return `<span class="assignee-chip">${avatarHtml(m,'sm')}<span>${escapeHtml(m?m.name:id)}</span><span class="rm" onclick="removeAssignee('${id}')">×</span></span>`;
+  }).join('');
+}
+function removeAssignee(id){
+  _currentAssignees = _currentAssignees.filter(x=>x!==id);
+  renderAssigneeChips();
+}
+function filterAssigneePicker(){
+  const kw = document.getElementById('assigneeSearch').value.trim().toLowerCase();
+  showAssigneePicker();
+  const dd = document.getElementById('assigneeDropdown');
+  const opts = dd.querySelectorAll('.picker-opt');
+  opts.forEach(o => {
+    const name = (o.dataset.name||'').toLowerCase();
+    o.style.display = (!kw || name.includes(kw)) ? '' : 'none';
+  });
+}
+function showAssigneePicker(){
+  const dd = document.getElementById('assigneeDropdown');
+  const sel = new Set(_currentAssignees);
+  dd.innerHTML = members.map(m => `
+    <div class="picker-opt ${sel.has(m.id)?'selected':''}" data-id="${escapeAttr(m.id)}" data-name="${escapeAttr(m.name)}" onclick="toggleAssignee('${m.id}')">
+      ${avatarHtml(m,'sm')}
+      <span>${escapeHtml(m.name)}</span>
+      <span class="meta">${m.role==='manager'?'经理':'成员'}${m.func?('·'+escapeHtml(m.func)):''}</span>
+    </div>`).join('');
+  dd.classList.add('show');
+}
+function hideAssigneePicker(){ document.getElementById('assigneeDropdown').classList.remove('show'); }
+function toggleAssignee(id){
+  if(_currentAssignees.includes(id)) _currentAssignees = _currentAssignees.filter(x=>x!==id);
+  else _currentAssignees.push(id);
+  renderAssigneeChips();
+  showAssigneePicker();
+}
+function assigneeKeydown(e){
+  if(e.key === 'Enter'){ e.preventDefault(); const first = document.querySelector('#assigneeDropdown .picker-opt:not([style*="none"])'); if(first) first.click(); }
+  else if(e.key === 'Escape'){ hideAssigneePicker(); }
+}
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.assignee-picker')) hideAssigneePicker();
+  if(!e.target.closest('.desc-area')) hideMentionDropdown();
+});
+
+// ============ 附件与交付物 ============
+let _currentAtts = [];
+function addDeliverAttachments(files){
+  const list = Array.from(files);
+  let totalSize = _currentAtts.reduce((s,a)=>s+(a.size||0),0);
+  let added = 0;
+  for(const f of list){
+    const ext = getFileExt(f.name);
+    if(!ALLOWED_ATTACHMENT_EXT.test('.'+ext)){
+      showToast(`⚠️ 不支持的文件类型: ${f.name}`);
+      continue;
+    }
+    if(f.size > ATTACHMENT_MAX_FILE){
+      showToast(`⚠️ ${f.name} 超过单文件5MB限制`);
+      continue;
+    }
+    if(totalSize + f.size > ATTACHMENT_MAX_TOTAL){
+      showToast('⚠️ 附件总大小超过20MB限制');
+      break;
+    }
+    totalSize += f.size;
+    _currentAtts.push({id:genAttId(), name:f.name, size:f.size, mime:f.type||'', data:''});
+    const idx = _currentAtts.length - 1;
+    const reader = new FileReader();
+    reader.onload = (e) => { _currentAtts[idx].data = e.target.result; renderDeliverAttachments(); };
+    reader.readAsDataURL(f);
+    added++;
+  }
+  if(added) renderDeliverAttachments();
+}
+function handleDeliverDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  if(e.dataTransfer && e.dataTransfer.files) addDeliverAttachments(e.dataTransfer.files);
+}
+function handleDeliverFiles(fileList){ addDeliverAttachments(fileList); }
+function removeDeliverAttachment(id){
+  _currentAtts = _currentAtts.filter(a=>a.id!==id);
+  renderDeliverAttachments();
+}
+function renderDeliverAttachments(){
+  const listEl = document.getElementById('deliverAttList');
+  const thumbsEl = document.getElementById('deliverAttThumbs');
+  const hintEl = document.getElementById('deliverSizeHint');
+  const total = _currentAtts.reduce((s,a)=>s+(a.size||0),0);
+  hintEl.textContent = `${_currentAtts.length} 个文件 · 共 ${formatBytes(total)} / ${formatBytes(ATTACHMENT_MAX_TOTAL)}`;
+  listEl.innerHTML = _currentAtts.map(a => `
+    <div class="att-item">
+      <span class="att-icon">${getFileIcon(a.name)}</span>
+      <span class="att-name">${escapeHtml(a.name)}</span>
+      <span class="att-size">${formatBytes(a.size)}</span>
+      <button class="att-rm" onclick="removeDeliverAttachment('${a.id}')">×</button>
+    </div>`).join('');
+  const imgs = _currentAtts.filter(a => isImageByName(a.name) && a.data);
+  thumbsEl.innerHTML = imgs.map(a => `
+    <div class="att-thumb" onclick="previewImg('${a.id}')">
+      <img src="${a.data}" alt="${escapeAttr(a.name)}">
+      <button class="att-thumb-rm" onclick="event.stopPropagation();removeDeliverAttachment('${a.id}')">×</button>
+    </div>`).join('');
+}
+function openDeliverModal(todoId){
+  const t = todos.find(x=>x.id===todoId);
+  if(!t) return;
+  _currentTodoId = todoId;
+  _currentAtts = (t.attachments||[]).map(a=>({...a}));
+  document.getElementById('deliverTodoTitle').textContent = t.title;
+  document.getElementById('deliverNote').value = t.deliverables || '';
+  document.getElementById('deliverNotify').checked = true;
+  renderDeliverAttachments();
+  document.getElementById('deliverModal').classList.add('show');
+}
+function closeDeliverModal(){
+  document.getElementById('deliverModal').classList.remove('show');
+  _currentTodoId = null;
+  _currentAtts = [];
+}
+function submitDeliverable(){
+  const t = todos.find(x=>x.id===_currentTodoId);
+  if(!t) return;
+  t.deliverables = document.getElementById('deliverNote').value.trim();
+  t.attachments = _currentAtts.map(a=>({id:a.id, name:a.name, size:a.size, mime:a.mime, data:a.data}));
+  addTodoHistory(t, 'delivered', '提交交付物'+(t.deliverables?('：'+t.deliverables.slice(0,30)):''));
+  saveData();
+  const notify = document.getElementById('deliverNotify').checked;
+  closeDeliverModal();
+  renderAll();
+  showToast('✅ 交付物已提交');
+  if(notify) notifyDeliverable(t);
+}
+
+// ============ 飞书 Webhook ============
+function getWebhookUrl(){
+  return webhookConfig.defaultWebhookUrl || '';
+}
+function getWebhookSecret(){
+  return webhookConfig.defaultWebhookSecret || '';
+}
+function feishuConfigured(){ return !!getWebhookUrl(); }
+async function signFeishu(secret, timestamp){
+  if(!secret) return '';
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey('raw', enc.encode(timestamp + '\n' + secret), {name:'HMAC', hash:'SHA-256'}, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(''));
+  return btoa(String.fromCharCode(...new Uint8Array(sig)));
+}
+function buildFeishuCard(title, sections, linkUrl){
+  const elements = sections.map(s => {
+    return {tag:'div', text:{tag:'lark_md', content:s}};
+  });
+  const card = {
+    config:{wide_screen_mode:true},
+    header:{title:{tag:'plain_text', content:title}, template: title.indexOf('汇总')>=0 ? 'green' : 'blue'},
+    elements
+  };
+  if(linkUrl){
+    card.elements.push({tag:'action', actions:[{tag:'button', text:{tag:'plain_text', content:'查看详情'}, type:'primary', url:linkUrl}]});
+  }
+  return {msg_type:'interactive', card};
+}
+async function sendFeishuWebhook(payload){
+  const url = getWebhookUrl();
+  if(!url){
+    showToast('⚠️ 未配置飞书 Webhook，请在设置中配置');
+    return false;
+  }
+  let finalUrl = url;
+  const secret = getWebhookSecret();
+  if(secret){
+    try{
+      const timestamp = Math.floor(Date.now()/1000);
+      const sign = await signFeishu(secret, timestamp);
+      finalUrl += (url.includes('?')?'&':'?') + 'timestamp='+timestamp+'&sign='+encodeURIComponent(sign);
+    }catch(e){ console.warn('签名失败:',e); }
+  }
+  try{
+    await fetch(finalUrl, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    return true;
+  }catch(e){
+    console.error('飞书发送失败:',e);
+    return false;
+  }
+}
+function appLinkUrl(todoId){
+  const base = webhookConfig.appBaseUrl || (location.origin + location.pathname);
+  return base + '#todo=' + todoId;
+}
+function buildTodoSections(t){
+  const s = [];
+  s.push(`**任务**：${t.title}`);
+  if(t.date) s.push(`**截止日期**：${t.date}`);
+  if(t.desc) s.push(`**说明**：${t.desc.replace(/@/g,'')}`);
+  const assignees = (t.assignees||[]).map(id=>getMemberById(id)).filter(Boolean).map(m=>m.name);
+  if(assignees.length) s.push(`**负责人**：${assignees.join('、')}`);
+  if(t.requireDeliverable) s.push(`**需交付物**：是`);
+  return s;
+}
+async function notifyTodoAssigned(t, action){
+  if(!feishuConfigured()) return;
+  const title = `📋 ${action}：${t.title}`;
+  const sections = buildTodoSections(t);
+  const link = appLinkUrl(t.id);
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, link));
+  if(ok === false) return;
+  showToast('🔔 已通知负责人（飞书）');
+}
+async function notifyDeliverable(t){
+  if(!feishuConfigured()) return;
+  const title = `📎 交付物提交：${t.title}`;
+  const sections = [];
+  const by = getCurrentUser();
+  sections.push(`**提交人**：${by ? by.name : '我'}`);
+  if(t.deliverables) sections.push(`**交付说明**：${t.deliverables}`);
+  if(t.attachments && t.attachments.length) sections.push(`**交付文件**：${t.attachments.map(a=>a.name).join('、')}`);
+  const link = appLinkUrl(t.id);
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, link));
+  if(ok === false) return;
+  showToast('🔔 已通知经理（飞书）');
+}
+function previewImg(attId){
+  const a = _currentAtts.find(x=>x.id===attId);
+  if(!a || !a.data) return;
+  document.getElementById('imgPreviewImg').src = a.data;
+  document.getElementById('imgPreviewName').textContent = a.name;
+  document.getElementById('imgPreviewOverlay').classList.add('show');
+}
+function closeImgPreview(e){
+  if(e && e.target && e.target.id === 'imgPreviewImg') return;
+  document.getElementById('imgPreviewOverlay').classList.remove('show');
+}
+
+// ============ 视图切换 ============
+let currentAppView = 'list';
+let currentListFilter = 'all';
+function switchAppView(view){
+  currentAppView = view;
+  document.getElementById('tabListView').classList.toggle('active', view==='list');
+  document.getElementById('tabDashboardView').classList.toggle('active', view==='dashboard');
+  document.getElementById('listViewContainer').style.display = view==='list' ? '' : 'none';
+  document.getElementById('dashboardView').classList.toggle('show', view==='dashboard');
+  if(view==='dashboard') renderDashboard();
+  else renderTodos();
+}
+function setListFilter(f){
+  currentListFilter = f;
+  document.querySelectorAll('.quick-tag[data-filter]').forEach(b => b.classList.toggle('active', b.dataset.filter===f));
+  renderTodos();
+}
+
+// ============ 列表筛选 ============
+function renderAssigneeFilter(){
+  const sel = document.getElementById('filterAssignee');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">👤 全部成员</option>' + members.map(m=>`<option value="${escapeAttr(m.id)}">${escapeHtml(m.name)}</option>`).join('');
+  sel.value = cur;
+}
+function renderGroupFilter(){
+  const sel = document.getElementById('filterGroup');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">👥 全部分组</option>' + groups.map(g=>`<option value="${escapeAttr(g.id)}">${escapeHtml(g.name)}</option>`).join('');
+  sel.value = cur;
+}
+function renderFuncFilter(){
+  const sel = document.getElementById('filterFunc');
+  const cur = sel.value;
+  const funcs = [...new Set(members.map(m=>m.func).filter(Boolean))];
+  sel.innerHTML = '<option value="">🎯 全部职能</option>' + funcs.map(f=>`<option value="${escapeAttr(f)}">${escapeHtml(f)}</option>`).join('');
+  sel.value = cur;
+}
+function renderStorageBar(){
+  const pct = storageUsagePercent();
+  const fill = document.getElementById('storageBarFill');
+  const txt = document.getElementById('storageText');
+  fill.style.width = pct + '%';
+  fill.className = 'bar-fill' + (pct>80?' danger':pct>60?' warn':'');
+  txt.textContent = pct + '%';
+}
+
+// ============ 经理汇总仪表盘 ============
+function dashboardTodoFilter(t){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const created = getTodoCreatedDate(t);
+  if(currentDashboardPeriod === 'week'){
+    const ws = getWeekStart(now), we = new Date(ws); we.setDate(ws.getDate()+6);
+    return created >= ws && created <= we;
+  }
+  if(currentDashboardPeriod === 'month'){
+    return created.getFullYear()===now.getFullYear() && created.getMonth()===now.getMonth();
+  }
+  if(currentDashboardPeriod === 'quarter'){
+    const q = Math.floor(now.getMonth()/3);
+    return created.getFullYear()===now.getFullYear() && Math.floor(created.getMonth()/3)===q;
+  }
+  return true;
+}
+function setDashPeriod(p){
+  currentDashboardPeriod = p;
+  document.querySelectorAll('#dashPeriodSeg button').forEach(b=>b.classList.toggle('active', b.dataset.p===p));
+  renderDashboard();
+}
+function setDashDim(d){
+  currentDashboardDim = d;
+  document.querySelectorAll('#dashDimSeg button').forEach(b=>b.classList.toggle('active', b.dataset.d===d));
+  renderDashboard();
+}
+function getDashboardTodos(){
+  return todos.filter(dashboardTodoFilter);
+}
+function getDimKey(t){
+  if(currentDashboardDim === 'group'){
+    const m = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+    return m && m.dept ? m.dept : '未分组';
+  }
+  if(currentDashboardDim === 'category'){
+    return t.category || '未分类';
+  }
+  // member
+  if(t.assignees && t.assignees.length){
+    const m = getMemberById(t.assignees[0]);
+    if(m) return m.name;
+  }
+  return '未分配';
+}
+function getDimColor(key){
+  const idx = Math.abs([...key].reduce((s,c)=>s+c.charCodeAt(0),0)) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[idx];
+}
+function renderDashboard(){
+  const list = getDashboardTodos();
+  const done = list.filter(t=>t.done).length;
+  const overdue = list.filter(t=>!t.done && getTodoStatus(t)==='overdue').length;
+  const duesoon = list.filter(t=>!t.done && getTodoStatus(t)==='duesoon').length;
+  const progress = list.length - done;
+  const periodNames = {week:'本周', month:'本月', quarter:'本季度', all:'全部'};
+  document.getElementById('dashSubtitle').textContent = `${periodNames[currentDashboardPeriod] || ''} · 共 ${list.length} 项任务 · ${done} 项已完成`;
+  document.getElementById('countDash').textContent = list.length;
+
+  renderKpi(list, done, overdue, duesoon, progress);
+  renderHbar(list);
+  renderPie(list);
+  renderHighlights(list);
+  renderTimeline(list);
+  renderDashTable(list);
+}
+function renderKpi(list, done, overdue, duesoon, progress){
+  const completion = list.length ? Math.round(done/list.length*100) : 0;
+  document.getElementById('kpiRow').innerHTML = `
+    <div class="kpi-card total"><span class="kpi-icon">📋</span><div class="kpi-label">任务总数</div><div class="kpi-value">${list.length}</div><div class="kpi-sub">${currentDashboardDim==='member'?'按人':'按'+({group:'组',category:'类'}[currentDashboardDim]||'人')}维度统计</div></div>
+    <div class="kpi-card done"><span class="kpi-icon">✅</span><div class="kpi-label">已完成</div><div class="kpi-value">${done}</div><div class="kpi-sub">完成率 ${completion}%</div></div>
+    <div class="kpi-card progress"><span class="kpi-icon">⏳</span><div class="kpi-label">进行中</div><div class="kpi-value">${progress}</div><div class="kpi-sub">${duesoon} 项即将到期</div></div>
+    <div class="kpi-card overdue"><span class="kpi-icon">⏰</span><div class="kpi-label">已逾期</div><div class="kpi-value">${overdue}</div><div class="kpi-sub">需重点关注</div></div>`;
+}
+function renderHbar(list){
+  const dimName = {member:'人', group:'组', category:'类'}[currentDashboardDim] || '人';
+  document.getElementById('hbarHint').textContent = `按${dimName}`;
+  const dims = {};
+  list.forEach(t=>{ const k = getDimKey(t); dims[k] = dims[k] || {total:0,done:0,overdue:0}; dims[k].total++; if(t.done)dims[k].done++; if(!t.done&&getTodoStatus(t)==='overdue')dims[k].overdue++; });
+  const keys = Object.keys(dims).sort((a,b)=>dims[b].total-dims[a].total);
+  const maxTotal = Math.max(1, ...keys.map(k=>dims[k].total));
+  if(keys.length===0){
+    document.getElementById('hbarChart').innerHTML = '<div class="empty-state"><div class="icon">📊</div><p>本周期暂无任务</p></div>';
+    return;
+  }
+  document.getElementById('hbarChart').innerHTML = keys.map(k=>{
+    const d = dims[k];
+    const pct = Math.round(d.total/maxTotal*100);
+    const cls = d.overdue>0 ? 'overdue' : (d.done===d.total && d.total>0 ? 'done' : 'progress');
+    const color = getDimColor(k);
+    return `<div class="hbar-row ${cls}">
+      <span class="hbar-label"><span style="width:8px;height:8px;border-radius:2px;background:${color};flex-shrink:0;display:inline-block"></span>${escapeHtml(k)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}">${d.done}/${d.total}</div></div>
+      <span class="bar-val">${d.done}/${d.total}</span>
+    </div>`;
+  }).join('');
+}
+function renderPie(list){
+  const canvas = document.getElementById('pieCanvas');
+  const legendEl = document.getElementById('pieLegend');
+  const funcs = {};
+  list.forEach(t=>{
+    const m = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+    const f = m && m.func ? m.func : '未标注';
+    funcs[f] = (funcs[f]||0)+1;
+  });
+  const keys = Object.keys(funcs);
+  if(keys.length===0){
+    legendEl.innerHTML = '<span style="color:var(--muted);font-size:12px">暂无数据</span>';
+    const ctx = canvas.getContext('2d'); ctx.clearRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+  const total = list.length;
+  const ctx = canvas.getContext('2d');
+  const cx = canvas.width/2, cy = canvas.height/2, r = canvas.width/2 - 4;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  let start = -Math.PI/2;
+  const colors = AVATAR_COLORS;
+  keys.forEach((k,i)=>{
+    const frac = funcs[k]/total;
+    const angle = frac * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,start+angle);
+    ctx.closePath();
+    ctx.fillStyle = colors[i%colors.length];
+    ctx.fill();
+    start += angle;
+  });
+  ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2); ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--card') || '#fff'; ctx.fill();
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text') || '#333';
+  ctx.font = 'bold 22px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(String(total), cx, cy-8);
+  ctx.font = '10px sans-serif'; ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--muted') || '#999';
+  ctx.fillText('总任务', cx, cy+12);
+
+  legendEl.innerHTML = keys.map((k,i)=>`
+    <div class="leg">
+      <span class="dot" style="background:${colors[i%colors.length]}"></span>
+      <span class="leg-label">${escapeHtml(k)}</span>
+      <span class="leg-val">${funcs[k]} (${Math.round(funcs[k]/total*100)}%)</span>
+    </div>`).join('');
+}
+function renderHighlights(list){
+  const today = todayStr();
+  const overdueList = list.filter(t=>!t.done && getTodoStatus(t)==='overdue');
+  const dueSoonList = list.filter(t=>!t.done && getTodoStatus(t)==='duesoon');
+  const recentDone = list.filter(t=>t.done).sort((a,b)=>(b.completedAt||'').localeCompare(a.completedAt||'')).slice(0,5);
+  document.getElementById('hlOverdue').innerHTML = [...overdueList, ...dueSoonList].slice(0,6).map(t=>`<li onclick="focusTodo('${t.id}')">${escapeHtml(t.title)} <span style="color:${getTodoStatus(t)==='overdue'?'var(--red)':'var(--yellow)'}">${getTodoStatus(t)==='overdue'?'逾期':'临期'}</span></li>`).join('') || '<li style="color:var(--muted)">暂无逾期/临期任务 🎉</li>';
+  document.getElementById('hlRecentDone').innerHTML = recentDone.map(t=>`<li onclick="focusTodo('${t.id}')">${escapeHtml(t.title)}</li>`).join('') || '<li style="color:var(--muted)">本周期暂无已完成</li>';
+}
+function renderTimeline(list){
+  const dated = list.filter(t=>t.date || t.scope!=='day').sort((a,b)=>{
+    const da = a.scope==='day' ? (a.date||'') : getTodoDateRange(a).end;
+    const db = b.scope==='day' ? (b.date||'') : getTodoDateRange(b).end;
+    return (da||'').localeCompare(db||'');
+  }).slice(0,10);
+  if(dated.length===0){
+    document.getElementById('timeline').innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>暂无时间线数据</p></div>';
+    return;
+  }
+  document.getElementById('timeline').innerHTML = dated.map(t=>{
+    const st = getTodoStatus(t);
+    const dateLabel = t.scope==='day' ? (t.date||'未设日期') : getTodoDateRange(t).end;
+    const assignee = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+    return `<div class="tl-item ${st==='done'?'done':st==='overdue'?'overdue':''}">
+      <div class="tl-date">${dateLabel}</div>
+      <div class="tl-title">${escapeHtml(t.title)}</div>
+      <div class="tl-meta">${assignee?escapeHtml(assignee.name):'未分配'} · ${getStatusLabel(st)}</div>
+    </div>`;
+  }).join('');
+}
+function renderDashTable(list){
+  const body = document.getElementById('dashTableBody');
+  if(list.length===0){
+    body.innerHTML = '<tr><td colspan="6" class="empty">本周期暂无任务</td></tr>';
+    return;
+  }
+  const sorted = [...list].sort((a,b)=>{
+    if(a.done!==b.done) return a.done?1:-1;
+    const sa=getTodoStatus(a), sb=getTodoStatus(b);
+    const rank={overdue:0,duesoon:1,inprogress:2,done:3};
+    return (rank[sa]??2)-(rank[sb]??2);
+  });
+  body.innerHTML = sorted.map(t=>{
+    const st = getTodoStatus(t);
+    const assignees = (t.assignees||[]).map(id=>getMemberById(id)).filter(Boolean);
+    const assigneeHtml = assignees.length ? assignees.map(m=>avatarHtml(m,'sm')).join('') : '<span style="color:var(--muted)">未分配</span>';
+    return `<tr>
+      <td><span class="todo-link" onclick="focusTodo('${t.id}')">${escapeHtml(t.title)}</span></td>
+      <td>${assigneeHtml}</td>
+      <td>${t.scope==='day'?(t.date||'—'):getTodoDateRange(t).end}</td>
+      <td><span class="status-badge ${st}">${getStatusLabel(st)}</span></td>
+      <td>${t.category?escapeHtml(t.category):'—'}</td>
+      <td>${t.deliverables?'✅ 已交付':(t.requireDeliverable?'📎 待交付':'—')}</td>
+    </tr>`;
+  }).join('');
+}
+function focusTodo(id){
+  switchAppView('list');
+  expandedTodoId = id;
+  highlightedTodoId = id;
+  renderTodos();
+  const el = document.querySelector(`.todo-item[onclick*="${id}"]`);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+// ============ 汇总报告 ============
+function generateReport(){
+  const list = getDashboardTodos();
+  const now = new Date();
+  const periodNames = {week:'本周', month:'本月', quarter:'本季度', all:'全部'};
+  const done = list.filter(t=>t.done);
+  const undone = list.filter(t=>!t.done);
+  const overdue = list.filter(t=>!t.done && getTodoStatus(t)==='overdue');
+  const byMember = {};
+  list.forEach(t=>{
+    const m = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+    const name = m ? m.name : '未分配';
+    byMember[name] = byMember[name] || {total:0,done:0};
+    byMember[name].total++; if(t.done)byMember[name].done++;
+  });
+  const lines = [];
+  lines.push(`# 📈 部门任务汇总报告`);
+  lines.push(``);
+  lines.push(`- 生成时间：${fmtDateTime(now)}`);
+  lines.push(`- 统计周期：${periodNames[currentDashboardPeriod]||'全部'}`);
+  lines.push(`- 生成人：${getCurrentUser()?getCurrentUser().name:'我'}`);
+  lines.push(``);
+  lines.push(`## 一、总览`);
+  lines.push(``);
+  lines.push(`| 指标 | 数值 |`);
+  lines.push(`| --- | --- |`);
+  lines.push(`| 任务总数 | ${list.length} |`);
+  lines.push(`| 已完成 | ${done.length} |`);
+  lines.push(`| 进行中 | ${undone.length} |`);
+  lines.push(`| 已逾期 | ${overdue.length} |`);
+  lines.push(`| 完成率 | ${list.length?Math.round(done.length/list.length*100):0}% |`);
+  lines.push(``);
+  lines.push(`## 二、成员任务分布`);
+  lines.push(``);
+  lines.push(`| 成员 | 总任务 | 已完成 | 完成率 |`);
+  lines.push(`| --- | --- | --- | --- |`);
+  Object.keys(byMember).forEach(name=>{
+    const d = byMember[name];
+    lines.push(`| ${name} | ${d.total} | ${d.done} | ${d.total?Math.round(d.done/d.total*100):0}% |`);
+  });
+  lines.push(``);
+  if(overdue.length){
+    lines.push(`## 三、逾期任务（需关注）`);
+    lines.push(``);
+    overdue.forEach(t=>{
+      const m = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+      lines.push(`- ❗ ${t.title} — 负责人：${m?m.name:'未分配'}，截止：${t.scope==='day'?(t.date||'未设'):getTodoDateRange(t).end}`);
+    });
+    lines.push(``);
+  }
+  lines.push(`## ${overdue.length?'四':'三'}、已完成交付`);
+  lines.push(``);
+  const withDeliver = done.filter(t=>t.deliverables || (t.attachments&&t.attachments.length));
+  if(withDeliver.length){
+    withDeliver.forEach(t=>{
+      const m = (t.assignees||[])[0] ? getMemberById(t.assignees[0]) : null;
+      lines.push(`- ✅ ${t.title} — 负责人：${m?m.name:'未分配'}${t.deliverables?'，说明：'+t.deliverables:''}${t.attachments&&t.attachments.length?'，文件'+t.attachments.length+'个':''}`);
+    });
+  } else {
+    lines.push(`- 本周期暂无附带交付物的已完成任务`);
+  }
+  lines.push(``);
+  return lines.join('\n');
+}
+function openReportModal(){
+  const md = generateReport();
+  _reportMdCache = md;
+  document.getElementById('reportMeta').textContent = `周期：${({week:'本周',month:'本月',quarter:'本季度',all:'全部'}[currentDashboardPeriod]||'全部')} · 生成时间：${fmtDateTime(new Date())}`;
+  document.getElementById('reportBody').textContent = md;
+  document.getElementById('reportStatus').className = 'report-status';
+  document.getElementById('reportStatus').textContent = '';
+  document.getElementById('reportModal').classList.add('show');
+}
+function closeReportModal(){ document.getElementById('reportModal').classList.remove('show'); }
+function copyReport(){
+  navigator.clipboard.writeText(_reportMdCache || generateReport()).then(()=>{
+    document.getElementById('reportStatus').className = 'report-status ok';
+    document.getElementById('reportStatus').textContent = '✅ 已复制';
+    showToast('📋 已复制到剪贴板');
+  }).catch(()=>{
+    const ta = document.createElement('textarea'); ta.value = _reportMdCache; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('📋 已复制');
+  });
+}
+function downloadReport(){
+  const blob = new Blob([_reportMdCache || generateReport()], {type:'text/markdown'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `部门汇总_${todayStr()}.md`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('💾 已下载报告');
+}
+function printReport(){
+  const w = window.open('', '_blank');
+  w.document.write(`<pre style="font-family:monospace;white-space:pre-wrap;padding:24px">${escapeHtml(_reportMdCache || generateReport())}</pre>`);
+  w.document.close(); w.print();
+}
+async function pushReportToFeishu(){
+  const md = _reportMdCache || generateReport();
+  const st = document.getElementById('reportStatus');
+  st.className = 'report-status';
+  st.textContent = '⏳ 发送中...';
+  const title = `📈 部门任务汇总报告（${({week:'本周',month:'本月',quarter:'本季度',all:'全部'}[currentDashboardPeriod]||'全部')}）`;
+  const sections = [md.replace(/^#+ /gm,'').slice(0, 3000) || '（无内容）'];
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, null));
+  if(ok === false){ st.className='report-status err'; st.textContent='❌ 未配置或发送失败'; return; }
+  st.className = 'report-status ok';
+  st.textContent = '✅ 已推送';
+  showToast('📤 报告已推送到飞书');
+}
+async function pushDashboardToFeishu(){
+  if(!feishuConfigured()){ showToast('⚠️ 请先在设置中配置飞书 Webhook'); openSettingsModal('feishu'); return; }
+  const list = getDashboardTodos();
+  const done = list.filter(t=>t.done).length;
+  const overdue = list.filter(t=>!t.done && getTodoStatus(t)==='overdue').length;
+  const title = `📈 部门任务汇总（${({week:'本周',month:'本月',quarter:'本季度',all:'全部'}[currentDashboardPeriod]||'全部')}）`;
+  const sections = [];
+  sections.push(`**任务总数**：${list.length}　**已完成**：${done}　**逾期**：${overdue}　**完成率**：${list.length?Math.round(done/list.length*100):0}%`);
+  const byMember = {};
+  list.forEach(t=>{ const m=(t.assignees||[])[0]?getMemberById(t.assignees[0]):null; const n=m?m.name:'未分配'; byMember[n]=(byMember[n]||0)+1; });
+  sections.push(`**成员分布**：${Object.entries(byMember).map(([k,v])=>`${k} ${v}项`).join('　')}`);
+  if(overdue>0) sections.push(`**⚠️ 逾期任务 ${overdue} 项，请重点关注**`);
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, null));
+  if(ok === false) return;
+  showToast('📤 汇总已推送到飞书');
+}
+
+// ============ 设置面板 ============
+let currentSettingsTab = 'feishu';
+function openSettingsModal(tab){
+  currentSettingsTab = tab || 'feishu';
+  document.getElementById('settingsModal').classList.add('show');
+  renderSettingsTab();
+}
+function closeSettingsModal(){ document.getElementById('settingsModal').classList.remove('show'); }
+function switchSettingsTab(tab){
+  currentSettingsTab = tab;
+  document.querySelectorAll('.settings-tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  renderSettingsTab();
+}
+function renderSettingsTab(){
+  document.querySelectorAll('.settings-tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===currentSettingsTab));
+  const p = document.getElementById('settingsPanel');
+  if(currentSettingsTab === 'feishu') p.innerHTML = settingsFeishuHtml();
+  else if(currentSettingsTab === 'members') p.innerHTML = settingsMembersHtml();
+  else if(currentSettingsTab === 'groups') p.innerHTML = settingsGroupsHtml();
+  else p.innerHTML = settingsDataHtml();
+}
+function settingsFeishuHtml(){
+  return `
+    <div class="settings-section">
+      <h4><span class="num">1</span> 飞书 Webhook 配置</h4>
+      <div class="webhook-guide">
+        <strong>配置步骤：</strong>
+        <ol>
+          <li>打开飞书，进入目标群聊 → 右上角 <code>设置</code> → <code>群机器人</code> → <code>添加机器人</code> → <code>自定义机器人</code>。</li>
+          <li>填写机器人名称，可选勾选 <code>加签</code>（推荐，增强安全性），复制生成的 <code>Webhook 地址</code>。</li>
+          <li>若勾选了加签，同时复制 <code>签名密钥（Secret）</code>，粘贴到下方"签名密钥"输入框。</li>
+          <li>将 Webhook 地址粘贴到下方"Webhook 地址"，点击 <code>测试发送</code>，群内收到消息即配置成功。</li>
+          <li>点击 <code>保存设置</code> 生效。之后新建任务 @负责人、提交交付物、推送汇总都会同步到该群。</li>
+        </ol>
+        <strong>注意：</strong>本工具为纯前端应用，数据仍保存在浏览器本地；Webhook 仅用于消息推送，不会上传任务数据到服务器。
+      </div>
+      <div class="form-row">
+        <label>Webhook 地址</label>
+        <input type="text" id="cfgWebhookUrl" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/xxxx" value="${escapeAttr(webhookConfig.defaultWebhookUrl||'')}">
+      </div>
+      <div class="form-row">
+        <label>签名密钥 Secret（可选，勾选了加签时必填）</label>
+        <input type="text" id="cfgWebhookSecret" placeholder="留空表示未启用加签" value="${escapeAttr(webhookConfig.defaultWebhookSecret||'')}">
+      </div>
+      <div class="form-row">
+        <label>应用访问地址（用于飞书消息"查看详情"跳转）</label>
+        <input type="text" id="cfgAppBaseUrl" placeholder="留空则使用当前页面地址" value="${escapeAttr(webhookConfig.appBaseUrl||'')}">
+        <div class="hint">部署后填写你的 HTML 页面 URL，飞书消息点"查看详情"可跳回对应任务。</div>
+      </div>
+      <div class="inline-row">
+        <button class="btn" onclick="testFeishuWebhook()">🔌 测试发送</button>
+        <button class="btn" onclick="saveSettings(true)">💾 保存设置</button>
+        <div class="webhook-test-result" id="webhookTestResult"></div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h4><span class="num">2</span> 定时推送</h4>
+      <div class="form-row">
+        <label class="checkbox-row"><input type="checkbox" id="cfgDailyPush" ${webhookConfig.dailyPush?'checked':''}><span>每日定时推送部门汇总</span></label>
+        <div class="inline-row" style="margin-top:6px">
+          <label>推送时间</label>
+          <input type="time" id="cfgDailyPushTime" value="${escapeAttr(webhookConfig.dailyPushTime||'18:00')}">
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="checkbox-row"><input type="checkbox" id="cfgWeeklyPush" ${webhookConfig.weeklyPush?'checked':''}><span>每周定时推送周报</span></label>
+        <div class="inline-row" style="margin-top:6px">
+          <label>推送时间</label>
+          <input type="time" id="cfgWeeklyPushTime" value="${escapeAttr(webhookConfig.weeklyPushTime||'17:00')}">
+        </div>
+      </div>
+      <div class="hint">定时推送仅在页面打开时生效；关闭页面后不会在后台运行（纯前端限制）。</div>
+    </div>`;
+}
+function settingsMembersHtml(){
+  const meId = webhookConfig.currentUserId;
+  const rows = members.map(m => `
+    <div class="member-row">
+      ${avatarHtml(m,'lg')}
+      <div class="meta">
+        <div class="name">${escapeHtml(m.name)} ${m.id===meId?'<span class="role-badge me">当前</span>':''}</div>
+        <div class="sub">
+          <span class="role-badge ${m.role==='manager'?'mgr':''}">${m.role==='manager'?'经理':'成员'}</span>
+          ${m.dept?`<span>🏢 ${escapeHtml(m.dept)}</span>`:''}
+          ${m.func?`<span>🎯 ${escapeHtml(m.func)}</span>`:''}
+          <span>👤 上级：${m.managerId&&getMemberById(m.managerId)?escapeHtml(getMemberById(m.managerId).name):'无'}</span>
+        </div>
+      </div>
+      <button class="btn" style="font-size:12px;padding:4px 8px" onclick="setCurrentUser('${m.id}')">设为当前</button>
+      ${m.id!==meId?`<button class="rm-btn" onclick="removeMember('${m.id}')">×</button>`:''}
+    </div>`).join('');
+  const managerOptions = members.map(m=>`<option value="${escapeAttr(m.id)}">${escapeHtml(m.name)}</option>`).join('');
+  return `
+    <div class="settings-section">
+      <h4>成员列表（${members.length}）</h4>
+      <div class="desc">手动维护成员与经理映射关系。经理可查看"汇总看板"统计下属任务。</div>
+      <div class="member-list">${rows || '<div style="color:var(--muted);font-size:12px">暂无成员</div>'}</div>
+    </div>
+    <div class="settings-section">
+      <h4>添加成员</h4>
+      <div class="member-add">
+        <input type="text" id="newMemberName" placeholder="姓名">
+        <select id="newMemberRole"><option value="member">成员</option><option value="manager">经理</option></select>
+        <input type="text" id="newMemberDept" placeholder="部门（可选）">
+        <input type="text" id="newMemberFunc" placeholder="职能（可选）">
+      </div>
+      <div class="member-add" style="margin-top:6px">
+        <select id="newMemberManager"><option value="">直属经理（可选）</option>${managerOptions}</select>
+        <button class="btn btn-primary" onclick="addMember()" style="grid-column:span 3">➕ 添加成员</button>
+      </div>
+    </div>`;
+}
+function settingsGroupsHtml(){
+  const rows = groups.map(g => `
+    <div class="group-row">
+      <span style="font-size:18px">👥</span>
+      <div class="gname">${escapeHtml(g.name)}</div>
+      <div class="gcount">${g.memberIds.length} 人</div>
+      <button class="btn" style="font-size:12px;padding:4px 8px" onclick="editGroupMembers('${g.id}')">编辑成员</button>
+      <button class="rm-btn" onclick="removeGroup('${g.id}')">×</button>
+    </div>`).join('');
+  const memberChecks = members.map(m=>`<label class="checkbox-row" style="display:inline-flex;margin-right:12px"><input type="checkbox" value="${escapeAttr(m.id)}"><span>${escapeHtml(m.name)}</span></label>`).join('');
+  return `
+    <div class="settings-section">
+      <h4>群组列表（${groups.length}）</h4>
+      <div class="desc">群组用于快速 @群组 提及；可配置群组专属 Webhook。</div>
+      <div>${rows || '<div style="color:var(--muted);font-size:12px">暂无群组</div>'}</div>
+    </div>
+    <div class="settings-section">
+      <h4>添加群组</h4>
+      <div class="member-add">
+        <input type="text" id="newGroupName" placeholder="群组名称" style="grid-column:span 2">
+        <button class="btn btn-primary" onclick="addGroup()">➕ 添加</button>
+      </div>
+    </div>
+    <div class="settings-section" id="groupMemberEditSection" style="display:none">
+      <h4>群组成员编辑</h4>
+      <div id="groupMemberChecks">${memberChecks}</div>
+      <button class="btn btn-primary" onclick="saveGroupMembers()">💾 保存成员</button>
+    </div>`;
+}
+function settingsDataHtml(){
+  const used = getStorageUsed();
+  const pct = storageUsagePercent();
+  return `
+    <div class="settings-section">
+      <h4>存储使用</h4>
+      <div class="desc">数据保存在浏览器 localStorage（约5MB上限），附件以 Base64 存储，占用较大。</div>
+      <div class="storage-bar" style="font-size:13px">
+        <div class="bar" style="width:200px;height:8px"><div class="bar-fill ${pct>80?'danger':pct>60?'warn':''}" style="width:${pct}%"></div></div>
+        <span>${formatBytes(used)} / ${formatBytes(getStorageLimit())}（${pct}%）</span>
+      </div>
+      ${pct>80?'<div class="hint" style="color:var(--red);margin-top:8px">⚠️ 存储接近上限，请清理附件或导出备份</div>':''}
+    </div>
+    <div class="settings-section">
+      <h4>数据操作</h4>
+      <div class="inline-row" style="flex-wrap:wrap">
+        <button class="btn" onclick="exportData()">📤 导出备份</button>
+        <button class="btn" onclick="document.getElementById('importFile').click()">📥 导入备份</button>
+        <button class="btn" onclick="clearAllAttachments()">🧹 清理所有附件</button>
+      </div>
+      <div class="hint">清理附件会删除所有任务中的交付文件（保留任务与交付说明）。</div>
+    </div>
+    <div class="danger-zone">
+      <h5>⚠️ 危险操作</h5>
+      <p>重置数据会清空当前所有数据并恢复默认示例，此操作不可恢复。</p>
+      <button class="btn btn-danger" onclick="resetAllData()">🔄 重置全部数据</button>
+    </div>`;
+}
+function setCurrentUser(id){ webhookConfig.currentUserId = id; saveData(); renderAll(); renderSettingsTab(); showToast('✅ 已切换当前身份'); }
+function addMember(){
+  const name = document.getElementById('newMemberName').value.trim();
+  if(!name){ showToast('⚠️ 请输入姓名'); return; }
+  const role = document.getElementById('newMemberRole').value;
+  const dept = document.getElementById('newMemberDept').value.trim();
+  const func = document.getElementById('newMemberFunc').value.trim();
+  const managerId = document.getElementById('newMemberManager').value;
+  const m = {id:genMemberId(), name, role, dept, func, feishuOpenId:'', avatarColor: AVATAR_COLORS[members.length % AVATAR_COLORS.length], managerId: managerId||null};
+  members.push(m);
+  saveData(); renderAll(); renderSettingsTab();
+  showToast('✅ 已添加成员 '+name);
+}
+function removeMember(id){
+  const m = getMemberById(id);
+  members = members.filter(x=>x.id!==id);
+  todos.forEach(t=>{ t.assignees = (t.assignees||[]).filter(a=>a!==id); });
+  groups.forEach(g=>{ g.memberIds = g.memberIds.filter(x=>x!==id); });
+  saveData(); renderAll(); renderSettingsTab();
+  showToast(`🗑️ 已移除 ${m?m.name:''}`);
+}
+let _editingGroupId = null;
+function addGroup(){
+  const name = document.getElementById('newGroupName').value.trim();
+  if(!name){ showToast('⚠️ 请输入群组名称'); return; }
+  groups.push({id:genGroupId(), name, memberIds:[], webhookUrl:'', webhookSecret:''});
+  saveData(); renderAll(); renderSettingsTab();
+  showToast('✅ 已添加群组');
+}
+function removeGroup(id){
+  const g = getGroupById(id);
+  groups = groups.filter(x=>x.id!==id);
+  saveData(); renderAll(); renderSettingsTab();
+  showToast(`🗑️ 已移除 ${g?g.name:''}`);
+}
+function editGroupMembers(id){
+  _editingGroupId = id;
+  const g = getGroupById(id);
+  document.getElementById('groupMemberEditSection').style.display = '';
+  document.querySelectorAll('#groupMemberChecks input').forEach(cb => {
+    cb.checked = g.memberIds.includes(cb.value);
+  });
+}
+function saveGroupMembers(){
+  const g = getGroupById(_editingGroupId);
+  if(!g) return;
+  g.memberIds = Array.from(document.querySelectorAll('#groupMemberChecks input:checked')).map(cb=>cb.value);
+  saveData(); renderAll(); renderSettingsTab();
+  showToast('✅ 已保存群组成员');
+}
+function clearAllAttachments(){
+  if(!confirm('确认清理所有任务中的附件文件？任务与交付说明将保留。')) return;
+  todos.forEach(t=>{ t.attachments = []; });
+  saveData(); renderAll(); renderSettingsTab();
+  showToast('🧹 已清理所有附件');
+}
+function resetAllData(){
+  if(!confirm('确认重置全部数据？此操作不可恢复！')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  const d = defaultData();
+  todos=d.todos; members=d.members; groups=d.groups; webhookConfig=d.webhookConfig;
+  saveData(); closeSettingsModal(); renderAll();
+  showToast('🔄 已重置为默认数据');
+}
+function saveSettings(closeAfter){
+  const url = document.getElementById('cfgWebhookUrl');
+  const secret = document.getElementById('cfgWebhookSecret');
+  const appUrl = document.getElementById('cfgAppBaseUrl');
+  if(url) webhookConfig.defaultWebhookUrl = url.value.trim();
+  if(secret) webhookConfig.defaultWebhookSecret = secret.value.trim();
+  if(appUrl) webhookConfig.appBaseUrl = appUrl.value.trim();
+  const daily = document.getElementById('cfgDailyPush');
+  const dailyTime = document.getElementById('cfgDailyPushTime');
+  const weekly = document.getElementById('cfgWeeklyPush');
+  const weeklyTime = document.getElementById('cfgWeeklyPushTime');
+  if(daily) webhookConfig.dailyPush = daily.checked;
+  if(dailyTime) webhookConfig.dailyPushTime = dailyTime.value;
+  if(weekly) webhookConfig.weeklyPush = weekly.checked;
+  if(weeklyTime) webhookConfig.weeklyPushTime = weeklyTime.value;
+  saveData();
+  renderV4Chrome();
+  if(closeAfter) closeSettingsModal();
+  showToast('✅ 设置已保存');
+}
+async function testFeishuWebhook(){
+  const url = document.getElementById('cfgWebhookUrl').value.trim();
+  const secret = document.getElementById('cfgWebhookSecret').value.trim();
+  if(!url){ showToast('⚠️ 请先填写 Webhook 地址'); return; }
+  // 临时用当前输入值测试
+  const savedUrl = webhookConfig.defaultWebhookUrl, savedSecret = webhookConfig.defaultWebhookSecret;
+  webhookConfig.defaultWebhookUrl = url; webhookConfig.defaultWebhookSecret = secret;
+  const r = document.getElementById('webhookTestResult');
+  r.className = 'webhook-test-result';
+  r.textContent = '⏳ 发送中...';
+  r.style.display = 'block';
+  const ok = await sendFeishuWebhook({msg_type:'text', content:{text:'✅ 智能日历助手 Webhook 测试成功！'}});
+  webhookConfig.defaultWebhookUrl = savedUrl; webhookConfig.defaultWebhookSecret = savedSecret;
+  if(ok === false){ r.className='webhook-test-result err'; r.textContent='❌ 发送失败，请检查地址与网络'; return; }
+  r.className = 'webhook-test-result ok';
+  r.textContent = '✅ 已发送，请到飞书群查看是否收到消息';
+}
+
+// ============ 身份切换 ============
+function switchCurrentUser(){
+  if(members.length <= 1){ openSettingsModal('members'); showToast('请先添加成员'); return; }
+  const cur = webhookConfig.currentUserId;
+  const idx = members.findIndex(m=>m.id===cur);
+  const next = members[(idx+1) % members.length];
+  webhookConfig.currentUserId = next.id;
+  saveData(); renderAll();
+  showToast(`👤 已切换为 ${next.name}`);
+}
+
+// ============ 深链路由 ============
+function handleHashRoute(){
+  const h = location.hash;
+  if(h && h.startsWith('#todo=')){
+    const id = h.slice(6);
+    routeFromFeishu = true;
+    switchAppView('list');
+    focusTodo(id);
+    showToast('📍 已定位到飞书任务');
+  }
+}
+
+// ============ 定时推送 ============
+function initScheduleTimer(){
+  if(scheduleTimer) clearInterval(scheduleTimer);
+  scheduleTimer = setInterval(checkScheduledPush, 60000);
+}
+function checkScheduledPush(){
+  const now = new Date();
+  const today = todayStr();
+  const hm = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  if(webhookConfig.dailyPush && webhookConfig.dailyPushTime === hm && webhookConfig.lastDailyPushDate !== today){
+    webhookConfig.lastDailyPushDate = today;
+    saveData();
+    pushDashboardToFeishu();
+  }
+  if(webhookConfig.weeklyPush && webhookConfig.weeklyPushTime === hm && webhookConfig.lastWeeklyPushDate !== today){
+    webhookConfig.lastWeeklyPushDate = today;
+    saveData();
+    pushReportToFeishuSilent();
+  }
+}
+async function pushReportToFeishuSilent(){
+  const md = generateReport();
+  const sections = [md.replace(/^#+ /gm,'').slice(0, 3000) || '（无内容）'];
+  await sendFeishuWebhook(buildFeishuCard('📈 部门周报', sections, null));
+}
+
+// ============ 列表渲染辅助 ============
+function renderTodoAssignees(t){
+  const assignees = (t.assignees||[]).map(id=>getMemberById(id)).filter(Boolean);
+  if(!assignees.length) return '';
+  return `<div class="todo-assignees">${assignees.map(m=>avatarHtml(m,'sm')).join('')}</div>`;
+}
+function renderDetailAssignees(t){
+  const assignees = (t.assignees||[]).map(id=>getMemberById(id)).filter(Boolean);
+  if(!assignees.length) return '';
+  return `<div class="detail-row"><span class="detail-label">负责人</span><span class="detail-value">${assignees.map(m=>`${avatarHtml(m,'sm')} ${escapeHtml(m.name)}`).join('　')}</span></div>`;
+}
+function renderDetailDeliverables(t){
+  if(!t.deliverables && !(t.attachments&&t.attachments.length)) return '';
+  return `<div class="detail-row"><span class="detail-label">交付说明</span><span class="detail-value">${t.deliverables?escapeHtml(t.deliverables):'（已提交文件）'}</span></div>`;
+}
+function renderDetailAttachments(t){
+  const atts = t.attachments || [];
+  if(!atts.length) return '';
+  const imgs = atts.filter(a=>isImageByName(a.name) && a.data);
+  const files = atts.filter(a=>!(isImageByName(a.name) && a.data));
+  let html = `<div class="detail-row"><span class="detail-label">交付文件</span><span class="detail-value">`;
+  html += `<div class="detail-att-list">` + files.map(a=>{
+    const href = a.data || '#';
+    const onClick = a.data ? `onclick="downloadAttachment('${a.id}','${t.id}')"` : '';
+    return `<a class="detail-att-link" href="javascript:void(0)" ${onClick}><span class="att-icon">${getFileIcon(a.name)}</span><span class="att-name">${escapeHtml(a.name)}</span><span class="att-size">${formatBytes(a.size)}</span></a>`;
+  }).join('') + `</div>`;
+  if(imgs.length){
+    html += `<div class="detail-att-thumbs">` + imgs.map(a=>`<div class="thumb" onclick="previewTodoImg('${t.id}','${a.id}')"><img src="${a.data}" alt="${escapeAttr(a.name)}"></div>`).join('') + `</div>`;
+  }
+  html += `</span></div>`;
+  return html;
+}
+function renderAttPreview(t){
+  const atts = t.attachments || [];
+  if(!atts.length) return '';
+  return `<span class="att-preview">${atts.slice(0,3).map(a=>`<span class="att-icon">${getFileIcon(a.name)}</span>`).join('')}${atts.length>3?'…':''} ${atts.length}个文件</span>`;
+}
+function downloadAttachment(attId, todoId){
+  const t = todos.find(x=>x.id===todoId);
+  if(!t) return;
+  const a = (t.attachments||[]).find(x=>x.id===attId);
+  if(!a || !a.data) return;
+  const aEl = document.createElement('a');
+  aEl.href = a.data; aEl.download = a.name;
+  document.body.appendChild(aEl); aEl.click(); document.body.removeChild(aEl);
+}
+function previewTodoImg(todoId, attId){
+  const t = todos.find(x=>x.id===todoId);
+  if(!t) return;
+  const a = (t.attachments||[]).find(x=>x.id===attId);
+  if(!a || !a.data) return;
+  document.getElementById('imgPreviewImg').src = a.data;
+  document.getElementById('imgPreviewName').textContent = a.name;
+  document.getElementById('imgPreviewOverlay').classList.add('show');
+}
+
+// ============ v4 界面渲染（横幅/身份/筛选/存储/计数） ============
+function renderV4Chrome(){
+  // 飞书横幅
+  const banner = document.getElementById('feishuBanner');
+  const configured = feishuConfigured();
+  banner.style.display = 'block';
+  document.getElementById('feishuDot').className = 'dot' + (configured?'':' disconnected');
+  document.getElementById('feishuBannerText').innerHTML = configured
+    ? `<strong>飞书 Webhook 已连接</strong> · @提及、交付通知、汇总推送可用`
+    : `<strong>飞书 Webhook 未配置</strong> · @提及、日程推送、定时汇总暂不可用`;
+  // 身份
+  const me = getCurrentUser();
+  if(me){
+    document.getElementById('topbarAvatar').textContent = me.name.charAt(0);
+    document.getElementById('topbarAvatar').style.background = memberColor(me);
+    document.getElementById('topbarUserName').textContent = me.name;
+    document.getElementById('topbarUserChip').title = `当前身份：${me.name}（${me.role==='manager'?'经理':'成员'}），点击切换`;
+  }
+  // 视图切换栏与筛选条
+  document.getElementById('viewSwitcher').style.display = 'flex';
+  document.getElementById('filterBar').style.display = 'flex';
+  // 计数
+  document.getElementById('countList').textContent = todos.length;
+  document.getElementById('countDash').textContent = getDashboardTodos().length;
+  // 筛选下拉
+  renderAssigneeFilter();
+  renderGroupFilter();
+  renderFuncFilter();
+  renderStorageBar();
+  // 通知铃铛
+  const overdue = todos.filter(t=>!t.done && getTodoStatus(t)==='overdue').length;
+  document.getElementById('bellWrap').style.display = overdue>0 ? '' : 'none';
+}
+
 // ============ 启动 ============
 loadData();
 renderAll();
+initScheduleTimer();
+handleHashRoute();
+window.addEventListener('hashchange', handleHashRoute);
 </script>
 </body>
 </html>
