@@ -952,13 +952,13 @@ input,textarea,select{font-family:inherit;font-size:14px}
     <button class="quick-tag" data-filter="duesoon" onclick="setListFilter('duesoon')">即将到期</button>
     <button class="quick-tag" data-filter="done" onclick="setListFilter('done')">已完成</button>
     <button class="quick-tag" data-filter="deliverable" onclick="setListFilter('deliverable')">需交付</button>
-    <select class="quick-tag" id="filterAssignee" onchange="renderTodos()" style="appearance:none;padding-right:20px">
+    <select class="quick-tag" id="filterAssignee" onchange="onV4FilterChange()" style="appearance:none;padding-right:20px">
       <option value="">👤 全部成员</option>
     </select>
-    <select class="quick-tag" id="filterGroup" onchange="renderTodos()" style="appearance:none;padding-right:20px">
+    <select class="quick-tag" id="filterGroup" onchange="onV4FilterChange()" style="appearance:none;padding-right:20px">
       <option value="">👥 全部分组</option>
     </select>
-    <select class="quick-tag" id="filterFunc" onchange="renderTodos()" style="appearance:none;padding-right:20px">
+    <select class="quick-tag" id="filterFunc" onchange="onV4FilterChange()" style="appearance:none;padding-right:20px">
       <option value="">🎯 全部职能</option>
     </select>
     <div class="filter-spacer"></div>
@@ -1025,7 +1025,7 @@ input,textarea,select{font-family:inherit;font-size:14px}
         </div>
       </div>
       <div style="padding:0 20px">
-        <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索待办标题或描述..." oninput="renderTodos()">
+        <input type="text" class="search-box" id="searchInput" placeholder="🔍 搜索待办标题或描述..." oninput="onV4FilterChange()">
         <div class="filters" id="filters"></div>
       </div>
       <div class="date-range-bar" id="dateRangeBar"></div>
@@ -2223,17 +2223,21 @@ function jumpToDate(dateStr){
   if(!dateStr) return;
   const d = parseDate(dateStr);
   if(!d) return;
+  if(currentAppView !== 'list') switchAppView('list');
   currentDate = new Date(d.getFullYear(), d.getMonth(), 1);
   weekRefDate = new Date(d);
   selectedDate = dateStr;
   highlightedTodoId = null;
   expandedTodoId = null;
   renderCalendar();
+  renderStats();
+  renderFilters();
   renderTodos();
   showToast(`📅 已跳转至 ${dateStr}`);
 }
 
 function selectDate(dateStr){
+  if(currentAppView !== 'list') switchAppView('list');
   if(selectedDate === dateStr){
     selectedDate = null;
   } else {
@@ -2242,6 +2246,15 @@ function selectDate(dateStr){
     expandedTodoId = null;
   }
   renderCalendar();
+  renderStats();
+  renderFilters();
+  renderTodos();
+}
+
+function onV4FilterChange(){
+  if(currentAppView !== 'list') switchAppView('list');
+  renderStats();
+  renderFilters();
   renderTodos();
 }
 
@@ -2686,8 +2699,13 @@ function renderFilters(){
 function setFilter(key){
   if(currentAppView !== 'list') switchAppView('list');
   currentFilter = key;
+  currentListFilter = 'all';
   highlightedTodoId = null;
   expandedTodoId = null;
+  document.querySelectorAll('.quick-tag[data-filter]').forEach(b => b.classList.toggle('active', b.dataset.filter==='all'));
+  if(key === 'green'){
+    currentDateRange = 'all';
+  }
   renderStats();
   renderFilters();
   renderTodos();
@@ -2705,9 +2723,18 @@ function setDateRange(key){
 // ============ 待办列表 ============
 function todoInRangeFilter(t, rangeKey){
   const today = todayStr();
-  if(t.done) return false;
-  const r = getTodoDateRange(t);
   if(rangeKey === 'all') return true;
+  if(t.done){
+    const doneDate = t.completedAt ? t.completedAt.slice(0,10) : null;
+    if(!doneDate) return true;
+    if(rangeKey === 'today') return doneDate === today;
+    const wk = getWeekRange();
+    const mo = getMonthRange();
+    if(rangeKey === 'week') return doneDate >= wk.start && doneDate <= wk.end;
+    if(rangeKey === 'month') return doneDate >= mo.start && doneDate <= mo.end;
+    return true;
+  }
+  const r = getTodoDateRange(t);
   if(rangeKey === 'today'){
     return t.scope === 'day' ? t.date === today :
            t.scope === 'week' ? isTodoVisibleOnDate(t, today) : false;
@@ -4012,12 +4039,20 @@ function switchAppView(view){
   document.getElementById('listViewContainer').style.display = view==='list' ? '' : 'none';
   document.getElementById('dashboardView').classList.toggle('show', view==='dashboard');
   if(view==='dashboard') renderDashboard();
-  else renderTodos();
+  else {
+    renderCalendar();
+    renderStats();
+    renderFilters();
+    renderTodos();
+  }
 }
 function setListFilter(f){
   if(currentAppView !== 'list') switchAppView('list');
   currentListFilter = f;
+  if(f !== 'overdue') currentFilter = 'all';
   document.querySelectorAll('.quick-tag[data-filter]').forEach(b => b.classList.toggle('active', b.dataset.filter===f));
+  renderStats();
+  renderFilters();
   renderTodos();
 }
 
