@@ -901,7 +901,7 @@ input,textarea,select{font-family:inherit;font-size:14px}
       <span class="logo">📅</span>
       <div>
         <h1>智能日历助手</h1>
-        <div class="topbar-sub">任务管理台 · 数据本地保存 · 双击打开即用</div>
+        <div class="topbar-sub">任务管理台 <span class="ver-chip">v4.0 协作汇总版</span> · 数据本地保存 · 双击打开即用</div>
       </div>
     </div>
     <div class="topbar-actions">
@@ -909,18 +909,65 @@ input,textarea,select{font-family:inherit;font-size:14px}
         <button id="btnMonthView" class="active" onclick="switchView('month')">📅 月视图</button>
         <button id="btnWeekView" onclick="switchView('week')">📊 周视图</button>
       </div>
+      <button class="btn" id="btnDashboardView" onclick="switchView('dashboard')" title="经理汇总看板">📈 <span>汇总</span></button>
       <button class="btn" onclick="openHistory()">🕐 <span>历史查询</span></button>
       <button class="btn" onclick="exportData()">📤 <span>导出</span></button>
       <button class="btn" onclick="document.getElementById('importFile').click()">📥 <span>导入</span></button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
       <button class="btn" onclick="openMinutesModal()">📝 <span>纪要转待办</span></button>
+      <button class="btn" onclick="openSettingsModal()" title="设置">⚙️</button>
+      <div class="bell-wrap" id="bellWrap" style="display:none" onclick="showToast('暂无新通知')">
+        <button class="btn" title="通知">🔔</button>
+        <span class="dot"></span>
+      </div>
+      <div class="topbar-user-chip" id="topbarUserChip" onclick="switchCurrentUser()" title="切换当前身份">
+        <span class="avatar lg" id="topbarAvatar" style="background:var(--primary)">我</span>
+        <span class="name" id="topbarUserName">我</span>
+      </div>
       <button class="btn btn-primary" onclick="openModal()">➕ <span>新建</span></button>
     </div>
   </header>
 
+  <!-- 飞书连接状态横幅 -->
+  <div class="feishu-banner" id="feishuBanner" style="display:none">
+    <span class="dot" id="feishuDot"></span>
+    <span id="feishuBannerText"><strong>飞书 Webhook 未配置</strong> · @提及、日程推送、定时汇总暂不可用</span>
+    <a onclick="openSettingsModal('feishu')">立即配置 →</a>
+  </div>
+
   <div class="stats" id="statsPanel"></div>
 
-  <div class="main">
+  <!-- 视图切换栏（列表/仪表盘） -->
+  <div class="view-switcher" id="viewSwitcher" style="display:none">
+    <button class="view-tab active" id="tabListView" onclick="switchAppView('list')">📋 <span>任务列表</span><span class="count" id="countList">0</span></button>
+    <button class="view-tab" id="tabDashboardView" onclick="switchAppView('dashboard')">📈 <span>经理汇总</span><span class="count" id="countDash">0</span></button>
+  </div>
+
+  <!-- 筛选条（列表视图） -->
+  <div class="filter-bar" id="filterBar" style="display:none">
+    <button class="quick-tag active" data-filter="all" onclick="setListFilter('all')">全部</button>
+    <button class="quick-tag" data-filter="mine" onclick="setListFilter('mine')">我的</button>
+    <button class="quick-tag" data-filter="inprogress" onclick="setListFilter('inprogress')">进行中</button>
+    <button class="quick-tag" data-filter="overdue" onclick="setListFilter('overdue')">逾期</button>
+    <button class="quick-tag" data-filter="duesoon" onclick="setListFilter('duesoon')">即将到期</button>
+    <button class="quick-tag" data-filter="done" onclick="setListFilter('done')">已完成</button>
+    <button class="quick-tag" data-filter="deliverable" onclick="setListFilter('deliverable')">需交付</button>
+    <select class="quick-tag" id="filterAssignee" onchange="renderTodos()" style="appearance:none;padding-right:20px">
+      <option value="">👤 全部成员</option>
+    </select>
+    <select class="quick-tag" id="filterGroup" onchange="renderTodos()" style="appearance:none;padding-right:20px">
+      <option value="">👥 全部分组</option>
+    </select>
+    <div class="filter-spacer"></div>
+    <div class="storage-bar">
+      <span>💾</span>
+      <div class="bar"><div class="bar-fill" id="storageBarFill"></div></div>
+      <span id="storageText">0%</span>
+    </div>
+  </div>
+
+  <!-- 列表视图（原日历+待办） -->
+  <div class="main" id="listViewContainer">
     <aside class="calendar-panel">
       <div id="monthViewSection">
         <div class="cal-header">
@@ -983,6 +1030,77 @@ input,textarea,select{font-family:inherit;font-size:14px}
     </section>
   </div>
 
+  <!-- 经理汇总仪表盘 -->
+  <div class="dashboard-view" id="dashboardView">
+    <div class="dash-header">
+      <div>
+        <h2>📈 部门任务汇总</h2>
+        <div class="dash-subtitle" id="dashSubtitle">本周期任务执行概览</div>
+      </div>
+      <div class="dash-controls">
+        <div class="seg" id="dashPeriodSeg">
+          <button class="active" data-p="week" onclick="setDashPeriod('week')">本周</button>
+          <button data-p="month" onclick="setDashPeriod('month')">本月</button>
+          <button data-p="quarter" onclick="setDashPeriod('quarter')">本季</button>
+          <button data-p="all" onclick="setDashPeriod('all')">全部</button>
+        </div>
+        <div class="seg" id="dashDimSeg">
+          <button class="active" data-d="member" onclick="setDashDim('member')">按人</button>
+          <button data-d="group" onclick="setDashDim('group')">按组</button>
+          <button data-d="category" onclick="setDashDim('category')">按类</button>
+        </div>
+        <button class="btn" onclick="openReportModal()">📄 生成报告</button>
+        <button class="btn" onclick="pushDashboardToFeishu()" title="推送到飞书">📤 推送飞书</button>
+      </div>
+    </div>
+
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <h4>📊 完成分布 <span class="hint" id="hbarHint">按人</span></h4>
+        <div class="hbar-chart" id="hbarChart"></div>
+      </div>
+      <div class="chart-card">
+        <h4>🥧 职能分布</h4>
+        <div class="pie-wrap">
+          <canvas id="pieCanvas" width="160" height="160"></canvas>
+          <div class="pie-legend" id="pieLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlights">
+      <div class="hl-card">
+        <h4>⚠️ 重点关注（逾期/临期）</h4>
+        <ul id="hlOverdue"></ul>
+      </div>
+      <div class="hl-card">
+        <h4>🎉 近期已交付</h4>
+        <ul id="hlRecentDone"></ul>
+      </div>
+    </div>
+
+    <div class="timeline-card">
+      <h4>📅 交付时间线</h4>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <div class="dash-table">
+      <h4>📋 任务明细表</h4>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>任务</th><th>负责人</th><th>截止日期</th><th>状态</th><th>分类</th><th>交付物</th>
+            </tr>
+          </thead>
+          <tbody id="dashTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <footer class="bottom-legend">
     <span><i style="background:var(--red)"></i>紧急</span>
     <span><i style="background:var(--yellow)"></i>次要</span>
@@ -1005,8 +1123,31 @@ input,textarea,select{font-family:inherit;font-size:14px}
         <div class="error-msg" id="titleError">请输入标题</div>
       </div>
       <div class="form-group">
-        <label>描述</label>
-        <textarea class="form-textarea" id="todoDesc" placeholder="补充说明..."></textarea>
+        <label>描述 <span style="font-weight:400;color:var(--muted);font-size:11px">（输入 <kbd style="background:var(--bg);padding:0 4px;border-radius:3px;border:1px solid var(--border);font-family:inherit">@</kbd> 可提及成员）</span></label>
+        <div class="desc-area">
+          <textarea class="form-textarea" id="todoDesc" placeholder="补充说明...输入 @ 可提及成员/群组/所有人" oninput="handleDescInput()" onkeydown="handleDescKeydown(event)" onclick="handleDescClick()"></textarea>
+          <div class="mention-dropdown" id="mentionDropdown" style="display:none"></div>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label>负责人</label>
+        <div class="assignee-picker">
+          <div class="assignee-picker-trigger" id="assigneeTrigger" onclick="document.getElementById('assigneeSearch').focus()">
+            <div id="assigneeChips"></div>
+            <input type="text" id="assigneeSearch" placeholder="添加负责人..." oninput="filterAssigneePicker()" onfocus="showAssigneePicker()" onkeydown="assigneeKeydown(event)">
+            <div class="picker-dropdown" id="assigneeDropdown"></div>
+          </div>
+        </div>
+      </div>
+      <div class="editor-row">
+        <label class="checkbox-row">
+          <input type="checkbox" id="todoNotifyFeishu" checked>
+          <span>🔔 保存后通过飞书通知负责人</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="todoRequireDeliverable">
+          <span>📎 此任务需要提交交付物</span>
+        </label>
       </div>
       <div class="form-group">
         <label>任务范围</label>
@@ -1288,6 +1429,104 @@ input,textarea,select{font-family:inherit;font-size:14px}
       <button class="btn" onclick="closePostpone()">取消</button>
       <button class="btn btn-primary" onclick="confirmPostpone()">确认延期</button>
     </div>
+  </div>
+</div>
+
+<!-- ========== v4.0 新增弹窗 ========== -->
+
+<!-- 设置面板 -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal settings-modal">
+    <div class="modal-header">
+      <h3>⚙️ 设置</h3>
+      <button class="modal-close" onclick="closeSettingsModal()">×</button>
+    </div>
+    <div class="modal-body settings-body">
+      <div class="settings-tabs" id="settingsTabs">
+        <button class="settings-tab active" data-tab="feishu" onclick="switchSettingsTab('feishu')">🤖 飞书集成</button>
+        <button class="settings-tab" data-tab="members" onclick="switchSettingsTab('members')">👥 成员管理</button>
+        <button class="settings-tab" data-tab="groups" onclick="switchSettingsTab('groups')">🏷️ 群组管理</button>
+        <button class="settings-tab" data-tab="data" onclick="switchSettingsTab('data')">💾 数据管理</button>
+      </div>
+      <div class="settings-panel" id="settingsPanel"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeSettingsModal()">关闭</button>
+      <button class="btn btn-primary" onclick="saveSettings()">💾 保存设置</button>
+    </div>
+  </div>
+</div>
+
+<!-- 交付物提交弹窗 -->
+<div class="modal-overlay" id="deliverModal">
+  <div class="modal deliver-modal">
+    <div class="modal-header">
+      <h3>📎 提交交付物</h3>
+      <button class="modal-close" onclick="closeDeliverModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:13px;margin-bottom:12px">
+        <div style="color:var(--muted);font-size:12px">任务</div>
+        <div id="deliverTodoTitle" style="font-weight:600;margin-top:2px"></div>
+      </div>
+      <div class="editor-field">
+        <label>交付说明</label>
+        <textarea id="deliverNote" placeholder="简要描述交付内容、成果要点..."></textarea>
+      </div>
+      <div class="editor-field">
+        <label>交付文件（图片/PDF/Word/Excel/PPT/Markdown/txt，单文件≤5MB，总计≤20MB）</label>
+        <div class="dropzone" id="deliverDropzone" onclick="document.getElementById('deliverFileInput').click()"
+          ondragover="event.preventDefault();this.classList.add('dragover')"
+          ondragleave="this.classList.remove('dragover')"
+          ondrop="handleDeliverDrop(event)">
+          <div class="icon">📁</div>
+          <div>点击选择 或 拖拽文件到此处</div>
+          <div style="font-size:11px;margin-top:4px;opacity:.8">支持 png/jpg/gif/webp/pdf/doc/docx/xls/xlsx/ppt/pptx/md/txt</div>
+        </div>
+        <input type="file" id="deliverFileInput" multiple style="display:none" onchange="handleDeliverFiles(this.files)">
+        <div class="att-list" id="deliverAttList"></div>
+        <div class="att-thumbs" id="deliverAttThumbs"></div>
+        <div id="deliverSizeHint" style="font-size:11px;color:var(--muted);margin-top:6px"></div>
+      </div>
+      <label class="checkbox-row">
+        <input type="checkbox" id="deliverNotify" checked>
+        <span>🔔 提交后通知经理（飞书）</span>
+      </label>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeDeliverModal()">取消</button>
+      <button class="btn btn-primary" onclick="submitDeliverable()">✅ 提交交付物</button>
+    </div>
+  </div>
+</div>
+
+<!-- 汇总报告弹窗 -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal report-modal">
+    <div class="modal-header">
+      <h3>📄 汇总报告</h3>
+      <button class="modal-close" onclick="closeReportModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="report-actions">
+        <button class="btn" onclick="copyReport()">📋 复制 Markdown</button>
+        <button class="btn" onclick="downloadReport()">💾 下载 .md</button>
+        <button class="btn" onclick="printReport()">🖨️ 打印</button>
+        <button class="btn btn-primary" onclick="pushReportToFeishu()">📤 推送到飞书</button>
+        <div class="report-status" id="reportStatus"></div>
+      </div>
+      <div class="report-meta" id="reportMeta"></div>
+      <pre class="report-body" id="reportBody"></pre>
+    </div>
+  </div>
+</div>
+
+<!-- 图片预览弹窗 -->
+<div class="img-preview-overlay" id="imgPreviewOverlay" onclick="closeImgPreview(event)">
+  <div class="img-preview-wrap">
+    <button class="img-preview-close" onclick="closeImgPreview()">×</button>
+    <img id="imgPreviewImg" src="" alt="">
+    <div class="img-preview-name" id="imgPreviewName"></div>
   </div>
 </div>
 
