@@ -136,7 +136,7 @@ input,textarea,select{font-family:inherit;font-size:14px}
   font-size:10px;color:var(--muted);padding:0 4px;
 }
 .cal-day:not(.other-month) .cal-day-todo-item{color:#fff}
-.cal-day.today .cal-day-todo-item{background:rgba(255,255,255,.25)!important}
+.cal-day.today .cal-day-todo-item{box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
 .cal-day.today .cal-day-more{color:rgba(255,255,255,.8)}
 
 /* 拖拽目标高亮 */
@@ -476,6 +476,67 @@ input,textarea,select{font-family:inherit;font-size:14px}
 .quick-date-btn:hover{border-color:var(--primary);color:var(--text)}
 .quick-date-btn.active{background:rgba(74,158,255,.12);border-color:var(--primary);color:var(--primary)}
 
+/* ============ 作用域选择按钮 ============ */
+.scope-btns{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.scope-btn{
+  flex:1;min-width:80px;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:500;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.scope-btn:hover{border-color:var(--primary);color:var(--text)}
+.scope-btn.active{background:rgba(74,158,255,.12);border-color:var(--primary);color:var(--primary)}
+.scope-btn .scope-icon{font-size:16px;display:block;margin-bottom:2px}
+.scope-btn .scope-hint{font-size:10px;opacity:.75;margin-top:2px;display:block;font-weight:400}
+
+/* 作用域标签（在待办项 meta 中显示） */
+.scope-badge{
+  display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:4px;
+  font-size:11px;font-weight:500;
+}
+.scope-badge.scope-day{background:rgba(74,158,255,.12);color:var(--blue)}
+.scope-badge.scope-week{background:rgba(255,159,10,.12);color:var(--yellow)}
+.scope-badge.scope-month{background:rgba(166,106,232,.12);color:#a66ae8}
+.scope-badge.overdue-badge{background:rgba(255,71,87,.12);color:var(--red)}
+
+/* ============ 周度任务汇总栏 ============ */
+.week-summary-row{
+  grid-column:1/-1;padding:8px 10px;border-radius:8px;
+  background:linear-gradient(90deg,rgba(166,106,232,.08),rgba(74,158,255,.06));
+  border:1px dashed rgba(166,106,232,.35);margin:2px 0;
+}
+.week-summary-row.ws-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 10px;background:rgba(166,106,232,.1);border-style:solid;
+}
+.week-summary-row .ws-title{font-size:11px;font-weight:600;color:#a66ae8}
+.week-summary-row .ws-tasks{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.week-summary-row .ws-pill{
+  display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;
+  font-size:11px;background:var(--card);border:1px solid var(--border);cursor:pointer;
+  transition:all .15s;max-width:200px;
+}
+.week-summary-row .ws-pill:hover{border-color:var(--primary)}
+.week-summary-row .ws-pill .p-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.week-summary-row .ws-pill .p-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.week-summary-row .ws-empty{font-size:11px;color:var(--muted)}
+
+/* 周视图中的月度任务汇总块 */
+.week-month-summary{
+  margin-top:8px;padding:10px 12px;border-radius:8px;
+  background:linear-gradient(90deg,rgba(166,106,232,.08),rgba(74,158,255,.06));
+  border:1px dashed rgba(166,106,232,.35);
+}
+.week-month-summary .wms-title{font-size:12px;font-weight:600;color:#a66ae8;margin-bottom:6px}
+.week-month-summary .wms-tasks{display:flex;gap:6px;flex-wrap:wrap}
+.week-month-summary .wms-pill{
+  display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;
+  font-size:12px;background:var(--card);border:1px solid var(--border);cursor:pointer;
+  transition:all .15s;
+}
+.week-month-summary .wms-pill:hover{border-color:var(--primary)}
+.week-month-summary .wms-pill .p-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.week-month-summary .wms-empty{font-size:12px;color:var(--muted)}
+
 /* ============ 纪要转待办弹窗 ============ */
 .minutes-modal{max-width:640px}
 .minutes-textarea{width:100%;min-height:200px;padding:12px;border-radius:var(--radius);
@@ -645,6 +706,23 @@ input,textarea,select{font-family:inherit;font-size:14px}
         <textarea class="form-textarea" id="todoDesc" placeholder="补充说明..."></textarea>
       </div>
       <div class="form-group">
+        <label>任务范围</label>
+        <div class="scope-btns" id="scopeBtns">
+          <button type="button" class="scope-btn active" data-scope="day" onclick="selectScope('day')">
+            <span class="scope-icon">📅</span>指定日期
+            <span class="scope-hint">单日待办</span>
+          </button>
+          <button type="button" class="scope-btn" data-scope="week" onclick="selectScope('week')">
+            <span class="scope-icon">📆</span>本周任务
+            <span class="scope-hint">自动升级</span>
+          </button>
+          <button type="button" class="scope-btn" data-scope="month" onclick="selectScope('month')">
+            <span class="scope-icon">🗓️</span>本月任务
+            <span class="scope-hint">按周汇总</span>
+          </button>
+        </div>
+      </div>
+      <div class="form-group" id="dateFieldGroup">
         <label>截止日期</label>
         <input type="date" class="form-input" id="todoDate">
         <div class="quick-date-btns">
@@ -652,6 +730,10 @@ input,textarea,select{font-family:inherit;font-size:14px}
           <button type="button" class="quick-date-btn" onclick="setQuickDate(1)">明天</button>
           <button type="button" class="quick-date-btn" onclick="setQuickDate(7)">下周</button>
         </div>
+      </div>
+      <div class="form-group" id="scopeHintGroup" style="display:none">
+        <label>&nbsp;</label>
+        <div class="minutes-tips" id="scopeHintText"></div>
       </div>
       <div class="form-group">
         <label>分类</label>
@@ -867,10 +949,10 @@ input,textarea,select{font-family:inherit;font-size:14px}
   <div class="context-menu-item" onclick="todoCtxEdit()">
     <span>✏️</span><span>编辑</span>
   </div>
-  <div class="context-menu-item" onclick="postponeNextDay()">
+  <div class="context-menu-item" id="ctxPostponeNextDay" onclick="postponeNextDay()">
     <span>⏭️</span><span>延期到下一天</span>
   </div>
-  <div class="context-menu-item" onclick="postponeToDate()">
+  <div class="context-menu-item" id="ctxPostponeToDate" onclick="postponeToDate()">
     <span>📅</span><span>延期到指定日期</span>
   </div>
   <div class="context-menu-item" onclick="todoCtxDelete()" style="color:var(--red)">
@@ -914,7 +996,6 @@ input,textarea,select{font-family:inherit;font-size:14px}
 
 const STORAGE_KEY = 'magong_todo_calendar';
 const PRIORITY = {red:'紧急',yellow:'次要',blue:'正常',green:'已完成'};
-const PRIORITY_COLOR = {red:'#ff4757',yellow:'#ffa502',blue:'#4a9eff',green:'#2ed573'};
 const PRIORITY_ORDER = {red:0,yellow:1,blue:2,green:3};
 const WEEK_NAMES = ['周日','周一','周二','周三','周四','周五','周六'];
 
@@ -928,12 +1009,13 @@ let currentDateRange = 'all';
 let searchKeyword = '';
 let editingId = null;
 let selectedPriority = 'blue';
+let selectedScope = 'day';
 let pendingImportData = null;
 let importMode = 'merge';
 let pendingDeleteId = null;
 let currentView = 'month';
-let highlightedTodoId = null;   // 高亮的待办ID
-let expandedTodoId = null;       // 展开详情的待办ID
+let highlightedTodoId = null;
+let expandedTodoId = null;
 
 // 拖拽状态
 let dragState = null; // { todoId, fromDate, ghostEl }
@@ -1004,21 +1086,148 @@ function escapeHtml(str){
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+const PRIORITY_RANK = {blue:0, yellow:1, red:2};
+const PRIORITY_COLOR = {blue:'var(--blue)', yellow:'var(--yellow)', red:'var(--red)', green:'var(--green)'};
+const PRIORITY_HEX = {red:'#ff4757',yellow:'#ffa502',blue:'#4a9eff',green:'#2ed573'};
+const SCOPE_LABEL = {day:'单日', week:'本周', month:'本月'};
+
+function parseDate(dateStr){
+  if(!dateStr) return null;
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const dt = new Date(y, m-1, d);
+  dt.setHours(0,0,0,0);
+  return dt;
+}
+
+function addDaysTo(date, days){
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function getWeekFriday(date){
+  const d = getWeekStart(date);
+  d.setDate(d.getDate() + 4);
+  return d;
+}
+
+function getWeekIndexInMonth(date){
+  const d = new Date(date); d.setHours(0,0,0,0);
+  const first = new Date(d.getFullYear(), d.getMonth(), 1);
+  const wsFirst = getWeekStart(first);
+  const wsTarget = getWeekStart(d);
+  const diffDays = Math.floor((wsTarget - wsFirst) / 86400000);
+  return Math.max(1, Math.floor(diffDays / 7) + 1);
+}
+
+function getMonthEnd(date){
+  const d = new Date(date.getFullYear(), date.getMonth()+1, 0);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function getTodoCreatedDate(todo){
+  if(todo.created){
+    const d = new Date(todo.created);
+    d.setHours(0,0,0,0);
+    return d;
+  }
+  return parseDate(todo.date) || new Date();
+}
+
+function getEffectiveState(todo, refDate){
+  const today = refDate ? new Date(refDate) : new Date();
+  today.setHours(0,0,0,0);
+  const basePri = todo.priority === 'green' ? 'blue' : (todo.priority || 'blue');
+  if(todo.done) return {priority:todo.priority || 'blue', isOverdue:false, stage:'done'};
+
+  if(todo.scope === 'week'){
+    const created = getTodoCreatedDate(todo);
+    const fri = getWeekFriday(created);
+    if(today > fri){
+      return {priority:'red', isOverdue:true, stage:'overdue', deadline:fmtDate(fri)};
+    }
+    const daysToFri = Math.floor((fri - today)/86400000);
+    let auto = 'blue';
+    if(daysToFri <= 0) auto = 'red';
+    else if(daysToFri <= 2) auto = 'yellow';
+    const effective = PRIORITY_RANK[basePri] > PRIORITY_RANK[auto] ? basePri : auto;
+    return {priority:effective, isOverdue:false, stage:auto, deadline:fmtDate(fri), daysLeft:daysToFri};
+  }
+
+  if(todo.scope === 'month'){
+    const created = getTodoCreatedDate(todo);
+    const monthEnd = getMonthEnd(created);
+    if(today.getFullYear() > monthEnd.getFullYear() ||
+       (today.getFullYear() === monthEnd.getFullYear() && today.getMonth() > monthEnd.getMonth()) ||
+       (today.getFullYear() === monthEnd.getFullYear() && today.getMonth() === monthEnd.getMonth() && today.getDate() > monthEnd.getDate())){
+      return {priority:'red', isOverdue:true, stage:'overdue'};
+    }
+    const weekIdx = getWeekIndexInMonth(today);
+    let auto = 'blue';
+    if(weekIdx >= 3) auto = 'red';
+    else if(weekIdx === 2) auto = 'yellow';
+    const effective = PRIORITY_RANK[basePri] > PRIORITY_RANK[auto] ? basePri : auto;
+    return {priority:effective, isOverdue:false, stage:auto, weekIdx};
+  }
+
+  const due = parseDate(todo.date);
+  if(due && today > due){
+    return {priority:'red', isOverdue:true, stage:'overdue'};
+  }
+  return {priority:basePri, isOverdue:false, stage:'normal'};
+}
+
+function isTodoVisibleOnDate(todo, dateStr){
+  if(todo.done) return false;
+  if(todo.scope === 'month') return false;
+  if(todo.scope === 'week'){
+    const created = getTodoCreatedDate(todo);
+    const fri = getWeekFriday(created);
+    const d = parseDate(dateStr);
+    return d >= getWeekStart(created) && d <= fri && d >= created;
+  }
+  return todo.date === dateStr;
+}
+
+function getTodoDateRange(todo){
+  if(todo.scope === 'week'){
+    const created = getTodoCreatedDate(todo);
+    return {start:fmtDate(getWeekStart(created)), end:fmtDate(getWeekFriday(created))};
+  }
+  if(todo.scope === 'month'){
+    const created = getTodoCreatedDate(todo);
+    return {start:fmtDate(new Date(created.getFullYear(), created.getMonth(), 1)),
+            end:fmtDate(getMonthEnd(created))};
+  }
+  return {start:todo.date, end:todo.date};
+}
+
 // ============ 数据层 ============
 function loadData(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw){
       todos = JSON.parse(raw);
+      let migrated = false;
+      todos.forEach(t=>{
+        if(!t.scope){ t.scope = 'day'; migrated = true; }
+        if(!t.created && t.date){
+          const d = parseDate(t.date);
+          t.created = d ? d.getTime() : Date.now();
+          migrated = true;
+        }
+      });
+      if(migrated) saveData();
     } else {
       const today = new Date();
       const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
       const day5 = new Date(today); day5.setDate(today.getDate()+5);
       todos = [
-        {id:genId(), title:'天加商空芯片项目 - 供应商询价推进', desc:'跟京西确认20-26P范围BOM物料报价，推进供应商询价', date:fmtDate(today), priority:'red', category:'项目', done:false, created:Date.now()},
-        {id:genId(), title:'CostGuardian BOM核算模块开发', desc:'完成成本核算核心逻辑和报价单回写功能', date:fmtDate(tomorrow), priority:'yellow', category:'成本', done:false, created:Date.now()-1000},
-        {id:genId(), title:'库存账龄自动填充脚本优化', desc:'优化Excel宏脚本，支持多sheet批量处理', date:fmtDate(day5), priority:'blue', category:'采购', done:false, created:Date.now()-2000},
-        {id:genId(), title:'周小红简历排版迭代', desc:'调整排版格式，优化项目经历描述', date:fmtDate(today), priority:'green', category:'其他', done:true, created:Date.now()-3000},
+        {id:genId(), title:'天加商空芯片项目 - 供应商询价推进', desc:'跟京西确认20-26P范围BOM物料报价，推进供应商询价', date:fmtDate(today), priority:'red', category:'项目', done:false, scope:'day', created:Date.now()},
+        {id:genId(), title:'CostGuardian BOM核算模块开发', desc:'完成成本核算核心逻辑和报价单回写功能', date:fmtDate(tomorrow), priority:'blue', category:'成本', done:false, scope:'week', created:Date.now()-1000},
+        {id:genId(), title:'Q4成本优化专项 - 整体方案', desc:'按周推进，月底交付完整报告', date:'', priority:'blue', category:'成本', done:false, scope:'month', created:Date.now()-2000},
+        {id:genId(), title:'周小红简历排版迭代', desc:'调整排版格式，优化项目经历描述', date:fmtDate(today), priority:'green', category:'其他', done:true, scope:'day', created:Date.now()-3000},
       ];
       saveData();
     }
@@ -1057,6 +1266,30 @@ function renderCalendar(){
 }
 
 // ============ 月视图渲染 ============
+function getDayTodosForDate(dateStr){
+  const cellTodos = todos.filter(t => isTodoVisibleOnDate(t, dateStr));
+  const sorted = cellTodos.sort((a,b) => {
+    if(a.done !== b.done) return a.done ? 1 : -1;
+    const ea = getEffectiveState(a, dateStr);
+    const eb = getEffectiveState(b, dateStr);
+    return PRIORITY_RANK[eb.priority] - PRIORITY_RANK[ea.priority];
+  });
+  return sorted;
+}
+
+function getMonthScopeTodosForWeek(weekStart){
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate()+6);
+  return todos.filter(t => {
+    if(t.done || t.scope !== 'month') return false;
+    const created = getTodoCreatedDate(t);
+    const createdWeekStart = getWeekStart(created);
+    const mEnd = getMonthEnd(created);
+    if(weekEnd < createdWeekStart) return false;
+    if(weekStart > mEnd) return false;
+    return true;
+  });
+}
+
 function renderMonthView(){
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -1073,70 +1306,114 @@ function renderMonthView(){
   const prevMonthLastDay = new Date(year, month, 0).getDate();
   const today = todayStr();
   let html = '';
+  let cells = [];
 
   for(let i = startWeekday-1; i >= 0; i--){
     const day = prevMonthLastDay - i;
-    html += `<div class="cal-day other-month"><div class="cal-day-header"><span class="cal-day-num">${day}</span></div></div>`;
+    cells.push({otherMonth:true, day, dateStr:null});
   }
 
   for(let day = 1; day <= daysInMonth; day++){
     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const isToday = dateStr === today;
-    const isSelected = dateStr === selectedDate;
-    const dayTodos = todos.filter(t => t.date === dateStr);
-    const undoneTodos = dayTodos.filter(t => !t.done);
-    const hasUrgent = undoneTodos.some(t => t.priority === 'red');
-    const hasTodo = undoneTodos.length > 0;
-    const isOverdue = dateStr < today && hasTodo;
-    const sortedDayTodos = dayTodos.sort((a,b) => {
-      const pa = a.done ? 3 : PRIORITY_ORDER[a.priority];
-      const pb = b.done ? 3 : PRIORITY_ORDER[b.priority];
-      return pa - pb;
-    });
-
-    let todosHtml = '';
-    const MAX_DISPLAY = 3;
-    const displayTodos = sortedDayTodos.slice(0, MAX_DISPLAY);
-    displayTodos.forEach(t => {
-      const p = t.done ? 'green' : t.priority;
-      const title = escapeHtml(t.title.length > 14 ? t.title.slice(0,14)+'…' : t.title);
-      todosHtml += `<div class="cal-day-todo-item ${t.done?'done':''}" 
-        style="background:${PRIORITY_COLOR[p]}" 
-        draggable="true" data-todo-id="${t.id}" data-date="${dateStr}"
-        onclick="event.stopPropagation();onCalendarTodoClick('${t.id}','${dateStr}')">${title}</div>`;
-    });
-    if(sortedDayTodos.length > MAX_DISPLAY){
-      todosHtml += `<div class="cal-day-more">+${sortedDayTodos.length - MAX_DISPLAY} 更多</div>`;
-    }
-    if(sortedDayTodos.length === 0){
-      todosHtml = '';
-    }
-
-    let dotsHtml = '';
-    if(!isToday && hasTodo){
-      const dots = [];
-      if(hasUrgent) dots.push('<i class="dot-urgent"></i>');
-      else dots.push('<i class="dot-normal"></i>');
-      dotsHtml = `<span class="dot-indicators">${dots.join('')}</span>`;
-    }
-
-    const classes = ['cal-day'];
-    if(isToday) classes.push('today');
-    if(isSelected) classes.push('selected');
-    if(isOverdue) classes.push('overdue');
-    html += `<div class="${classes.join(' ')}" data-date="${dateStr}" 
-      onclick="selectDate('${dateStr}')" 
-      oncontextmenu="showContextMenu(event,'${dateStr}');return false">
-      <div class="cal-day-header"><span class="cal-day-num">${day}${dotsHtml}</span></div>
-      <div class="cal-day-todos">${todosHtml}</div>
-    </div>`;
+    cells.push({otherMonth:false, day, dateStr});
   }
 
   const totalCells = startWeekday + daysInMonth;
   const remaining = (7 - (totalCells % 7)) % 7;
   for(let i = 1; i <= remaining; i++){
-    html += `<div class="cal-day other-month"><div class="cal-day-header"><span class="cal-day-num">${i}</span></div></div>`;
+    cells.push({otherMonth:true, day:i, dateStr:null});
   }
+
+  const groupedByWeek = [];
+  for(let i = 0; i < cells.length; i += 7){
+    groupedByWeek.push(cells.slice(i, i+7));
+  }
+
+  groupedByWeek.forEach((weekCells, wi) => {
+    const firstReal = weekCells.find(c => !c.otherMonth);
+    if(firstReal){
+      const weekStartDate = parseDate(firstReal.dateStr);
+      const weekMon = getWeekStart(weekStartDate);
+      const weekFri = new Date(weekMon); weekFri.setDate(weekMon.getDate()+4);
+      const weekSun = new Date(weekMon); weekSun.setDate(weekMon.getDate()+6);
+      const monthTodos = getMonthScopeTodosForWeek(weekMon);
+      if(monthTodos.length > 0){
+        const pills = monthTodos.map(t => {
+          const state = getEffectiveState(t);
+          const color = PRIORITY_COLOR[state.priority] || 'var(--blue)';
+          const overdueCls = state.isOverdue ? ' overdue-badge' : '';
+          const title = escapeHtml(t.title.length > 18 ? t.title.slice(0,18)+'…' : t.title);
+          return `<span class="ws-pill${overdueCls}" onclick="event.stopPropagation();onCalendarTodoClick('${t.id}','${fmtDate(weekFri)}')" title="${escapeHtml(t.title)}">
+            <span class="p-dot" style="background:${color}"></span>
+            <span class="p-text">${title}</span>
+          </span>`;
+        }).join('');
+        const wkLabel = `${weekMon.getMonth()+1}/${weekMon.getDate()}-${weekSun.getMonth()+1}/${weekSun.getDate()}`;
+        html += `<div class="week-summary-row ws-header">
+          <span class="ws-title">📋 周汇总 ${wkLabel} · 本月任务</span>
+          <span class="ws-title" style="font-weight:400;opacity:.7">${monthTodos.length} 项</span>
+        </div>`;
+        html += `<div class="week-summary-row"><div class="ws-tasks">${pills}</div></div>`;
+      }
+    }
+
+    weekCells.forEach(c => {
+      if(c.otherMonth){
+        html += `<div class="cal-day other-month"><div class="cal-day-header"><span class="cal-day-num">${c.day}</span></div></div>`;
+        return;
+      }
+      const dateStr = c.dateStr;
+      const isToday = dateStr === today;
+      const isSelected = dateStr === selectedDate;
+      const dayTodos = getDayTodosForDate(dateStr);
+      const undoneTodos = dayTodos.filter(t => !t.done);
+      let hasUrgent = false, hasOverdue = false;
+      undoneTodos.forEach(t => {
+        const st = getEffectiveState(t, dateStr);
+        if(st.priority === 'red') hasUrgent = true;
+        if(st.isOverdue) hasOverdue = true;
+      });
+      const hasTodo = undoneTodos.length > 0;
+
+      let todosHtml = '';
+      const MAX_DISPLAY = 3;
+      const displayTodos = dayTodos.slice(0, MAX_DISPLAY);
+      displayTodos.forEach(t => {
+        const state = getEffectiveState(t, dateStr);
+        const p = t.done ? 'green' : state.priority;
+        const overdueCls = state.isOverdue ? ' overdue' : '';
+        const title = escapeHtml(t.title.length > 14 ? t.title.slice(0,14)+'…' : t.title);
+        const isWeekScope = t.scope === 'week';
+        todosHtml += `<div class="cal-day-todo-item ${t.done?'done':''}${overdueCls}" 
+          style="background:${PRIORITY_COLOR[p]}" 
+          draggable="${t.scope==='day'?'true':'false'}" data-todo-id="${t.id}" data-date="${dateStr}"
+          onclick="event.stopPropagation();onCalendarTodoClick('${t.id}','${dateStr}')">${isWeekScope?'🔄 ':''}${title}</div>`;
+      });
+      if(dayTodos.length > MAX_DISPLAY){
+        todosHtml += `<div class="cal-day-more">+${dayTodos.length - MAX_DISPLAY} 更多</div>`;
+      }
+
+      let dotsHtml = '';
+      if(!isToday && hasTodo){
+        const dots = [];
+        if(hasUrgent) dots.push('<i class="dot-urgent"></i>');
+        else dots.push('<i class="dot-normal"></i>');
+        dotsHtml = `<span class="dot-indicators">${dots.join('')}</span>`;
+      }
+
+      const classes = ['cal-day'];
+      if(isToday) classes.push('today');
+      if(isSelected) classes.push('selected');
+      if(hasOverdue) classes.push('overdue');
+      html += `<div class="${classes.join(' ')}" data-date="${dateStr}" 
+        onclick="selectDate('${dateStr}')" 
+        oncontextmenu="showContextMenu(event,'${dateStr}');return false">
+        <div class="cal-day-header"><span class="cal-day-num">${c.day}${dotsHtml}</span></div>
+        <div class="cal-day-todos">${todosHtml}</div>
+      </div>`;
+    });
+  });
+
   document.getElementById('calGrid').innerHTML = html;
 
   bindMonthDragEvents();
@@ -1163,31 +1440,31 @@ function renderWeekView(){
     const dateStr = fmtDate(d);
     const isToday = dateStr === today;
     const isSelected = dateStr === selectedDate;
-    const dayTodos = todos.filter(t => t.date === dateStr);
-    const undoneDayTodos = dayTodos.filter(t => !t.done);
-    const isOverdue = dateStr < today && undoneDayTodos.length > 0;
-    const sortedDayTodos = dayTodos.sort((a,b) => {
-      const pa = a.done ? 3 : PRIORITY_ORDER[a.priority];
-      const pb = b.done ? 3 : PRIORITY_ORDER[b.priority];
-      return pa - pb;
+    const dayTodos = getDayTodosForDate(dateStr);
+    let hasOverdue = false;
+    dayTodos.forEach(t => {
+      if(!t.done && getEffectiveState(t, dateStr).isOverdue) hasOverdue = true;
     });
 
     const classes = ['week-day-row'];
     if(isToday) classes.push('today');
     if(isSelected) classes.push('selected');
-    if(isOverdue) classes.push('overdue');
+    if(hasOverdue) classes.push('overdue');
 
     let todosHtml = '';
-    if(sortedDayTodos.length > 0){
-      todosHtml = sortedDayTodos.map(t => {
-        const p = t.done ? 'green' : t.priority;
+    if(dayTodos.length > 0){
+      todosHtml = dayTodos.map(t => {
+        const state = getEffectiveState(t, dateStr);
+        const p = t.done ? 'green' : state.priority;
+        const overdueCls = state.isOverdue ? ' overdue' : '';
         const title = escapeHtml(t.title.length > 22 ? t.title.slice(0,22)+'…' : t.title);
-        return `<span class="week-todo-pill ${t.done?'done':''}" 
+        const isWeekScope = t.scope === 'week';
+        return `<span class="week-todo-pill ${t.done?'done':''}${overdueCls}" 
           style="background:${PRIORITY_COLOR[p]}" 
-          draggable="true" data-todo-id="${t.id}" data-date="${dateStr}"
+          draggable="${t.scope==='day'?'true':'false'}" data-todo-id="${t.id}" data-date="${dateStr}"
           title="${escapeHtml(t.title)}"
           onclick="event.stopPropagation();onCalendarTodoClick('${t.id}','${dateStr}')">
-          ${title}
+          ${isWeekScope?'🔄 ':''}${title}
         </span>`;
       }).join('');
     } else {
@@ -1202,6 +1479,22 @@ function renderWeekView(){
         <div class="week-day-num">${d.getDate()}</div>
       </div>
       <div class="week-day-todos">${todosHtml}</div>
+    </div>`;
+  }
+
+  const monthTodos = getMonthScopeTodosForWeek(weekStart);
+  if(monthTodos.length > 0){
+    const pills = monthTodos.map(t => {
+      const state = getEffectiveState(t);
+      const color = PRIORITY_COLOR[state.priority] || 'var(--blue)';
+      const overdueCls = state.isOverdue ? ' overdue-badge' : '';
+      return `<span class="wms-pill${overdueCls}" onclick="onCalendarTodoClick('${t.id}','${fmtDate(weekStart)}')" title="${escapeHtml(t.title)}">
+        <span class="p-dot" style="background:${color}"></span>${escapeHtml(t.title)}
+      </span>`;
+    }).join('');
+    html += `<div class="week-month-summary">
+      <div class="wms-title">🗓️ 本周的本月任务 · ${monthTodos.length} 项</div>
+      <div class="wms-tasks">${pills}</div>
     </div>`;
   }
 
@@ -1305,6 +1598,11 @@ function onTodoDragStart(e){
   const fromDate = this.dataset.date;
   const todo = todos.find(t => t.id === todoId);
   if(!todo) return;
+  if(todo.scope !== 'day'){
+    e.preventDefault();
+    showToast('⚠️ 本周/本月任务不可拖拽移动日期');
+    return;
+  }
 
   dragState = { todoId, fromDate };
   this.classList.add('dragging');
@@ -1312,7 +1610,7 @@ function onTodoDragStart(e){
   // 创建幽灵元素
   const ghost = document.createElement('div');
   ghost.className = 'drag-ghost';
-  ghost.style.background = PRIORITY_COLOR[todo.done ? 'green' : todo.priority];
+  ghost.style.background = PRIORITY_HEX[todo.done ? 'green' : todo.priority];
   ghost.textContent = todo.title.length > 20 ? todo.title.slice(0,20)+'…' : todo.title;
   ghost.style.left = e.clientX + 'px';
   ghost.style.top = e.clientY + 'px';
@@ -1419,7 +1717,7 @@ function showDragConfirm(){
 function confirmDragMove(){
   if(!pendingDragMove) return;
   const todo = todos.find(t => t.id === pendingDragMove.todoId);
-  if(todo){
+  if(todo && todo.scope === 'day'){
     const oldDate = todo.date;
     todo.date = pendingDragMove.newDate;
     saveData();
@@ -1430,6 +1728,9 @@ function confirmDragMove(){
     selectedDate = pendingDragMove.newDate;
     renderCalendar();
     renderTodos();
+  } else if(todo){
+    closeDragConfirm();
+    showToast('⚠️ 本周/本月任务不可更改日期');
   }
   pendingDragMove = null;
 }
@@ -1489,8 +1790,11 @@ function showTodoContextMenu(event, id){
   const menu = document.getElementById('todoContextMenu');
   const shortTitle = t.title.length > 18 ? t.title.slice(0,18)+'...' : t.title;
   document.getElementById('todoContextMenuTitle').textContent = shortTitle;
+  const isDay = (t.scope || 'day') === 'day';
+  document.getElementById('ctxPostponeNextDay').style.display = isDay ? '' : 'none';
+  document.getElementById('ctxPostponeToDate').style.display = isDay ? '' : 'none';
   let x = event.clientX, y = event.clientY;
-  const menuW = 180, menuH = 160;
+  const menuW = 180, menuH = isDay ? 160 : 110;
   if(x + menuW > window.innerWidth) x = window.innerWidth - menuW - 8;
   if(y + menuH > window.innerHeight) y = window.innerHeight - menuH - 8;
   menu.style.left = x + 'px';
@@ -1520,6 +1824,10 @@ function postponeNextDay(){
   if(!id) return;
   const t = todos.find(t=>t.id===id);
   if(!t) return;
+  if((t.scope||'day') !== 'day'){
+    showToast('⚠️ 本周/本月任务无需手动延期');
+    return;
+  }
   const oldDate = t.date;
   const d = t.date ? new Date(t.date) : new Date();
   d.setDate(d.getDate() + 1);
@@ -1538,6 +1846,10 @@ function postponeToDate(){
 function showPostponeModal(id){
   const t = todos.find(t=>t.id===id);
   if(!t) return;
+  if((t.scope||'day') !== 'day'){
+    showToast('⚠️ 本周/本月任务无需手动延期');
+    return;
+  }
   todoCtxId = id;
   document.getElementById('postponeTodoInfo').innerHTML =
     `待办：<b style="color:var(--text)">${escapeHtml(t.title)}</b><br>当前日期：<span style="font-family:monospace">${t.date || '未设日期'}</span>`;
@@ -1562,6 +1874,11 @@ function setPostponeOffset(days){
 function confirmPostpone(){
   const t = todos.find(t=>t.id===todoCtxId);
   if(!t) return;
+  if((t.scope||'day') !== 'day'){
+    closePostpone();
+    showToast('⚠️ 本周/本月任务无需手动延期');
+    return;
+  }
   const newDate = document.getElementById('postponeDateInput').value;
   if(!newDate){
     showToast('⚠️ 请选择延期日期');
@@ -1578,12 +1895,12 @@ function confirmPostpone(){
 // ============ 统计面板 ============
 function renderStats(){
   const counts = {
-    red: todos.filter(t=>t.priority==='red' && !t.done).length,
-    yellow: todos.filter(t=>t.priority==='yellow' && !t.done).length,
-    blue: todos.filter(t=>t.priority==='blue' && !t.done).length,
+    red: todos.filter(t=>!t.done && getEffectiveState(t).priority==='red').length,
+    yellow: todos.filter(t=>!t.done && getEffectiveState(t).priority==='yellow').length,
+    blue: todos.filter(t=>!t.done && getEffectiveState(t).priority==='blue').length,
     green: todos.filter(t=>t.done).length,
     all: todos.filter(t=>!t.done).length,
-    overdue: todos.filter(t=>t.date<todayStr() && !t.done).length,
+    overdue: todos.filter(t=>!t.done && getEffectiveState(t).isOverdue).length,
   };
   const activeKey = currentFilter === 'all' || currentFilter === 'overdue' ? currentFilter : null;
   document.getElementById('statsPanel').innerHTML = `
@@ -1608,18 +1925,37 @@ function renderStats(){
   `;
 }
 
+function countInRange(rangeKey){
+  const today = todayStr();
+  const wk = getWeekRange();
+  const mo = getMonthRange();
+  return todos.filter(t=>{
+    if(t.done) return false;
+    const r = getTodoDateRange(t);
+    if(rangeKey === 'today'){
+      return t.scope === 'day' ? t.date === today :
+             t.scope === 'week' ? isTodoVisibleOnDate(t, today) : false;
+    }
+    if(rangeKey === 'week'){
+      return r.end >= wk.start && r.start <= wk.end;
+    }
+    if(rangeKey === 'month'){
+      return r.end >= mo.start && r.start <= mo.end;
+    }
+    return true;
+  }).length;
+}
+
 // ============ 筛选标签 ============
 function renderFilters(){
   const today = todayStr();
-  const {start:wStart,end:wEnd} = getWeekRange();
-  const {start:mStart,end:mEnd} = getMonthRange();
   const counts = {
     all: todos.filter(t=>!t.done).length,
-    red: todos.filter(t=>t.priority==='red' && !t.done).length,
-    yellow: todos.filter(t=>t.priority==='yellow' && !t.done).length,
-    blue: todos.filter(t=>t.priority==='blue' && !t.done).length,
+    red: todos.filter(t=>!t.done && getEffectiveState(t).priority==='red').length,
+    yellow: todos.filter(t=>!t.done && getEffectiveState(t).priority==='yellow').length,
+    blue: todos.filter(t=>!t.done && getEffectiveState(t).priority==='blue').length,
     green: todos.filter(t=>t.done).length,
-    overdue: todos.filter(t=>t.date<today && !t.done).length,
+    overdue: todos.filter(t=>!t.done && getEffectiveState(t).isOverdue).length,
   };
   const filters = [
     {key:'all', label:'全部', count:counts.all},
@@ -1634,10 +1970,10 @@ function renderFilters(){
   `).join('');
 
   const rangeCounts = {
-    all: todos.filter(t=>!t.done).length,
-    today: todos.filter(t=>t.date===today && !t.done).length,
-    week: todos.filter(t=>t.date>=wStart && t.date<=wEnd && !t.done).length,
-    month: todos.filter(t=>t.date>=mStart && t.date<=mEnd && !t.done).length,
+    all: countInRange('all'),
+    today: countInRange('today'),
+    week: countInRange('week'),
+    month: countInRange('month'),
   };
   const ranges = [
     {key:'all', label:'全部', count:rangeCounts.all},
@@ -1668,21 +2004,42 @@ function setDateRange(key){
 }
 
 // ============ 待办列表 ============
+function todoInRangeFilter(t, rangeKey){
+  const today = todayStr();
+  if(t.done) return false;
+  const r = getTodoDateRange(t);
+  if(rangeKey === 'all') return true;
+  if(rangeKey === 'today'){
+    return t.scope === 'day' ? t.date === today :
+           t.scope === 'week' ? isTodoVisibleOnDate(t, today) : false;
+  }
+  const wk = getWeekRange();
+  const mo = getMonthRange();
+  if(rangeKey === 'week') return r.end >= wk.start && r.start <= wk.end;
+  if(rangeKey === 'month') return r.end >= mo.start && r.start <= mo.end;
+  return true;
+}
+
 function getFilteredTodos(){
   searchKeyword = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
   const today = todayStr();
   let result = [...todos];
-  if(selectedDate) result = result.filter(t => t.date === selectedDate);
+  if(selectedDate){
+    result = result.filter(t => {
+      if(t.scope === 'month') return false;
+      return isTodoVisibleOnDate(t, selectedDate);
+    });
+  }
   switch(currentFilter){
     case 'all': result = result.filter(t=>!t.done); break;
-    case 'red': result = result.filter(t=>t.priority==='red' && !t.done); break;
-    case 'yellow': result = result.filter(t=>t.priority==='yellow' && !t.done); break;
-    case 'blue': result = result.filter(t=>t.priority==='blue' && !t.done); break;
+    case 'red': result = result.filter(t=>!t.done && getEffectiveState(t).priority==='red'); break;
+    case 'yellow': result = result.filter(t=>!t.done && getEffectiveState(t).priority==='yellow'); break;
+    case 'blue': result = result.filter(t=>!t.done && getEffectiveState(t).priority==='blue'); break;
     case 'green': result = result.filter(t=>t.done); break;
-    case 'overdue': result = result.filter(t=>t.date<today && !t.done); break;
+    case 'overdue': result = result.filter(t=>!t.done && getEffectiveState(t).isOverdue); break;
   }
-  if(currentDateRange !== 'all' && currentFilter !== 'overdue'){
-    result = result.filter(t => inDateRange(t.date, currentDateRange));
+  if(!selectedDate && currentFilter !== 'overdue'){
+    result = result.filter(t => todoInRangeFilter(t, currentDateRange));
   }
   if(searchKeyword){
     result = result.filter(t =>
@@ -1692,11 +2049,33 @@ function getFilteredTodos(){
   }
   result.sort((a,b) => {
     if(a.done !== b.done) return a.done ? 1 : -1;
-    const dateCmp = (a.date||'').localeCompare(b.date||'');
-    if(dateCmp !== 0) return dateCmp;
-    return (PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority]);
+    const aState = getEffectiveState(a);
+    const bState = getEffectiveState(b);
+    if(aState.isOverdue !== bState.isOverdue) return aState.isOverdue ? -1 : 1;
+    const pCmp = PRIORITY_RANK[bState.priority] - PRIORITY_RANK[aState.priority];
+    if(pCmp !== 0) return pCmp;
+    const aDate = a.scope === 'day' ? a.date : getTodoDateRange(a).start;
+    const bDate = b.scope === 'day' ? b.date : getTodoDateRange(b).start;
+    return (aDate||'').localeCompare(bDate||'');
   });
   return result;
+}
+
+function getScopeDateLabel(t, state){
+  if(t.scope === 'week'){
+    const created = getTodoCreatedDate(t);
+    const wkName = ['日','一','二','三','四','五','六'][created.getDay()];
+    const left = state.daysLeft;
+    if(state.isOverdue) return `📆 本周·已逾期(截止${state.deadline})`;
+    if(left <= 0) return `📆 本周·周五截止`;
+    return `📆 本周·周${wkName}录入 · 距周五${left}天`;
+  }
+  if(t.scope === 'month'){
+    if(state.isOverdue) return `🗓️ 本月·已逾期`;
+    const w = state.weekIdx || getWeekIndexInMonth(new Date());
+    return `🗓️ 本月·第${w}周`;
+  }
+  return `📅 ${t.date || '未设日期'}`;
 }
 
 function renderTodos(){
@@ -1727,11 +2106,14 @@ function renderTodos(){
   }
 
   document.getElementById('todoList').innerHTML = list.map(t => {
-    const isOverdue = !t.done && t.date && t.date < today;
-    const priority = t.done ? 'green' : t.priority;
+    const state = getEffectiveState(t);
+    const priority = t.done ? 'green' : state.priority;
     const borderColor = PRIORITY_COLOR[priority];
     const isHighlighted = t.id === highlightedTodoId;
     const isExpanded = t.id === expandedTodoId;
+    const scopeCls = t.scope || 'day';
+    const dateLabel = getScopeDateLabel(t, state);
+    const showPostponeBtn = t.scope === 'day' && !t.done;
     return `
       <div class="todo-item ${t.done?'done':''} ${isHighlighted?'highlighted':''}" 
         style="border-left-color:${borderColor}" 
@@ -1743,22 +2125,24 @@ function renderTodos(){
           ${t.desc ? `<div class="todo-desc">${escapeHtml(t.desc)}</div>` : ''}
           <div class="todo-meta">
             <span class="todo-tag priority ${priority}">${PRIORITY[priority]}</span>
+            <span class="scope-badge scope-${scopeCls}">${SCOPE_LABEL[scopeCls]}</span>
             ${t.category ? `<span class="todo-tag category">${escapeHtml(t.category)}</span>` : ''}
-            ${t.date ? `<span class="todo-tag date">📅 ${t.date}</span>` : ''}
-            ${isOverdue ? '<span class="todo-tag overdue">⏰ 逾期</span>' : ''}
+            <span class="todo-tag date">${dateLabel}</span>
+            ${state.isOverdue ? '<span class="todo-tag overdue">⏰ 逾期</span>' : ''}
           </div>
           ${isExpanded ? `
           <div class="todo-detail show">
             <div class="detail-row"><span class="detail-label">标题</span><span class="detail-value">${escapeHtml(t.title)}</span></div>
             ${t.desc ? `<div class="detail-row"><span class="detail-label">描述</span><span class="detail-value">${escapeHtml(t.desc)}</span></div>` : ''}
-            <div class="detail-row"><span class="detail-label">日期</span><span class="detail-value">${t.date ? t.date+'（'+getWeekDayName(t.date)+'）' : '未设置'}</span></div>
-            <div class="detail-row"><span class="detail-label">优先级</span><span class="detail-value">${PRIORITY[priority]}</span></div>
+            <div class="detail-row"><span class="detail-label">范围</span><span class="detail-value">${SCOPE_LABEL[scopeCls]}</span></div>
+            <div class="detail-row"><span class="detail-label">日期</span><span class="detail-value">${dateLabel}</span></div>
+            <div class="detail-row"><span class="detail-label">优先级</span><span class="detail-value">${PRIORITY[priority]}${state.isOverdue?' · 逾期':''}</span></div>
             ${t.category ? `<div class="detail-row"><span class="detail-label">分类</span><span class="detail-value">${escapeHtml(t.category)}</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">状态</span><span class="detail-value">${t.done ? '✅ 已完成' : '⏳ 未完成'}</span></div>
           </div>` : ''}
         </div>
         <div class="todo-actions">
-          <button onclick="event.stopPropagation();showPostponeModal('${t.id}')" title="延期">⏰</button>
+          ${showPostponeBtn ? `<button onclick="event.stopPropagation();showPostponeModal('${t.id}')" title="延期">⏰</button>` : ''}
           <button onclick="event.stopPropagation();openModal('${t.id}')" title="编辑">✏️</button>
           <button class="del" onclick="event.stopPropagation();confirmDelete('${t.id}')" title="删除">🗑️</button>
         </div>
@@ -1803,7 +2187,8 @@ function openModal(id, defaultDate){
     document.getElementById('todoDesc').value = t.desc || '';
     document.getElementById('todoDate').value = t.date || '';
     document.getElementById('todoCategory').value = t.category || '';
-    selectPriority(t.priority);
+    selectPriority(t.priority === 'green' ? 'blue' : t.priority);
+    selectScope(t.scope || 'day');
   } else {
     document.getElementById('modalTitle').textContent = '新建待办';
     document.getElementById('todoTitle').value = '';
@@ -1811,6 +2196,7 @@ function openModal(id, defaultDate){
     document.getElementById('todoDate').value = defaultDate || selectedDate || todayStr();
     document.getElementById('todoCategory').value = '';
     selectPriority('blue');
+    selectScope('day');
   }
   document.getElementById('titleError').classList.remove('show');
   document.getElementById('todoModal').classList.add('show');
@@ -1829,18 +2215,56 @@ function selectPriority(p){
   });
 }
 
+function selectScope(scope){
+  selectedScope = scope;
+  document.querySelectorAll('.scope-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.scope === scope);
+  });
+  const dateGroup = document.getElementById('dateFieldGroup');
+  const hintGroup = document.getElementById('scopeHintGroup');
+  const hintText = document.getElementById('scopeHintText');
+  const dateInput = document.getElementById('todoDate');
+  if(scope === 'day'){
+    dateGroup.style.display = '';
+    hintGroup.style.display = 'none';
+    if(dateInput && !dateInput.value){
+      dateInput.value = editingId && todos.find(t=>t.id===editingId)?.date
+        ? todos.find(t=>t.id===editingId).date
+        : (selectedDate || todayStr());
+    }
+  } else if(scope === 'week'){
+    dateGroup.style.display = 'none';
+    hintGroup.style.display = '';
+    const fri = fmtDate(getWeekFriday(new Date()));
+    hintText.innerHTML = '<b>本周任务</b>：从今天到本周五('+fri+')每天显示。<br>优先级自动升级：周一/周二正常，周三/周四次要（黄），周五紧急（红），逾期标红。手动设置优先级将作为最低级别。';
+  } else {
+    dateGroup.style.display = 'none';
+    hintGroup.style.display = '';
+    const monthEnd = fmtDate(getMonthEnd(new Date()));
+    hintText.innerHTML = '<b>本月任务</b>：按周汇总显示，不占用单日格。<br>优先级按周递增：第1周正常，第2周次要（黄），第3-4周紧急（红），跨月逾期标红。';
+  }
+}
+
 function saveTodo(){
   const title = document.getElementById('todoTitle').value.trim();
   if(!title){
     document.getElementById('titleError').classList.add('show');
     return;
   }
+  const scope = selectedScope;
+  let dateVal;
+  if(scope === 'day'){
+    dateVal = document.getElementById('todoDate').value || todayStr();
+  } else {
+    dateVal = '';
+  }
   const data = {
     title,
     desc: document.getElementById('todoDesc').value.trim(),
-    date: document.getElementById('todoDate').value || todayStr(),
+    date: dateVal,
     category: document.getElementById('todoCategory').value,
     priority: selectedPriority,
+    scope,
   };
   if(editingId){
     const t = todos.find(t=>t.id===editingId);
@@ -1851,7 +2275,7 @@ function saveTodo(){
     }
     showToast('✅ 已更新');
   } else {
-    todos.push({ id: genId(), ...data, done: data.priority === 'green', created: Date.now() });
+    todos.push({ id: genId(), ...data, done: false, created: Date.now() });
     showToast('✅ 已新建');
   }
   saveData();
@@ -2254,11 +2678,17 @@ function parseMeetingMinutes(text){
     if(isMeetingHeader(line)) return null;
     let date = parseChineseDate(line, new Date()) || '';
     let priority = parsePriority(line);
+    let scope = 'day';
+    if(/(本周内|这周内|周内|本周[一二三四五六日天]|这周[一二三四五六日天])/.test(line) && !/(下周|下周[一二三四五六日天])/.test(line)){
+      scope = 'week';
+    } else if(/(本月底|月底|本月内|这月内|本月[一二三四]周|这个月)/.test(line)){
+      scope = 'month';
+    }
     const assignees = extractAssignees(line);
     let title = line
       .replace(/截止[：:]?\s*[^\s,，;；。]+/g, '')
       .replace(/((\d+)|([一二两三四五六七八九十]+))\s*天[后以内之前]/g, '')
-      .replace(/(今天|今日|明天|明日|后天|大后天|昨天|本周[一二三四五六日天][前以后内]?|这周[一二三四五六日天][前以后内]?|下周[一二三四五六日天][前以后内]?|本?周[一二三四五六日天][前以后内]?|\d{1,2}\s*月\s*\d{1,2}\s*[日号][前后左右以内]?|[\u4e00-\u9fa5]{1,3}月[\u4e00-\u9fa5]{1,3}[日号][前后以内]?|\d{1,2}\s*[日号][前后以内]?|[\u4e00-\u9fa5]{1,3}[日号][前后以内]?|本月底|月底|本周内|这周内|周内|本月内|这月内)/g, '')
+      .replace(/(今天|今日|明天|明日|后天|大后天|昨天|本周[一二三四五六日天][前以后内]?|这周[一二三四五六日天][前以后内]?|下周[一二三四五六日天][前以后内]?|本?周[一二三四五六日天][前以后内]?|\d{1,2}\s*月\s*\d{1,2}\s*[日号][前后左右以内]?|[\u4e00-\u9fa5]{1,3}月[\u4e00-\u9fa5]{1,3}[日号][前后以内]?|\d{1,2}\s*[日号][前后以内]?|[\u4e00-\u9fa5]{1,3}[日号][前后以内]?|本周内|这周内|周内|本月底|月底|本月内|这月内)/g, '')
       .replace(/(@[\u4e00-\u9fa5a-zA-Z0-9_]+)/g, '')
       .replace(/(紧急|立刻|立即|马上|尽快|ASAP|asap|urgent|Urgent|URGENT|今日必|今天必须|优先|高优|重点|重要)/g, '')
       .replace(/(事项|事宜)/g, '')
@@ -2270,12 +2700,15 @@ function parseMeetingMinutes(text){
     if(!title) title = line.replace(/[\s,，。;；:：]+$/,'').slice(0, 40);
     let desc = '';
     if(assignees.length) desc += '负责人：' + assignees.join('、');
+    if(scope === 'week') date = '';
+    if(scope === 'month') date = '';
     return {
       id: genId(),
       title: title.slice(0, 60),
       desc,
       date,
       priority,
+      scope,
       category: detectCategory(title + ' ' + line),
       checked: true,
     };
@@ -2397,14 +2830,16 @@ function confirmBatchCreate(){
   }
   const now = Date.now();
   toCreate.forEach((it, i) => {
+    const scope = it.scope || 'day';
     todos.push({
       id: genId(),
       title: it.title.trim(),
       desc: (it.desc||'').trim(),
-      date: it.date || todayStr(),
+      date: scope === 'day' ? (it.date || todayStr()) : '',
       priority: it.priority || 'blue',
       category: it.category || '',
       done: false,
+      scope,
       created: now + i,
     });
   });
