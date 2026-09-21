@@ -982,8 +982,6 @@ input,textarea,select{font-family:inherit;font-size:14px}
       <option value="">🎯 全部职能</option>
     </select>
     <span class="filter-divider"></span>
-    <div class="inline-filters" id="filters"></div>
-    <span class="filter-divider"></span>
     <div class="inline-ranges" id="dateRangeBar"></div>
     <div class="filter-spacer"></div>
     <div class="storage-bar">
@@ -2689,26 +2687,28 @@ function countInRange(rangeKey){
 
 // ============ 筛选标签 ============
 function renderFilters(){
-  const today = todayStr();
-  const counts = {
-    all: todos.filter(t=>!t.done).length,
-    red: todos.filter(t=>!t.done && getEffectiveState(t).priority==='red').length,
-    yellow: todos.filter(t=>!t.done && getEffectiveState(t).priority==='yellow').length,
-    blue: todos.filter(t=>!t.done && getEffectiveState(t).priority==='blue').length,
-    green: todos.filter(t=>t.done).length,
-    overdue: todos.filter(t=>!t.done && getEffectiveState(t).isOverdue).length,
-  };
-  const filters = [
-    {key:'all', label:'全部', count:counts.all},
-    {key:'red', label:'🔴 紧急', count:counts.red},
-    {key:'yellow', label:'🟡 次要', count:counts.yellow},
-    {key:'blue', label:'🔵 正常', count:counts.blue},
-    {key:'green', label:'🟢 已完成', count:counts.green},
-    {key:'overdue', label:'⏰ 逾期', count:counts.overdue},
-  ];
-  document.getElementById('filters').innerHTML = filters.map(f => `
-    <button class="filter-tag ${currentFilter===f.key?'active':''}" onclick="setFilter('${f.key}')">${f.label}<span class="count">${f.count}</span></button>
-  `).join('');
+  const filtersEl = document.getElementById('filters');
+  if(filtersEl){
+    const counts = {
+      all: todos.filter(t=>!t.done).length,
+      red: todos.filter(t=>!t.done && getEffectiveState(t).priority==='red').length,
+      yellow: todos.filter(t=>!t.done && getEffectiveState(t).priority==='yellow').length,
+      blue: todos.filter(t=>!t.done && getEffectiveState(t).priority==='blue').length,
+      green: todos.filter(t=>t.done).length,
+      overdue: todos.filter(t=>!t.done && getEffectiveState(t).isOverdue).length,
+    };
+    const filters = [
+      {key:'all', label:'全部', count:counts.all},
+      {key:'red', label:'🔴 紧急', count:counts.red},
+      {key:'yellow', label:'🟡 次要', count:counts.yellow},
+      {key:'blue', label:'🔵 正常', count:counts.blue},
+      {key:'green', label:'🟢 已完成', count:counts.green},
+      {key:'overdue', label:'⏰ 逾期', count:counts.overdue},
+    ];
+    filtersEl.innerHTML = filters.map(f => `
+      <button class="filter-tag ${currentFilter===f.key?'active':''}" onclick="setFilter('${f.key}')">${f.label}<span class="count">${f.count}</span></button>
+    `).join('');
+  }
 
   const rangeCounts = {
     all: countInRange('all'),
