@@ -2684,6 +2684,7 @@ function renderFilters(){
 }
 
 function setFilter(key){
+  if(currentAppView !== 'list') switchAppView('list');
   currentFilter = key;
   highlightedTodoId = null;
   expandedTodoId = null;
@@ -2693,6 +2694,7 @@ function setFilter(key){
 }
 
 function setDateRange(key){
+  if(currentAppView !== 'list') switchAppView('list');
   currentDateRange = key;
   highlightedTodoId = null;
   expandedTodoId = null;
@@ -4013,6 +4015,7 @@ function switchAppView(view){
   else renderTodos();
 }
 function setListFilter(f){
+  if(currentAppView !== 'list') switchAppView('list');
   currentListFilter = f;
   document.querySelectorAll('.quick-tag[data-filter]').forEach(b => b.classList.toggle('active', b.dataset.filter===f));
   renderTodos();
