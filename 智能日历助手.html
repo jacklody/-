@@ -1050,7 +1050,8 @@ function getWeekRange(refDate){
   return {start: fmtDate(start), end: fmtDate(end)};
 }
 function getMonthRange(refDate){
-  const d = refDate ? new Date(refDate) : new Date();
+  const d = refDate ? parseDate(refDate) : new Date();
+  d.setHours(0,0,0,0);
   const y = d.getFullYear(), m = d.getMonth();
   const start = new Date(y, m, 1);
   const end = new Date(y, m+1, 0);
@@ -1078,7 +1079,8 @@ function addDays(days){
   return fmtDate(d);
 }
 function getWeekDayName(dateStr){
-  const d = new Date(dateStr);
+  const d = parseDate(dateStr);
+  if(!d) return '';
   return WEEK_NAMES[d.getDay()];
 }
 function escapeHtml(str){
@@ -1093,8 +1095,16 @@ const SCOPE_LABEL = {day:'单日', week:'本周', month:'本月'};
 
 function parseDate(dateStr){
   if(!dateStr) return null;
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const dt = new Date(y, m-1, d);
+  if(dateStr instanceof Date){
+    const d = new Date(dateStr);
+    d.setHours(0,0,0,0);
+    return d;
+  }
+  if(typeof dateStr !== 'string') return null;
+  const m = dateStr.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if(!m) return null;
+  const y = +m[1], mo = +m[2], d = +m[3];
+  const dt = new Date(y, mo-1, d);
   dt.setHours(0,0,0,0);
   return dt;
 }
@@ -1112,7 +1122,9 @@ function getWeekFriday(date){
 }
 
 function getWeekIndexInMonth(date){
-  const d = new Date(date); d.setHours(0,0,0,0);
+  const d = (date instanceof Date) ? new Date(date) : parseDate(date);
+  if(!d) return 1;
+  d.setHours(0,0,0,0);
   const first = new Date(d.getFullYear(), d.getMonth(), 1);
   const wsFirst = getWeekStart(first);
   const wsTarget = getWeekStart(d);
@@ -1136,7 +1148,7 @@ function getTodoCreatedDate(todo){
 }
 
 function getEffectiveState(todo, refDate){
-  const today = refDate ? new Date(refDate) : new Date();
+  const today = refDate ? parseDate(refDate) : new Date();
   today.setHours(0,0,0,0);
   const basePri = todo.priority === 'green' ? 'blue' : (todo.priority || 'blue');
   if(todo.done) return {priority:todo.priority || 'blue', isOverdue:false, stage:'done'};
@@ -1528,7 +1540,8 @@ function goToday(){
 
 function jumpToDate(dateStr){
   if(!dateStr) return;
-  const d = new Date(dateStr);
+  const d = parseDate(dateStr);
+  if(!d) return;
   currentDate = new Date(d.getFullYear(), d.getMonth(), 1);
   weekRefDate = new Date(d);
   selectedDate = dateStr;
@@ -1684,12 +1697,13 @@ function showDragConfirm(){
 
   const oldDate = pendingDragMove.oldDate;
   const newDate = pendingDragMove.newDate;
-  const oldD = new Date(oldDate);
-  const newD = new Date(newDate);
-  const isForward = newD < oldD; // 往前拖（更早的日期）= 提高优先级
-  const isBackward = newD > oldD; // 往后拖（更晚的日期）= 延期
+  const oldD = parseDate(oldDate);
+  const newD = parseDate(newDate);
+  if(!oldD || !newD){ pendingDragMove = null; return; }
+  const isForward = newD < oldD;
+  const isBackward = newD > oldD;
 
-  const dayDiff = Math.round((newD - oldD) / (1000*60*60*24));
+  const dayDiff = Math.abs(Math.round((newD.getTime() - oldD.getTime()) / (1000*60*60*24)));
 
   const modal = document.getElementById('dragConfirmModal');
   const icon = document.getElementById('dragConfirmIcon');
@@ -1698,13 +1712,11 @@ function showDragConfirm(){
   const tags = document.getElementById('dragConfirmTags');
 
   if(isForward){
-    // 往前拖：提高优先级
     icon.textContent = '⬆️';
     text.textContent = `提高优先级到 ${newDate}（${getWeekDayName(newDate)}）`;
     sub.textContent = `从 ${oldDate}（${getWeekDayName(oldDate)}）提前 ${dayDiff} 天`;
     tags.innerHTML = `<span class="drag-mode-indicator forward">⚠️ 提前</span>`;
   } else if(isBackward){
-    // 往后拖：延期
     icon.textContent = '⏭️';
     text.textContent = `延期到 ${newDate}（${getWeekDayName(newDate)}）`;
     sub.textContent = `从 ${oldDate}（${getWeekDayName(oldDate)}）延后 ${dayDiff} 天`;
@@ -1722,7 +1734,7 @@ function confirmDragMove(){
     todo.date = pendingDragMove.newDate;
     saveData();
     closeDragConfirm();
-    const action = new Date(pendingDragMove.newDate) < new Date(pendingDragMove.oldDate) ? '⬆️ 已提前' : '⏭️ 已延期';
+    const action = (pendingDragMove.newDate < pendingDragMove.oldDate) ? '⬆️ 已提前' : '⏭️ 已延期';
     showToast(`${action}：${oldDate} → ${pendingDragMove.newDate}`);
     highlightedTodoId = todo.id;
     selectedDate = pendingDragMove.newDate;
@@ -1749,8 +1761,10 @@ let contextMenuDate = null;
 function showContextMenu(event, dateStr){
   contextMenuDate = dateStr;
   const menu = document.getElementById('contextMenu');
-  const d = new Date(dateStr);
-  document.getElementById('contextMenuDate').textContent = `${d.getMonth()+1}月${d.getDate()}日`;
+  const d = parseDate(dateStr);
+  if(d){
+    document.getElementById('contextMenuDate').textContent = `${d.getMonth()+1}月${d.getDate()}日`;
+  }
   let x = event.clientX, y = event.clientY;
   const menuW = 180, menuH = 120;
   if(x + menuW > window.innerWidth) x = window.innerWidth - menuW - 8;
@@ -1829,7 +1843,8 @@ function postponeNextDay(){
     return;
   }
   const oldDate = t.date;
-  const d = t.date ? new Date(t.date) : new Date();
+  const d = t.date ? parseDate(t.date) : new Date();
+  if(!d) return;
   d.setDate(d.getDate() + 1);
   t.date = fmtDate(d);
   saveData();
@@ -1853,7 +1868,7 @@ function showPostponeModal(id){
   todoCtxId = id;
   document.getElementById('postponeTodoInfo').innerHTML =
     `待办：<b style="color:var(--text)">${escapeHtml(t.title)}</b><br>当前日期：<span style="font-family:monospace">${t.date || '未设日期'}</span>`;
-  const d = t.date ? new Date(t.date) : new Date();
+  const d = t.date ? parseDate(t.date) : new Date();
   d.setDate(d.getDate() + 1);
   document.getElementById('postponeDateInput').value = fmtDate(d);
   document.getElementById('postponeModal').classList.add('show');
@@ -1866,7 +1881,8 @@ function closePostpone(){
 function setPostponeOffset(days){
   const t = todos.find(t=>t.id===todoCtxId);
   if(!t) return;
-  const d = t.date ? new Date(t.date) : new Date();
+  const d = t.date ? parseDate(t.date) : new Date();
+  if(!d) return;
   d.setDate(d.getDate() + days);
   document.getElementById('postponeDateInput').value = fmtDate(d);
 }
@@ -2084,8 +2100,10 @@ function renderTodos(){
   let headerSub = '所有待办';
   const rangeNames = {all:'', today:'今天', week:'本周', month:'本月'};
   if(selectedDate){
-    const d = new Date(selectedDate);
-    headerSub = `${d.getMonth()+1}月${d.getDate()}日（${getWeekDayName(selectedDate)}）的待办`;
+    const d = parseDate(selectedDate);
+    if(d){
+      headerSub = `${d.getMonth()+1}月${d.getDate()}日（${getWeekDayName(selectedDate)}）的待办`;
+    }
   } else if(currentDateRange !== 'all'){
     headerSub = rangeNames[currentDateRange] + '待办';
   }
