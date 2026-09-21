@@ -1796,19 +1796,27 @@ document.addEventListener('click', function(e){
 document.addEventListener('scroll', hideContextMenu, true);
 document.addEventListener('scroll', hideTodoContextMenu, true);
 
-// 快捷键 - 修复CTRL+V和Escape问题
-document.addEventListener('keydown', function(e){
-  const active = document.activeElement;
-  const isInputFocused = active && (
-    active.tagName === 'INPUT' ||
-    active.tagName === 'TEXTAREA' ||
-    active.tagName === 'SELECT' ||
-    active.isContentEditable
-  );
+// ============ 判断焦点是否在可编辑元素内 ============
+function isEditableTarget(el){
+  while(el){
+    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') return true;
+    if(el.isContentEditable) return true;
+    el = el.parentElement;
+  }
+  return false;
+}
 
-  if(e.key === 'Escape'){
-    // 只在非输入焦点或按下Escape时才关闭，但始终允许Escape关闭弹窗
-    // 这是预期行为：Escape应该关闭弹窗
+// ============ 快捷键 ============
+document.addEventListener('keydown', function(e){
+  // IME 合成中（中文/日文输入）不处理快捷键，避免误触发
+  if(e.isComposing || e.keyCode === 229) return;
+
+  const active = document.activeElement;
+  const isInputFocused = isEditableTarget(active);
+
+  // 仅在没有修饰键（Ctrl/Meta/Alt）时处理 Escape，
+  // 防止某些浏览器/IME/系统在 Ctrl+V 等组合键时派发异常的 Escape 事件导致弹窗被关闭
+  if(e.key === 'Escape' && !e.ctrlKey && !e.metaKey && !e.altKey){
     closeModal();
     closeConfirm();
     closeImport();
@@ -1819,6 +1827,9 @@ document.addEventListener('keydown', function(e){
     hideTodoContextMenu();
     return;
   }
+
+  // 带修饰键（Ctrl/Meta/Alt）的组合键不触发单键快捷键（如 Ctrl+N、Ctrl+V、Ctrl+C 等）
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
 
   if(!isInputFocused && (e.key === 'n' || e.key === 'N')){
     e.preventDefault();
