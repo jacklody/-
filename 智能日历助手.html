@@ -990,17 +990,27 @@ input,textarea,select{font-family:inherit;font-size:14px}
 
 <script>
 /* ============================================================
-   智能日历助手 v3.0
+   智能日历助手 v4.0 · 协作汇总版
    单文件HTML · 零依赖 · localStorage本地存储
    ============================================================ */
 
 const STORAGE_KEY = 'magong_todo_calendar';
+const APP_VERSION = '4.0';
+const STORAGE_KEY_V3_BACKUP = STORAGE_KEY + '_v3_backup';
+const ATTACHMENT_MAX_FILE = 5 * 1024 * 1024;
+const ATTACHMENT_MAX_TOTAL = 20 * 1024 * 1024;
+const ALLOWED_ATTACHMENT_EXT = /\.(png|jpe?g|gif|webp|svg|bmp|ico|pdf|docx?|xlsx?|pptx?|md|markdown|txt)$/i;
+const FILE_EXT_ICONS = {pdf:'📕',doc:'📘',docx:'📘',xls:'📗',xlsx:'📗',ppt:'📙',pptx:'📙',md:'📝',txt:'📄',markdown:'📝',image:'🖼️'};
+const AVATAR_COLORS = ['#3b82f6','#ef4444','#10b981','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#f97316'];
 const PRIORITY = {red:'紧急',yellow:'次要',blue:'正常',green:'已完成'};
 const PRIORITY_ORDER = {red:0,yellow:1,blue:2,green:3};
 const WEEK_NAMES = ['周日','周一','周二','周三','周四','周五','周六'];
 
 // 状态
 let todos = [];
+let members = [];
+let groups = [];
+let webhookConfig = {defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:null,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''};
 let currentDate = new Date();
 let weekRefDate = new Date();
 let selectedDate = null;
@@ -1016,6 +1026,17 @@ let pendingDeleteId = null;
 let currentView = 'month';
 let highlightedTodoId = null;
 let expandedTodoId = null;
+let currentDashboardPeriod = 'week';
+let currentDashboardDim = 'member';
+let pendingCompleteTodoId = null;
+let mentionDropdownState = null;
+let routeFromFeishu = false;
+let pendingAttachments = [];
+let scheduleTimer = null;
+let pushHistory = {};
+let _currentTodoAtts = null;
+let _currentTodoId = null;
+let _reportMdCache = '';
 
 // 拖拽状态
 let dragState = null; // { todoId, fromDate, ghostEl }
@@ -1087,6 +1108,40 @@ function escapeHtml(str){
   if(!str) return '';
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+function escapeAttr(str){ return String(str||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function genMemberId(){ return 'm_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function genGroupId(){ return 'g_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function genAttId(){ return 'att_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function getMemberById(id){ return members.find(m=>m.id===id); }
+function getCurrentUser(){ return getMemberById(webhookConfig.currentUserId) || members[0]; }
+function getSubordinatesOf(managerId){ return members.filter(m=>m.managerId===managerId); }
+function getGroupById(id){ return groups.find(g=>g.id===id); }
+function formatBytes(bytes){ if(!bytes||bytes<0)return '0B'; if(bytes<1024)return bytes+'B'; if(bytes<1024*1024)return(bytes/1024).toFixed(1)+'KB'; return(bytes/1024/1024).toFixed(2)+'MB'; }
+function getFileExt(name){ const parts=(name||'').split('.'); return parts.length>1?parts.pop().toLowerCase():''; }
+function getFileIcon(name){ const ext=getFileExt(name); if(/^(png|jpe?g|gif|webp|svg|bmp|ico)$/i.test(ext))return FILE_EXT_ICONS.image; return FILE_EXT_ICONS[ext]||'📄'; }
+function isImageMime(mime){ return !!mime && mime.startsWith('image/'); }
+function isImageByName(name){ return /^(png|jpe?g|gif|webp|svg|bmp|ico)$/i.test(getFileExt(name)); }
+function fmtDateTime(d){ const dt=d instanceof Date?d:new Date(d); if(isNaN(dt.getTime()))return''; return fmtDate(dt)+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0'); }
+function parseTimeStr(t){ if(!t)return{h:0,m:0}; const p=t.split(':').map(Number); return{h:p[0]||0,m:p[1]||0}; }
+function daysBetween(a,b){ const da=parseDate(a),db=parseDate(b); if(!da||!db)return 0; const today=new Date(); today.setHours(0,0,0,0); return Math.floor((db-da)/86400000); }
+function getTodoStatus(todo){
+  if(todo.done) return 'done';
+  const d = parseDate(todo.date);
+  if(!d) return 'inprogress';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.floor((d-today)/86400000);
+  if(diff<0) return 'overdue';
+  if(diff<=3) return 'duesoon';
+  return 'inprogress';
+}
+const STATUS_LABEL = {done:'已完成',inprogress:'进行中',overdue:'已逾期',duesoon:'即将到期'};
+const STATUS_COLOR = {done:'var(--green)',inprogress:'var(--blue)',overdue:'var(--red)',duesoon:'var(--yellow)'};
+const STATUS_HEX = {done:'#2ed573',inprogress:'#4a9eff',overdue:'#ff4757',duesoon:'#ffa502'};
+function getStatusLabel(s){ return STATUS_LABEL[s]||'进行中'; }
+function getStatusColor(s){ return STATUS_COLOR[s]||'var(--blue)'; }
+function getStorageUsed(){ try{ return JSON.stringify(localStorage).length; }catch(e){ return 0; } }
+function getStorageLimit(){ return 5*1024*1024; }
+function storageUsagePercent(){ return Math.min(100, Math.round(getStorageUsed()/getStorageLimit()*100)); }
 
 const PRIORITY_RANK = {blue:0, yellow:1, red:2};
 const PRIORITY_COLOR = {blue:'var(--blue)', yellow:'var(--yellow)', red:'var(--red)', green:'var(--green)'};
@@ -1216,45 +1271,124 @@ function getTodoDateRange(todo){
 }
 
 // ============ 数据层 ============
+function defaultData(){
+  const today = new Date();
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
+  const meId = 'm_001';
+  const mgrId = 'm_010';
+  return {
+    version:4,
+    todos:[
+      {id:genId(),title:'天加商空芯片项目 - 供应商询价推进',desc:'跟京西确认20-26P范围BOM物料报价，推进供应商询价',date:fmtDate(today),priority:'red',category:'项目',done:false,scope:'day',created:Date.now(),
+       assignees:[meId],mentionAll:false,mentions:[],attachments:[],deliverables:'',history:[{action:'created',by:mgrId,at:new Date().toISOString(),detail:'创建待办并分配'}],completedAt:null,requireDeliverable:true,notifyGroupId:''},
+      {id:genId(),title:'CostGuardian BOM核算模块开发',desc:'完成成本核算核心逻辑和报价单回写功能',date:fmtDate(tomorrow),priority:'blue',category:'成本',done:false,scope:'week',created:Date.now()-1000,
+       assignees:[meId],mentionAll:false,mentions:[],attachments:[],deliverables:'',history:[{action:'created',by:mgrId,at:new Date().toISOString(),detail:'创建待办'}],completedAt:null,requireDeliverable:true,notifyGroupId:''},
+      {id:genId(),title:'Q4成本优化专项 - 整体方案',desc:'按周推进，月底交付完整报告',date:'',priority:'blue',category:'成本',done:false,scope:'month',created:Date.now()-2000,
+       assignees:[meId],mentionAll:false,mentions:[],attachments:[],deliverables:'',history:[{action:'created',by:mgrId,at:new Date().toISOString(),detail:'创建待办'}],completedAt:null,requireDeliverable:false,notifyGroupId:''},
+      {id:genId(),title:'周小红简历排版迭代',desc:'调整排版格式，优化项目经历描述',date:fmtDate(today),priority:'green',category:'其他',done:true,scope:'day',created:Date.now()-3000,
+       assignees:[meId],mentionAll:false,mentions:[],attachments:[],deliverables:'',history:[{action:'created',by:meId,at:new Date().toISOString(),detail:'迁移自v3'},{action:'completed',by:meId,at:new Date().toISOString(),detail:'已完成'}],completedAt:new Date().toISOString(),requireDeliverable:false,notifyGroupId:''},
+    ],
+    members:[
+      {id:meId,name:'我',role:'member',dept:'研发部',func:'项目',feishuOpenId:'',avatarColor:'#3b82f6',managerId:mgrId},
+      {id:mgrId,name:'李经理',role:'manager',dept:'研发部',func:'管理',feishuOpenId:'',avatarColor:'#ef4444',managerId:null}
+    ],
+    groups:[{id:'g_001',name:'研发部全员',memberIds:[meId,mgrId],webhookUrl:'',webhookSecret:''}],
+    webhookConfig:{defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:meId,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}
+  };
+}
+
+function migrateV3toV4(raw){
+  try{ localStorage.setItem(STORAGE_KEY_V3_BACKUP, raw); }catch(e){ console.warn('v3备份失败:',e); }
+  const oldTodos = JSON.parse(raw);
+  const meId = 'm_me';
+  return {
+    version:4,
+    todos: oldTodos.map(t => ({
+      id:t.id, title:t.title, desc:t.desc||'', date:t.date||'', priority:t.priority||'blue',
+      category:t.category||'', done:!!t.done, scope:t.scope||'day', created:t.created||Date.now(),
+      assignees:[meId], mentionAll:false, mentions:[], attachments:[], deliverables:'',
+      history:[
+        {action:'created',by:meId,at:new Date(t.created||Date.now()).toISOString(),detail:'迁移自v3'},
+        ...(t.done?[{action:'completed',by:meId,at:new Date().toISOString(),detail:'v3中已完成'}]:[])
+      ],
+      completedAt: t.done ? new Date(t.created||Date.now()).toISOString() : null,
+      requireDeliverable:false, notifyGroupId:''
+    })),
+    members:[{id:meId,name:'我',role:'manager',dept:'',func:'',feishuOpenId:'',avatarColor:'#3b82f6',managerId:null}],
+    groups:[],
+    webhookConfig:{defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:meId,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}
+  };
+}
+
+function normalizeTodo(t){
+  if(!t.assignees) t.assignees = webhookConfig.currentUserId ? [webhookConfig.currentUserId] : [];
+  if(t.mentionAll===undefined) t.mentionAll=false;
+  if(!t.mentions) t.mentions=[];
+  if(!t.attachments) t.attachments=[];
+  if(t.deliverables===undefined) t.deliverables='';
+  if(!t.history) t.history=[];
+  if(t.requireDeliverable===undefined) t.requireDeliverable=true;
+  if(!t.notifyGroupId) t.notifyGroupId='';
+  if(!t.completedAt && t.done) t.completedAt=new Date().toISOString();
+}
+
 function loadData(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){
-      todos = JSON.parse(raw);
-      let migrated = false;
+    if(!raw){
+      const d = defaultData();
+      todos=d.todos; members=d.members; groups=d.groups; webhookConfig=d.webhookConfig;
+      saveData();
+      return;
+    }
+    let parsed;
+    try{ parsed = JSON.parse(raw); }catch(e){ parsed = null; }
+    if(Array.isArray(parsed)){
+      const d = migrateV3toV4(raw);
+      todos=d.todos; members=d.members; groups=d.groups; webhookConfig=d.webhookConfig;
+      saveData();
+      return;
+    }
+    if(parsed && parsed.version === 4){
+      todos = parsed.todos || [];
+      members = parsed.members || [];
+      groups = parsed.groups || [];
+      webhookConfig = Object.assign({defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:null,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}, parsed.webhookConfig||{});
+      let changed = false;
       todos.forEach(t=>{
-        if(!t.scope){ t.scope = 'day'; migrated = true; }
+        const before = JSON.stringify(t);
+        normalizeTodo(t);
+        if(JSON.stringify(t)!==before) changed=true;
+        if(!t.scope){ t.scope='day'; changed=true; }
         if(!t.created && t.date){
           const d = parseDate(t.date);
           t.created = d ? d.getTime() : Date.now();
-          migrated = true;
+          changed=true;
         }
       });
-      if(migrated) saveData();
-    } else {
-      const today = new Date();
-      const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
-      const day5 = new Date(today); day5.setDate(today.getDate()+5);
-      todos = [
-        {id:genId(), title:'天加商空芯片项目 - 供应商询价推进', desc:'跟京西确认20-26P范围BOM物料报价，推进供应商询价', date:fmtDate(today), priority:'red', category:'项目', done:false, scope:'day', created:Date.now()},
-        {id:genId(), title:'CostGuardian BOM核算模块开发', desc:'完成成本核算核心逻辑和报价单回写功能', date:fmtDate(tomorrow), priority:'blue', category:'成本', done:false, scope:'week', created:Date.now()-1000},
-        {id:genId(), title:'Q4成本优化专项 - 整体方案', desc:'按周推进，月底交付完整报告', date:'', priority:'blue', category:'成本', done:false, scope:'month', created:Date.now()-2000},
-        {id:genId(), title:'周小红简历排版迭代', desc:'调整排版格式，优化项目经历描述', date:fmtDate(today), priority:'green', category:'其他', done:true, scope:'day', created:Date.now()-3000},
-      ];
-      saveData();
+      if(changed) saveData();
+      return;
     }
+    const d = defaultData();
+    todos=d.todos; members=d.members; groups=d.groups; webhookConfig=d.webhookConfig;
+    saveData();
   } catch(e){
-    console.error('加载数据失败:', e);
-    todos = [];
+    console.error('加载数据失败:',e);
+    const d = defaultData();
+    todos=d.todos; members=d.members; groups=d.groups; webhookConfig=d.webhookConfig;
   }
 }
 
 function saveData(){
   try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({version:4,todos,members,groups,webhookConfig}));
   } catch(e){
-    console.error('保存数据失败:', e);
-    showToast('⚠️ 数据保存失败');
+    console.error('保存数据失败:',e);
+    if(e.name==='QuotaExceededError' || (e.message&&String(e.message).toLowerCase().indexOf('quota')>-1)){
+      showToast('⚠️ 本地存储已满，请清理附件或导出备份');
+    } else {
+      showToast('⚠️ 数据保存失败');
+    }
   }
 }
 
