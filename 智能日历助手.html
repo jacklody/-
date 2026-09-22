@@ -607,14 +607,6 @@ input,textarea,select{font-family:inherit;font-size:14px}
 .avatar-stack .avatar{margin-left:-6px;border:2px solid var(--card)}
 .avatar-stack .avatar:first-child{margin-left:0}
 
-/* 飞书已连接横幅 */
-.feishu-banner{background:linear-gradient(90deg,rgba(59,130,246,.1),rgba(16,185,129,.08));border-bottom:1px solid var(--border);padding:8px 20px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
-.feishu-banner .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-.feishu-banner .dot.disconnected{background:var(--muted);animation:none}
-.feishu-banner strong{color:var(--text);font-weight:600}
-.feishu-banner a{color:var(--primary);cursor:pointer;margin-left:auto;text-decoration:none}
-.feishu-banner a:hover{text-decoration:underline}
-
 /* 状态徽标 */
 .status-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
 .status-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
@@ -908,7 +900,6 @@ input,textarea,select{font-family:inherit;font-size:14px}
 @media(max-width:768px){
   .view-switcher{padding:8px 12px 0;overflow-x:auto}
   .filter-bar{padding:8px 12px}
-  .feishu-banner{padding:8px 12px;font-size:11px}
   .dashboard-view{padding:12px}
   .kpi-row{grid-template-columns:repeat(2,1fr)}
   .charts-row{grid-template-columns:1fr}
@@ -957,13 +948,6 @@ input,textarea,select{font-family:inherit;font-size:14px}
       <button class="btn btn-primary" onclick="openModal()">➕ <span>新建</span></button>
     </div>
   </header>
-
-  <!-- 飞书连接状态横幅 -->
-  <div class="feishu-banner" id="feishuBanner" style="display:none">
-    <span class="dot" id="feishuDot"></span>
-    <span id="feishuBannerText"><strong>飞书 Webhook 未配置</strong> · @提及、日程推送、定时汇总暂不可用</span>
-    <a onclick="openSettingsModal('feishu')">立即配置 →</a>
-  </div>
 
   <div class="stats" id="statsPanel"></div>
 
@@ -4870,21 +4854,8 @@ function previewTodoImg(todoId, attId){
   document.getElementById('imgPreviewOverlay').classList.add('show');
 }
 
-// ============ v4 界面渲染（横幅/身份/筛选/存储/计数） ============
+// ============ v4 界面渲染（身份/筛选/存储/计数） ============
 function renderV4Chrome(){
-  // 飞书横幅
-  const banner = document.getElementById('feishuBanner');
-  const configured = feishuConfigured();
-  banner.style.display = 'block';
-  document.getElementById('feishuDot').className = 'dot' + (configured?'':' disconnected');
-  if(!configured){
-    document.getElementById('feishuBannerText').innerHTML = `<strong>飞书 Webhook 未配置</strong> · @提及、日程推送、定时汇总暂不可用`;
-  } else if(webhookConfig.feishuPushEnabled === false){
-    document.getElementById('feishuDot').className = 'dot disconnected';
-    document.getElementById('feishuBannerText').innerHTML = `<strong>🔕 飞书推送已关闭</strong> · 所有推送已暂停，<a onclick="openSettingsModal('feishu')" style="color:inherit;text-decoration:underline;cursor:pointer">点此开启</a>`;
-  } else {
-    document.getElementById('feishuBannerText').innerHTML = `<strong>飞书 Webhook 已连接</strong> · @提及、交付通知、汇总推送可用`;
-  }
   // 身份
   const me = getCurrentUser();
   if(me){
