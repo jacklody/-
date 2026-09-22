@@ -696,6 +696,16 @@ input,textarea,select{font-family:inherit;font-size:14px}
 .picker-opt .meta{font-size:11px;color:var(--muted);margin-left:auto}
 .checkbox-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);cursor:pointer;padding:6px 0}
 .checkbox-row input{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}
+.push-master-switch{background:linear-gradient(135deg,rgba(74,158,255,.06),rgba(74,158,255,.02));border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.switch-row{display:flex;align-items:center;gap:12px;cursor:pointer}
+.switch-row input[type=checkbox]{display:none}
+.switch-track{position:relative;display:inline-block;width:44px;height:24px;background:#cbd5e1;border-radius:9999px;flex-shrink:0;transition:background .2s}
+.switch-thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.switch-row input:checked + .switch-track{background:var(--primary)}
+.switch-row input:checked + .switch-track .switch-thumb{transform:translateX(20px)}
+.switch-label{display:flex;flex-direction:column;gap:2px}
+.switch-label strong{font-size:14px;color:var(--text)}
+.switch-label .hint{font-size:12px;color:var(--muted);line-height:1.5}
 .editor-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 /* 附件 dropzone */
@@ -1575,7 +1585,7 @@ const WEEK_NAMES = ['周日','周一','周二','周三','周四','周五','周�
 let todos = [];
 let members = [];
 let groups = [];
-let webhookConfig = {defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:null,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''};
+let webhookConfig = {defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:null,feishuPushEnabled:true,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''};
 let currentDate = new Date();
 let weekRefDate = new Date();
 let selectedDate = null;
@@ -1860,7 +1870,7 @@ function defaultData(){
       {id:mgrId,name:'李经理',role:'manager',dept:'研发部',func:'管理',feishuOpenId:'',avatarColor:'#ef4444',managerId:null}
     ],
     groups:[{id:'g_001',name:'研发部全员',memberIds:[meId,mgrId],webhookUrl:'',webhookSecret:''}],
-    webhookConfig:{defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:meId,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}
+    webhookConfig:{defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:meId,feishuPushEnabled:true,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}
   };
 }
 
@@ -1883,7 +1893,7 @@ function migrateV3toV4(raw){
     })),
     members:[{id:meId,name:'我',role:'manager',dept:'',func:'',feishuOpenId:'',avatarColor:'#3b82f6',managerId:null}],
     groups:[],
-    webhookConfig:{defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:meId,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}
+    webhookConfig:{defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:meId,feishuPushEnabled:true,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}
   };
 }
 
@@ -1920,7 +1930,7 @@ function loadData(){
       todos = parsed.todos || [];
       members = parsed.members || [];
       groups = parsed.groups || [];
-      webhookConfig = Object.assign({defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:null,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}, parsed.webhookConfig||{});
+      webhookConfig = Object.assign({defaultWebhookUrl:'',defaultWebhookSecret:'',appBaseUrl:'',currentUserId:null,feishuPushEnabled:true,dailyPush:false,weeklyPush:false,dailyPushTime:'18:00',weeklyPushTime:'17:00',lastDailyPushDate:'',lastWeeklyPushDate:''}, parsed.webhookConfig||{});
       let changed = false;
       todos.forEach(t=>{
         const before = JSON.stringify(t);
@@ -3984,10 +3994,15 @@ function buildFeishuCard(title, sections, linkUrl){
   }
   return {msg_type:'interactive', card};
 }
-async function sendFeishuWebhook(payload){
+async function sendFeishuWebhook(payload, opts){
+  opts = opts || {};
   const url = getWebhookUrl();
   if(!url){
-    showToast('⚠️ 未配置飞书 Webhook，请在设置中配置');
+    if(!opts.silent) showToast('⚠️ 未配置飞书 Webhook，请在设置中配置');
+    return false;
+  }
+  if(webhookConfig.feishuPushEnabled === false && !opts.bypassMasterSwitch){
+    if(!opts.silent) showToast('🔕 飞书推送已关闭，可在设置中开启');
     return false;
   }
   let finalUrl = url;
@@ -4028,15 +4043,17 @@ function buildTodoSections(t){
 }
 async function notifyTodoAssigned(t, action){
   if(!feishuConfigured()) return;
+  if(webhookConfig.feishuPushEnabled === false) return;
   const title = `📋 ${action}：${t.title}`;
   const sections = buildTodoSections(t);
   const link = appLinkUrl(t.id);
-  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, link));
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, link), {silent:true});
   if(ok === false) return;
   showToast('🔔 已通知负责人（飞书）');
 }
 async function notifyDeliverable(t){
   if(!feishuConfigured()) return;
+  if(webhookConfig.feishuPushEnabled === false) return;
   const title = `📎 交付物提交：${t.title}`;
   const sections = [];
   const by = getCurrentUser();
@@ -4044,7 +4061,7 @@ async function notifyDeliverable(t){
   if(t.deliverables) sections.push(`**交付说明**：${t.deliverables}`);
   if(t.attachments && t.attachments.length) sections.push(`**交付文件**：${t.attachments.map(a=>a.name).join('、')}`);
   const link = appLinkUrl(t.id);
-  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, link));
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, link), {silent:true});
   if(ok === false) return;
   showToast('🔔 已通知经理（飞书）');
 }
@@ -4433,8 +4450,8 @@ async function pushReportToFeishu(){
   st.textContent = '✅ 已推送';
   showToast('📤 报告已推送到飞书');
 }
-async function pushDashboardToFeishu(){
-  if(!feishuConfigured()){ showToast('⚠️ 请先在设置中配置飞书 Webhook'); openSettingsModal('feishu'); return; }
+async function pushDashboardToFeishu(silent){
+  if(!feishuConfigured()){ if(!silent){ showToast('⚠️ 请先在设置中配置飞书 Webhook'); openSettingsModal('feishu'); } return; }
   const list = getDashboardTodos();
   const done = list.filter(t=>t.done).length;
   const overdue = list.filter(t=>!t.done && getTodoStatus(t)==='overdue').length;
@@ -4445,9 +4462,9 @@ async function pushDashboardToFeishu(){
   list.forEach(t=>{ const m=(t.assignees||[])[0]?getMemberById(t.assignees[0]):null; const n=m?m.name:'未分配'; byMember[n]=(byMember[n]||0)+1; });
   sections.push(`**成员分布**：${Object.entries(byMember).map(([k,v])=>`${k} ${v}项`).join('　')}`);
   if(overdue>0) sections.push(`**⚠️ 逾期任务 ${overdue} 项，请重点关注**`);
-  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, null));
+  const ok = await sendFeishuWebhook(buildFeishuCard(title, sections, null), {silent:!!silent});
   if(ok === false) return;
-  showToast('📤 汇总已推送到飞书');
+  if(!silent) showToast('📤 汇总已推送到飞书');
 }
 
 // ============ 设置面板 ============
@@ -4474,7 +4491,20 @@ function renderSettingsTab(){
 function settingsFeishuHtml(){
   return `
     <div class="settings-section">
-      <h4><span class="num">1</span> 飞书 Webhook 配置</h4>
+      <h4><span class="num">1</span> 飞书推送开关</h4>
+      <div class="push-master-switch">
+        <label class="switch-row">
+          <input type="checkbox" id="cfgFeishuPushEnabled" ${webhookConfig.feishuPushEnabled!==false?'checked':''} onchange="onFeishuPushToggleChange(this)">
+          <span class="switch-track"><span class="switch-thumb"></span></span>
+          <span class="switch-label">
+            <strong id="cfgFeishuPushStatusText">${webhookConfig.feishuPushEnabled!==false?'推送已开启':'推送已关闭'}</strong>
+            <span class="hint" id="cfgFeishuPushHint">${webhookConfig.feishuPushEnabled!==false?'新建任务、交付物提交、定时汇总都会推送到飞书群':'所有飞书消息推送已暂停，关闭期间产生的通知不会补发'}</span>
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h4><span class="num">2</span> 飞书 Webhook 配置</h4>
       <div class="webhook-guide">
         <strong>配置步骤：</strong>
         <ol>
@@ -4506,7 +4536,7 @@ function settingsFeishuHtml(){
       </div>
     </div>
     <div class="settings-section">
-      <h4><span class="num">2</span> 定时推送</h4>
+      <h4><span class="num">3</span> 定时推送</h4>
       <div class="form-row">
         <label class="checkbox-row"><input type="checkbox" id="cfgDailyPush" ${webhookConfig.dailyPush?'checked':''}><span>每日定时推送部门汇总</span></label>
         <div class="inline-row" style="margin-top:6px">
@@ -4690,6 +4720,8 @@ function saveSettings(closeAfter){
   if(url) webhookConfig.defaultWebhookUrl = url.value.trim();
   if(secret) webhookConfig.defaultWebhookSecret = secret.value.trim();
   if(appUrl) webhookConfig.appBaseUrl = appUrl.value.trim();
+  const pushEnabled = document.getElementById('cfgFeishuPushEnabled');
+  if(pushEnabled) webhookConfig.feishuPushEnabled = pushEnabled.checked;
   const daily = document.getElementById('cfgDailyPush');
   const dailyTime = document.getElementById('cfgDailyPushTime');
   const weekly = document.getElementById('cfgWeeklyPush');
@@ -4703,6 +4735,17 @@ function saveSettings(closeAfter){
   if(closeAfter) closeSettingsModal();
   showToast('✅ 设置已保存');
 }
+function onFeishuPushToggleChange(cb){
+  const enabled = cb.checked;
+  webhookConfig.feishuPushEnabled = enabled;
+  saveData();
+  const st = document.getElementById('cfgFeishuPushStatusText');
+  const h = document.getElementById('cfgFeishuPushHint');
+  if(st){ st.textContent = enabled ? '推送已开启' : '推送已关闭'; }
+  if(h){ h.textContent = enabled ? '新建任务、交付物提交、定时汇总都会推送到飞书群' : '所有飞书消息推送已暂停，关闭期间产生的通知不会补发'; }
+  renderV4Chrome();
+  showToast(enabled ? '🔔 飞书推送已开启' : '🔕 飞书推送已关闭');
+}
 async function testFeishuWebhook(){
   const url = document.getElementById('cfgWebhookUrl').value.trim();
   const secret = document.getElementById('cfgWebhookSecret').value.trim();
@@ -4714,7 +4757,7 @@ async function testFeishuWebhook(){
   r.className = 'webhook-test-result';
   r.textContent = '⏳ 发送中...';
   r.style.display = 'block';
-  const ok = await sendFeishuWebhook({msg_type:'text', content:{text:'✅ 智能日历助手 Webhook 测试成功！'}});
+  const ok = await sendFeishuWebhook({msg_type:'text', content:{text:'✅ 智能日历助手 Webhook 测试成功！'}}, {bypassMasterSwitch:true});
   webhookConfig.defaultWebhookUrl = savedUrl; webhookConfig.defaultWebhookSecret = savedSecret;
   if(ok === false){ r.className='webhook-test-result err'; r.textContent='❌ 发送失败，请检查地址与网络'; return; }
   r.className = 'webhook-test-result ok';
@@ -4750,13 +4793,14 @@ function initScheduleTimer(){
   scheduleTimer = setInterval(checkScheduledPush, 60000);
 }
 function checkScheduledPush(){
+  if(webhookConfig.feishuPushEnabled === false) return;
   const now = new Date();
   const today = todayStr();
   const hm = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
   if(webhookConfig.dailyPush && webhookConfig.dailyPushTime === hm && webhookConfig.lastDailyPushDate !== today){
     webhookConfig.lastDailyPushDate = today;
     saveData();
-    pushDashboardToFeishu();
+    pushDashboardToFeishu(true);
   }
   if(webhookConfig.weeklyPush && webhookConfig.weeklyPushTime === hm && webhookConfig.lastWeeklyPushDate !== today){
     webhookConfig.lastWeeklyPushDate = today;
@@ -4767,7 +4811,7 @@ function checkScheduledPush(){
 async function pushReportToFeishuSilent(){
   const md = generateReport();
   const sections = [md.replace(/^#+ /gm,'').slice(0, 3000) || '（无内容）'];
-  await sendFeishuWebhook(buildFeishuCard('📈 部门周报', sections, null));
+  await sendFeishuWebhook(buildFeishuCard('📈 部门周报', sections, null), {silent:true});
 }
 
 // ============ 列表渲染辅助 ============
@@ -4833,9 +4877,14 @@ function renderV4Chrome(){
   const configured = feishuConfigured();
   banner.style.display = 'block';
   document.getElementById('feishuDot').className = 'dot' + (configured?'':' disconnected');
-  document.getElementById('feishuBannerText').innerHTML = configured
-    ? `<strong>飞书 Webhook 已连接</strong> · @提及、交付通知、汇总推送可用`
-    : `<strong>飞书 Webhook 未配置</strong> · @提及、日程推送、定时汇总暂不可用`;
+  if(!configured){
+    document.getElementById('feishuBannerText').innerHTML = `<strong>飞书 Webhook 未配置</strong> · @提及、日程推送、定时汇总暂不可用`;
+  } else if(webhookConfig.feishuPushEnabled === false){
+    document.getElementById('feishuDot').className = 'dot disconnected';
+    document.getElementById('feishuBannerText').innerHTML = `<strong>🔕 飞书推送已关闭</strong> · 所有推送已暂停，<a onclick="openSettingsModal('feishu')" style="color:inherit;text-decoration:underline;cursor:pointer">点此开启</a>`;
+  } else {
+    document.getElementById('feishuBannerText').innerHTML = `<strong>飞书 Webhook 已连接</strong> · @提及、交付通知、汇总推送可用`;
+  }
   // 身份
   const me = getCurrentUser();
   if(me){
