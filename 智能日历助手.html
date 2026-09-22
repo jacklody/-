@@ -2912,8 +2912,12 @@ function renderStats(){
   const activeKey = currentFilter === 'all' || currentFilter === 'overdue' ? currentFilter : null;
   const listActive = currentAppView==='list' ? 'active' : '';
   const dashActive = currentAppView==='dashboard' ? 'active' : '';
+  const projActive = currentAppView==='projects' ? 'active' : '';
+  const projCount = projects.filter(p=>!p.archived).length;
   document.getElementById('countList').textContent = listCount;
   document.getElementById('countDash').textContent = dashCount;
+  const cpEl = document.getElementById('countProjects');
+  if(cpEl) cpEl.textContent = projCount;
   document.getElementById('statsPanel').innerHTML = `
     <div class="stat-item ${activeKey==='all'?'active':''}" onclick="setFilter('all')">
       <span class="stat-num">${counts.all}</span><span class="stat-label">待办</span>
@@ -2936,6 +2940,7 @@ function renderStats(){
     <span class="stat-spacer"></span>
     <button class="stat-view-item ${listActive}" onclick="switchAppView('list')">📋 <span>任务列表</span><span class="count">${listCount}</span></button>
     <button class="stat-view-item ${dashActive}" onclick="switchAppView('dashboard')">📈 <span>经理汇总</span><span class="count">${dashCount}</span></button>
+    <button class="stat-view-item ${projActive}" onclick="switchAppView('projects')">📁 <span>供应链项目</span><span class="count">${projCount}</span></button>
   `;
 }
 
@@ -4359,17 +4364,15 @@ let currentAppView = 'list';
 let currentListFilter = 'all';
 function switchAppView(view){
   currentAppView = view;
-  document.getElementById('tabListView').classList.toggle('active', view==='list');
-  document.getElementById('tabDashboardView').classList.toggle('active', view==='dashboard');
-  document.getElementById('tabProjectsView').classList.toggle('active', view==='projects');
   document.getElementById('listViewContainer').style.display = view==='list' ? '' : 'none';
   document.getElementById('dashboardView').classList.toggle('show', view==='dashboard');
   const pv = document.getElementById('projectsViewContainer');
   if(pv) pv.classList.toggle('show', view==='projects');
+  renderStats();
   const sb = document.getElementById('statsPanel');
   const fb = document.getElementById('filterBar');
   if(view==='projects'){
-    if(sb) sb.style.display='none';
+    if(sb) sb.style.display='';
     if(fb) fb.style.display='none';
     if(currentProjectId) renderProjectDetail();
     else renderProjectsView();
@@ -4379,7 +4382,6 @@ function switchAppView(view){
     if(view==='dashboard') renderDashboard();
     else {
       renderCalendar();
-      renderStats();
       renderFilters();
       renderTodos();
     }
