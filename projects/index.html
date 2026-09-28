@@ -3927,15 +3927,30 @@ function renderPreviewList(){
 
 function togglePreviewItem(idx, checked){
   pendingPreviewItems[idx].checked = checked;
-  renderPreviewList();
+  const n = pendingPreviewItems.filter(i => i.checked).length;
+  document.getElementById('previewSummary').textContent = `共识别 ${pendingPreviewItems.length} 条待办，已选 ${n} 条。可在下方修改标题/日期/优先级后批量创建。`;
+  const item = document.querySelector(`.preview-item[data-idx="${idx}"]`);
+  if(item) item.classList.toggle('checked', checked);
 }
 function updatePreviewField(idx, field, value){
   pendingPreviewItems[idx][field] = value;
-  if(field === 'title' || field === 'priority'){
-    // 不整体重绘避免焦点丢失
-    return;
+  // 输入过程中不重绘 DOM，避免破坏中文/日文 IME 合成状态（导致无法选词、无法切换输入法、焦点丢失）
+  // 仅在勾选/删除时整体重绘；此处只做必要的局部文本更新（日期旁的"未排期"提示）
+  if(field === 'date'){
+    const item = document.querySelector(`.preview-item[data-idx="${idx}"]`);
+    if(item){
+      const hint = item.querySelector('.preview-meta-row > span:last-child');
+      if(hint){
+        if(value){
+          hint.textContent = value;
+          hint.style.color = 'var(--muted)';
+        } else {
+          hint.textContent = '未排期';
+          hint.style.color = 'var(--red)';
+        }
+      }
+    }
   }
-  renderPreviewList();
 }
 function removePreviewItem(idx){
   pendingPreviewItems.splice(idx, 1);
