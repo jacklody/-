@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>智能日历助手 · 版本导航</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.wrap{max-width:960px;width:100%}
+h1{color:#fff;text-align:center;font-size:28px;margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.sub{color:rgba(255,255,255,.85);text-align:center;font-size:14px;margin-bottom:36px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{background:#fff;border-radius:16px;padding:28px 24px;box-shadow:0 10px 40px rgba(0,0,0,.18);text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s;display:block}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.25)}
+.icon{font-size:42px;margin-bottom:12px}
+.name{font-size:20px;font-weight:600;margin-bottom:6px;color:#1a1a2e}
+.desc{font-size:13px;color:#666;line-height:1.6}
+.tag{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.tag.basic{background:#e8f5e9;color:#2e7d32}
+.tag.feishu{background:#e3f2fd;color:#1565c0}
+.tag.projects{background:#fce4ec;color:#c62828}
+.arrow{float:right;color:#aaa;font-size:20px;margin-top:-48px}
+footer{text-align:center;color:rgba(255,255,255,.6);font-size:12px;margin-top:32px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📅 智能日历助手</h1>
+  <p class="sub">请选择要使用的版本（可加入浏览器书签）</p>
+  <div class="cards">
+    <a class="card" href="basic/">
+      <div class="icon">📝</div>
+      <div class="name">纯记录版</div>
+      <div class="desc">基础日历+待办记录，不连接飞书、无项目模块。适合纯个人使用。</div>
+      <span class="tag basic">基础版</span>
+      <span class="arrow">›</span>
+    </a>
+    <a class="card" href="feishu/">
+      <div class="icon">🤖</div>
+      <div class="name">飞书机器人版</div>
+      <div class="desc">接入飞书 Webhook，任务分配/到期自动推送飞书消息通知。</div>
+      <span class="tag feishu">飞书联动</span>
+      <span class="arrow">›</span>
+    </a>
+    <a class="card" href="projects/">
+      <div class="icon">📁</div>
+      <div class="name">供应链项目版</div>
+      <div class="desc">包含飞书推送，新增供应链项目管理：5个标准阶段、7个质量门、时间线泳道视图。</div>
+      <span class="tag projects">项目WBS</span>
+      <span class="arrow">›</span>
+    </a>
+  </div>
+  <footer>点击卡片进入对应版本 · 进入后 Ctrl+D 可直接加入书签</footer>
+</div>
+</body>
+</html>
