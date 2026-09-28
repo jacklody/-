@@ -4362,13 +4362,14 @@ function closeImgPreview(e){
 // ============ 视图切换 ============
 let currentAppView = 'list';
 let currentListFilter = 'all';
-function switchAppView(view){
+function switchAppView(view, fromHash){
   currentAppView = view;
   document.getElementById('listViewContainer').style.display = view==='list' ? '' : 'none';
   document.getElementById('dashboardView').classList.toggle('show', view==='dashboard');
   const pv = document.getElementById('projectsViewContainer');
   if(pv) pv.classList.toggle('show', view==='projects');
   renderStats();
+  if(!fromHash) syncViewHash(view);
   const sb = document.getElementById('statsPanel');
   const fb = document.getElementById('filterBar');
   if(view==='projects'){
@@ -5069,15 +5070,34 @@ function switchCurrentUser(){
 }
 
 // ============ 深链路由 ============
+let _suppressHashChange = false;
+const VIEW_HASH_MAP = { '': 'list', '#': 'list', '#list': 'list', '#dashboard': 'dashboard', '#projects': 'projects' };
+function resolveViewFromHash(){
+  let h = location.hash.split('?')[0].split('&')[0];
+  return VIEW_HASH_MAP[h] || null;
+}
 function handleHashRoute(){
   const h = location.hash;
   if(h && h.startsWith('#todo=')){
-    const id = h.slice(6);
+    const id = h.slice(6).split('?')[0].split('&')[0];
     routeFromFeishu = true;
-    switchAppView('list');
+    switchAppView('list', true);
     focusTodo(id);
     showToast('📍 已定位到飞书任务');
+    return;
   }
+  const view = resolveViewFromHash();
+  if(view && view !== currentAppView){
+    switchAppView(view, true);
+  }
+}
+function syncViewHash(view){
+  const map = { list:'#list', dashboard:'#dashboard', projects:'#projects' };
+  const target = map[view];
+  if(!target) return;
+  if(location.hash === target) return;
+  _suppressHashChange = true;
+  history.replaceState(null, '', target);
 }
 
 // ============ 定时推送 ============
