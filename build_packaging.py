@@ -1,9 +1,16 @@
+import shutil
+import subprocess
+import sys
+import zipfile
+
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.worksheet.datavalidation import DataValidation
+from openpyxl.formatting.rule import FormulaRule
 
 SRC = '/workspace/.uploads/515f2b04-e179-4784-97f1-ed2324f7b971_产品成本测算报价表.xlsx'
 OUT = '/workspace/产品成本测算报价表.xlsx'
+RECALC = '/data/user/plugins/trae-remote-official/office-plugin/0.1.0/skills/xlsx/scripts/recalc.py'
 
 wb = openpyxl.load_workbook(SRC)
 
@@ -14,6 +21,8 @@ GREEN = 'FF008000'
 BLACK = 'FF000000'
 FILL_TITLE = PatternFill('solid', fgColor='FF0F3B5D')
 FILL_SEC = PatternFill('solid', fgColor='FF3288B9')
+FILL_EMPTY = PatternFill('solid', fgColor='FFFFFF00')
+FILL_DONE = PatternFill('solid', fgColor='FFC6EFCE')
 
 def font(size=10, bold=False, color=BLACK):
     return Font(name=F_NAME, size=size, bold=bold, color=color)
@@ -32,9 +41,20 @@ ws.add_data_validation(dv)
 dv.add(ws['B19'])
 ws['B30'] = '=包装计算!$B$43'
 
+required_groups = ['B4:B6', 'B8:B9', 'B13:B19', 'B21:B23']
+for grp in required_groups:
+    anchor = grp.split(':')[0]
+    for row in ws[grp]:
+        for cell in row:
+            cell.fill = FILL_EMPTY
+    ws.conditional_formatting.add(
+        grp,
+        FormulaRule(formula=[f'LEN({anchor})>0'], fill=FILL_DONE),
+    )
+
 # ---------------- 使用说明 ----------------
 ws2 = wb['使用说明']
-ws2['B3'] = '首页【报价汇总】只填：产品信息、成品尺寸与单台净重、每箱件数、是否带散热器/组装结构、是否含整托、物流产品、目的地、每票件数。包装费与运费全部自动算。'
+ws2['B3'] = '首页【报价汇总】只填：产品信息、成品尺寸与单台净重、每箱件数、是否带散热器/组装结构、是否含整托、物流产品、目的地、每票件数。包装费与运费全部自动算。黄色底=必填待填，填完后自动变绿。'
 ws2['B4'] = '首页【报价汇总】填【带散热器/组装结构】是/否即可自动选方案：选「是」→大板（EPE珍珠棉+纸箱+护角+托盘+缠绕膜+打包带）；选「否」→小板（防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜）。带散热器/组装结构（暖通商空大功率驱动板）选「是」，水泵、风机板选「否」。单价与系数在《参数》页改。'
 ws2['B8'] = '跨越费率为参考价，可在《跨越费率》页直接改；金额默认不含税；包装费按方案清单自动算。'
 
@@ -259,3 +279,28 @@ wpk.column_dimensions['E'].width = 10
 
 wb.save(OUT)
 print('saved', OUT)
+
+
+def recalc_and_repair(path):
+    r = subprocess.run([sys.executable, RECALC, path], capture_output=True, text=True)
+    print(r.stdout.strip())
+    if r.returncode != 0:
+        print('RECALC STDERR:', r.stderr)
+        raise SystemExit(r.returncode)
+    tmp = path + '.tmp'
+    with zipfile.ZipFile(path, 'r') as zin, zipfile.ZipFile(tmp, 'w', zipfile.ZIP_DEFLATED) as zout:
+        for name in zin.namelist():
+            data = zin.read(name)
+            if name == 'xl/styles.xml':
+                s = data.decode('utf-8')
+                s = s.replace(
+                    '<patternFill><bgColor rgb="FFC6EFCE"/></patternFill>',
+                    '<patternFill patternType="solid"><fgColor rgb="FFC6EFCE"/></patternFill>',
+                )
+                data = s.encode('utf-8')
+            zout.writestr(name, data)
+    shutil.move(tmp, path)
+    print('recalc + repair done', path)
+
+
+recalc_and_repair(OUT)
