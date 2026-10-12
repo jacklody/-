@@ -56,6 +56,16 @@ ws['G20'].number_format = '0.00'
 dv = DataValidation(type='list', formula1='"否,是"', allow_blank=False)
 ws.add_data_validation(dv)
 dv.add('B19:B20')
+for d in list(ws.data_validations.dataValidation):
+    if d.formula1 and '次日达' in d.formula1:
+        ws.data_validations.dataValidation.remove(d)
+dv_prod = DataValidation(type='list', formula1='"次日达,特惠普运"', allow_blank=True)
+ws.add_data_validation(dv_prod)
+dv_prod.add('B22')
+ws['A26'] = '注'
+ws['B26'] = '物流产品选次日达/特惠普运；目的地只需填城市名（如“宁波”“杭州”），系统按所选产品自动匹配对应费率行；该产品不覆盖此城市时运费显示空白。'
+ws['A26'].font = font()
+ws['B26'].font = font(color=BLUE)
 ws['A27'] = '四、成本构成（未税/单台，自动计算）'
 ws['A28'] = '成本项目'
 ws['B28'] = '金额'
@@ -175,8 +185,16 @@ wm['D8'].number_format = '0.00'
 
 # ---------------- 运费计算 ----------------
 wf = wb['运费计算']
+wf['B4'] = '=报价汇总!B22'
+wf['B5'] = '=报价汇总!B23'
+wf['B6'] = '=报价汇总!B24'
 wf['B7'] = '=IF(报价汇总!B16="","",报价汇总!B16+包装计算!$B$41)'
 wf['B8'] = '=包装计算!$B$17'
+wf['B11'] = '=IF($B$12="","",INDEX(跨越费率!$Q$4:$Q$300,$B$12))'
+wf['B12'] = ('=IF(OR($B$4="",$B$5=""),"",'
+             'IFERROR(MATCH(1,INDEX((跨越费率!$A$4:$A$300=$B$4)*'
+             '(ISNUMBER(SEARCH($B$5,跨越费率!$Q$4:$Q$300))),0),0),""))')
+wf['B30'] = '=报价汇总!B25'
 
 # ---------------- 包装计算（整表重写） ----------------
 wpk = wb['包装计算']
