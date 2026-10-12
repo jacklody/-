@@ -29,19 +29,90 @@ def font(size=10, bold=False, color=BLACK):
 
 # ---------------- 报价汇总 ----------------
 ws = wb['报价汇总']
-ws['A19'] = '带散热器/组装结构(是/否)'
-ws['A19'].font = font()
+ws.insert_rows(20)
+ws.insert_rows(34)
+for rng in list(ws.merged_cells.ranges):
+    if rng.min_row <= 54 and rng.max_row >= 19:
+        ws.merged_cells.remove(rng)
+ws['A19'] = '是否带散热器(是/否)'
+ws['A20'] = '是否带组装结构(是/否)'
 ws['B19'] = '否'
-ws['B19'].font = font(color=BLUE)
-ws['B19'].alignment = Alignment(horizontal='left')
-ws['D19'] = '=IF(B19="是","自动→大板：EPE珍珠棉+纸箱+护角+托盘+缠绕膜+打包带","自动→小板：防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜")'
+ws['B20'] = '否'
+ws['D19'] = '=IF(OR(B19="是",B20="是"),"自动→大板：EPE珍珠棉+纸箱+护角+托盘+缠绕膜+打包带","自动→小板：防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜")'
+ws['D20'] = '装配节拍(秒/台)'
+ws['E20'] = 0
+ws['F20'] = '工时费(元/小时)'
+ws['G20'] = '=参数!$B$46'
+for ref in ['A19', 'A20', 'D20', 'F20']:
+    ws[ref].font = font()
+for ref in ['B19', 'B20', 'E20']:
+    ws[ref].font = font(color=BLUE)
+    ws[ref].alignment = Alignment(horizontal='left')
+ws['B20'] = '否'
 ws['D19'].font = font(color=GREEN)
+ws['G20'].font = font(color=GREEN)
+ws['E20'].number_format = '0.0'
+ws['G20'].number_format = '0.00'
 dv = DataValidation(type='list', formula1='"否,是"', allow_blank=False)
 ws.add_data_validation(dv)
-dv.add(ws['B19'])
-ws['B30'] = '=包装计算!$B$43'
-
-required_groups = ['B4:B6', 'B8:B9', 'B13:B19', 'B21:B23']
+dv.add('B19:B20')
+ws['A27'] = '四、成本构成（未税/单台，自动计算）'
+ws['A28'] = '成本项目'
+ws['B28'] = '金额'
+ws['C28'] = '单位'
+ws['D28'] = '备注'
+ws['E28'] = '公式'
+cost_rows = [
+    (29, '硬件材料', '=SUMIFS(物料明细!$H:$H,物料明细!$B:$B,"硬件")', '元/台', '物料明细'),
+    (30, '结构件', '=SUMIFS(物料明细!$H:$H,物料明细!$B:$B,"结构件")', '元/台', '物料明细'),
+    (31, '包装材料', '=包装计算!$B$43', '元/台', '包装计算（自动）'),
+    (32, '辅助材料', '=SUMIFS(物料明细!$H:$H,物料明细!$B:$B,"辅助材料")', '元/台', '物料明细'),
+    (33, '加工费', '=加工及工装!F13-加工及工装!F8', '元/台', '加工及工装（不含装配人工）'),
+    (34, '装配费用', '=加工及工装!F8', '元/台', '工艺节拍÷3600×工时费'),
+    (35, '工装分摊', '=加工及工装!H23', '元/台', '加工及工装'),
+    (36, '运费', '=运费计算!$B$33', '元/台', '运费计算（跨越费率）'),
+    (37, '利润', '=SUM(B29:B36)*0.15', '元/台', '工厂利润'),
+    (38, '总成本未税', '=SUM(B29:B37)', '元/台', '自动汇总'),
+]
+for r, a, b, c, d in cost_rows:
+    ws.cell(r, 1, a).font = font(bold=r in (37, 38))
+    ws.cell(r, 2, b).font = font(color=GREEN if '!' in b else BLACK, bold=r in (37, 38))
+    ws.cell(r, 3, c).font = font()
+    ws.cell(r, 4, d).font = font()
+    ws.cell(r, 2).number_format = '0.0000' if r == 34 else '0.00'
+quote_rows = [
+    (40, '五、自动报价结果', None, None, None),
+    (41, '报价项目', '结果', '单位', '备注'),
+    (42, '目标毛利率', '=参数!B4', '%', '参数页可改'),
+    (43, '建议报价未税', '=IFERROR(B38/(1-B42),0)', '元/台', '总成本/(1-毛利率)'),
+    (44, '税率', '=参数!B3', '%', '参数页可改'),
+    (45, '建议报价含税', '=B43*(1+B44)', '元/台', '未税价×(1+税率)'),
+    (46, '客户目标价', None, '元/台', '手工填写'),
+    (47, '目标价差异', '=IF(B46="","",B43-B46)', '元/台', '建议价-目标价'),
+    (48, '报价毛利率', '=IFERROR((B43-B38)/B43,0)', '%', '自动计算'),
+    (49, '年销售额未税', '=B43*B8', '元/年', '自动计算'),
+    (50, '年毛利额', '=IFERROR((B43-B38)*B8,0)', '元/年', '自动计算'),
+]
+for r, a, b, c, d in quote_rows:
+    ws.cell(r, 1, a).font = font(bold=r in (40, 41))
+    if b is not None:
+        ws.cell(r, 2, b).font = font(color=GREEN if isinstance(b, str) and '!' in b else BLACK, bold=r == 41)
+    ws.cell(r, 3, c).font = font(bold=r == 41)
+    ws.cell(r, 4, d).font = font(bold=r == 41)
+ws['A52'] = '六、风险检查'
+ws['A53'] = '客供料数量'
+ws['B53'] = '=COUNTIF(物料明细!I:I,"是")'
+ws['C53'] = '项'
+ws['A54'] = '新物料待报价'
+ws['B54'] = '=COUNTIF(物料明细!H:H,0)'
+ws['C54'] = '项'
+for ref in ['A27', 'A40', 'A52']:
+    ws[ref].font = font(bold=True, color=WHITE)
+    ws[ref].fill = FILL_SEC
+for ref in ['A28', 'B28', 'C28', 'D28', 'E28', 'A41', 'B41', 'C41', 'D41']:
+    ws[ref].font = font(bold=True, color=WHITE)
+    ws[ref].fill = FILL_SEC
+required_groups = ['B4:B6', 'B8:B9', 'B13:B20', 'E20:E20', 'G20:G20', 'B22:B24']
 for grp in required_groups:
     anchor = grp.split(':')[0]
     for row in ws[grp]:
@@ -54,8 +125,8 @@ for grp in required_groups:
 
 # ---------------- 使用说明 ----------------
 ws2 = wb['使用说明']
-ws2['B3'] = '首页【报价汇总】只填：产品信息、成品尺寸与单台净重、每箱件数、是否带散热器/组装结构、是否含整托、物流产品、目的地、每票件数。包装费与运费全部自动算。黄色底=必填待填，填完后自动变绿。'
-ws2['B4'] = '首页【报价汇总】填【带散热器/组装结构】是/否即可自动选方案：选「是」→大板（EPE珍珠棉+纸箱+护角+托盘+缠绕膜+打包带）；选「否」→小板（防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜）。带散热器/组装结构（暖通商空大功率驱动板）选「是」，水泵、风机板选「否」。单价与系数在《参数》页改。'
+ws2['B3'] = '首页【报价汇总】只填：产品信息、成品尺寸与单台净重、每箱件数、是否带散热器、是否带组装结构、是否含整托、物流产品、目的地、每票件数。包装费、装配费与运费全部自动算。黄色底=必填待填，填完后自动变绿。'
+ws2['B4'] = '首页【报价汇总】分别填写【是否带散热器】与【是否带组装结构】：任一为「是」→大板（EPE珍珠棉+纸箱+护角+托盘+缠绕膜+打包带）；两项均为「否」→小板（防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜）。如有组装结构，填写装配节拍(秒/台)和工时费，装配费=节拍÷3600×工时费。单价与系数在《参数》页改。'
 ws2['B8'] = '跨越费率为参考价，可在《跨越费率》页直接改；金额默认不含税；包装费按方案清单自动算。'
 
 # ---------------- 参数 ----------------
@@ -82,6 +153,7 @@ rows = [
     ('防静电气泡袋克重', 60, 'g/㎡', '气泡袋面密度', '0'),
     ('隔板单价', 0.3, '元/件', '小板每件隔板', '0.00'),
     ('隔板克重', 20, 'g/件', '小板隔板重量', '0'),
+    ('默认装配工时费', 60, '元/小时', '首页可按项目覆盖', '0.00'),
 ]
 for i, (a, b, cunit, d, fmt) in enumerate(rows):
     r = 43 + i
@@ -91,6 +163,15 @@ for i, (a, b, cunit, d, fmt) in enumerate(rows):
     bc.number_format = fmt
     wp.cell(row=r, column=3, value=cunit).font = font()
     wp.cell(row=r, column=4, value=d).font = font()
+
+# ---------------- 加工及工装 ----------------
+wm = wb['加工及工装']
+wm['C8'] = '=IF(报价汇总!B20="是",报价汇总!E20/3600,0)'
+wm['D8'] = '=报价汇总!G20'
+wm['C8'].font = font(color=GREEN)
+wm['D8'].font = font(color=GREEN)
+wm['C8'].number_format = '0.0000'
+wm['D8'].number_format = '0.00'
 
 # ---------------- 运费计算 ----------------
 wf = wb['运费计算']
@@ -138,7 +219,7 @@ section(wpk['A3'], '一、输入（自动取自报价汇总）')
 wpk.merge_cells('A3:E3')
 labels = ['成品长(mm)', '成品宽(mm)', '成品高(mm)', '每箱件数N', '是否含整托', '包装方案(自动)']
 for idx, (r, f) in enumerate([(4, '=报价汇总!B13'), (5, '=报价汇总!B14'), (6, '=报价汇总!B15'),
-                  (7, '=报价汇总!B17'), (8, '=报价汇总!B18'), (9, '=IF(报价汇总!B19="是","大板","小板")')]):
+                  (7, '=报价汇总!B17'), (8, '=报价汇总!B18'), (9, '=IF(OR(报价汇总!B19="是",报价汇总!B20="是"),"大板","小板")')]):
     label(wpk.cell(row=r, column=1), labels[idx])
     if r in (4, 5, 6, 7):
         fnum(wpk.cell(row=r, column=2), f, '0')
