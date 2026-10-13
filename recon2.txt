@@ -1,0 +1,127 @@
+=== 报价汇总 rows 1-26 A-H ===
+A1='产品成本测算报价表（包装费 + 运费自动计算）'
+A3='一、产品基础信息（输入）'
+A4='产品代码'
+A5='产品名称'
+A6='客户名称'
+A7='报价日期' | B7='=TODAY()'
+A8='年需求量(PCS)'
+A9='MOQ(PCS)'
+A10='备注'
+A12='二、产品规格（输入，驱动包装费）'
+A13='成品长(mm,含散热器)'
+A14='成品宽(mm)'
+A15='成品高(mm)'
+A16='单台净重(kg)'
+A17='每箱件数N'
+A18='是否含整托分摊'
+A19='是否带散热器(是/否)' | B19='否' | D19='=IF(OR(B19="是",B20="是"),"自动→大板：EPE上下垫片+四角护角+纸箱+托盘+缠绕膜+打包带","自动→小板：防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜")'
+A20='是否带组装结构(是/否)' | B20='否' | D20='装配节拍(秒/台)' | E20=0 | F20='工时费(元/小时)' | G20='=参数!$B$46'
+A21='三、物流（输入，驱动运费）'
+A22='物流产品'
+A23='目的地'
+A24='每票件数M'
+A25='声明价值(元/票,可选)'
+A26='注' | B26='物流产品选次日达/特惠普运；目的地只需填城市名（如“宁波”“杭州”），系统按所选产品自动匹配对应费率行；该产品不覆盖此城市时运费显示空白。'
+merges: ['A1:E1', 'A12:E12', 'A3:E3']
+DVs:
+  B18 type=list formula1='"否,是"'
+  B19:B20 type=list formula1='"否,是"'
+  B22 type=list formula1='"次日达,特惠普运"'
+freeze: None
+=== 包装计算 B43 = '=B34+IF($B$8="是",B40,0)' ; max_row=70 ===
+  A40='整托分摊(元/件)' | B40='=IF(OR(B38="",B38=0),0,B39/B38)'
+  A41='包装增重(kg/件)' | B41='=IF(OR(B7="",B7=0),0,IF($B$9="小板",B22*参数!$B$43/1000,B25*参数!$B$15)+B28*参数!$B$19/1000/B7+IF($B$9="小板",参数!$B$45/1000*MAX($B$7-1,0)/$B$7,0)+0.005)'
+  A43='包装费合计(元/件)' | B43='=B34+IF($B$8="是",B40,0)'
+  A45='五、包装方案清单对照（√=该方案包含）'
+=== 运费计算 B33 = '=IF(OR(B32="",B6="",B6=0),"",B32/B6)' ; max_row=36 ===
+  A30='声明价值(元/票)' | B30='=报价汇总!B25'
+  A31='保费(可选)' | B31='=IF(参数!$B$39="是",IF(NOT(ISNUMBER(B30)),"",MAX(参数!$B$37*B30,参数!$B$38)),0)'
+  A32='单票运费合计' | B32='=IF(OR(B29="",B31=""),"",B29+B31)'
+  A33='单台运费(元/件)' | B33='=IF(OR(B32="",B6="",B6=0),"",B32/B6)'
+  A35='运费口径：计费重量=MAX(实重,体积重)；体积重=箱体积(㎝³)/体积系数；运费=首重价格+(计费重量-首重重量)×段单价，最低不低于最低收费。'
+=== 报价汇总 styles ===
+  A27: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=left,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  A28: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=center,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  B28: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=center,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  A29: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  B29: font(name=微软雅黑,sz=10.0,b=False,color=FF008000) fill(00000000,None) numfmt='0.00' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  C29: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  D29: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  E29: font(name=等线,sz=11.0,b=False,color=Values must be of type <class 'str'>) fill(00000000,None) numfmt='General' align(h=None,v=None,wrap=None) border(l=None,r=None,t=None,b=None)
+  A37: font(name=DejaVu Sans,sz=10.0,b=True,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=thin,b=None)
+  B37: font(name=微软雅黑,sz=10.0,b=True,color=FF000000) fill(00000000,None) numfmt='0.00' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=thin,b=None)
+  A38: font(name=DejaVu Sans,sz=10.0,b=True,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=thin,b=double)
+  B38: font(name=微软雅黑,sz=10.0,b=True,color=FF000000) fill(00000000,None) numfmt='0.00' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=thin,b=double)
+  A40: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=left,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  A41: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=center,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  B42: font(name=微软雅黑,sz=10.0,b=False,color=FF008000) fill(00000000,None) numfmt='0.0%' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  A52: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=left,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  B53: font(name=微软雅黑,sz=10.0,b=False,color=FF008000) fill(00000000,None) numfmt='0' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  col widths: {'A': 26.0, 'B': 16.0, 'D': 26.0, 'Z': 13.0}
+  row heights 27-40: {27: 15.0, 28: 15.0, 29: 15.0, 30: 15.0, 31: 15.0, 32: 15.0, 33: 15.0, 34: 15.0, 35: 15.0, 36: 15.0, 37: 14.25, 38: 15.0, 39: 15.0, 40: 15.0}
+=== 制费明细 styles ===
+  A1: font(name=DejaVu Sans,sz=14.0,b=True,color=FFFFFFFF) fill(FF0F3B5D,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=None,r=None,t=None,b=None)
+  A3: font(name=DejaVu Sans,sz=10.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B3: font(name=微软雅黑,sz=10.0,b=False,color=FF008000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A6: font(name=微软雅黑,sz=11.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=None,r=None,t=None,b=None)
+  A7: font(name=DejaVu Sans,sz=10.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='General' align(h=center,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B7: font(name=DejaVu Sans,sz=10.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='General' align(h=center,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A8: font(name=微软雅黑,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B8: font(name=微软雅黑,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  G8: font(name=微软雅黑,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='#,##0.0000' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  C15: font(name=微软雅黑,sz=10.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  G15: font(name=微软雅黑,sz=10.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='#,##0.0000' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A62: font(name=DejaVu Sans,sz=11.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  H62: font(name=微软雅黑,sz=11.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='#,##0.0000' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A64: font(name=微软雅黑,sz=11.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=None,r=None,t=None,b=None)
+  A75: font(name=微软雅黑,sz=11.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=None,r=None,t=None,b=None)
+  A91: font(name=DejaVu Sans,sz=11.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  H91: font(name=微软雅黑,sz=11.0,b=True,color=FF000000) fill(FFEAF2FF,solid) numfmt='#,##0.0000' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A93: font(name=DejaVu Sans,sz=9.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=None,r=None,t=None,b=None)
+  col widths: {'A': 8.0, 'B': 14.0, 'C': 22.0, 'D': 13.0, 'E': 11.0, 'G': 13.0, 'H': 40.0}
+  merges: ['G4:H4', 'A6:H6', 'A30:H30', 'A23:H23', 'A91:G91', 'A64:H64', 'A41:H41', 'A1:H1', 'A75:H75', 'A62:F62', 'E3:F3', 'A17:H17']
+=== 物料明细 styles ===
+  A2: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF1F4E78,solid) numfmt='General' align(h=center,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B2: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF1F4E78,solid) numfmt='General' align(h=center,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B3: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  C3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  E3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='#,##0.0000;\\(#,##0.0000\\);\\-' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  F3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='#,##0.0000;\\(#,##0.0000\\);\\-' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  G3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='#,##0.0000;\\(#,##0.0000\\);\\-' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  H3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='#,##0.0000;\\(#,##0.0000\\);\\-' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  I3: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A4: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(FFF7F9FC,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  H4: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(FFF7F9FC,solid) numfmt='#,##0.0000;\\(#,##0.0000\\);\\-' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  col widths: {'A': 8.0, 'B': 14.0, 'C': 16.0, 'D': 28.0, 'E': 12.0, 'G': 10.0, 'H': 12.0, 'I': 10.0, 'J': 24.0}
+  freeze: 'A3'
+=== 参数 styles ===
+  A1: font(name=DejaVu Sans,sz=14.0,b=True,color=FFFFFFFF) fill(FF1F4E78,solid) numfmt='General' align(h=center,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  A2: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF1F4E78,solid) numfmt='General' align(h=center,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B2: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF1F4E78,solid) numfmt='General' align(h=center,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A3: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  B3: font(name=Noto Sans CJK SC,sz=10.0,b=False,color=FF000000) fill(FFFFF2CC,solid) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  C3: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=center,wrap=True) border(l=thin,r=thin,t=thin,b=thin)
+  A8: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=left,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  A9: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=center,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  B10: font(name=微软雅黑,sz=10.0,b=False,color=FF0000FF) fill(00000000,None) numfmt='0' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  A34: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=left,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  A41: font(name=DejaVu Sans,sz=10.0,b=True,color=FFFFFFFF) fill(FF3288B9,solid) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  A43: font(name=DejaVu Sans,sz=10.0,b=False,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  B43: font(name=微软雅黑,sz=10.0,b=False,color=FF0000FF) fill(00000000,None) numfmt='0' align(h=general,v=bottom,wrap=False) border(l=None,r=None,t=None,b=None)
+  col widths: {'A': 22.0, 'B': 12.0, 'D': 30.0}
+  merges: ['A1:C1', 'A41:C41', 'A8:C8', 'A34:C34']
+  DVs:
+=== 使用说明 full ===
+  A1='产品成本测算报价表 · 使用说明'
+  A3='怎么用' | B3='首页【报价汇总】只填：产品信息、成品尺寸与单台净重、每箱件数、是否带散热器、是否带组装结构、是否含整托、物流产品、目的地、每票件数。包装费、装配费与运费全部自动算。黄色底=必填待填，填完后自动变绿。'
+  A4='包装费' | B4='首页【报价汇总】分别填写【是否带散热器】与【是否带组装结构】：任一为「是」→大板（EPE上下垫片+四角护角+纸箱+托盘+缠绕膜+打包带）；两项均为「否」→小板（防静电气泡袋+隔板+纸箱+护角+托盘+缠绕膜）。如有组装结构，填写装配节拍(秒/台)和工时费，装配费=节拍÷3600×工时费。单价与系数在《参数》页改。'
+  A5='运费' | B5='依据《跨越费率》（源自青岛国创VIP报价表）按 实重/体积重取大→起重→分段单价 计算单票运费，再摊到单件。目的地在首页下拉选择，产品可选次日达/特惠普运。'
+  A6='物料明细/制费明细' | B6='沿用原模板，硬件/结构件/辅助材料与加工费、工装分摊在此填写。'
+  A7='成本与报价' | B7='总成本=材料+加工+工装+包装+运费+利润；建议报价=总成本/(1-目标毛利率)。毛利率/税率在《参数》页改。'
+  A8='注意' | B8='跨越费率为参考价，可在《跨越费率》页直接改；金额默认不含税；包装费按方案清单自动算。'
+  A9='制费明细：P01~P07工程报价表格式，蓝色单元格按项目填写（元件个数/工序个数/用量/张数/预计订单数），默认预填003小板参考数据；辅料与BOM辅助材料二选一，避免重复计费。'
+  col widths: {'A': 13.0, 'B': 95.0}
+  A1 style: font(name=DejaVu Sans,sz=12.0,b=True,color=FFFFFFFF) fill(FF0F3B5D,solid) numfmt='General' align(h=left,v=center,wrap=False) border(l=None,r=None,t=None,b=None)
+  A3 style: font(name=DejaVu Sans,sz=10.0,b=True,color=FF000000) fill(00000000,None) numfmt='General' align(h=general,v=top,wrap=True) border(l=None,r=None,t=None,b=None)
