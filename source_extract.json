@@ -1,0 +1,5157 @@
+{
+ "bom": {
+  "hardware": [
+   {
+    "seq": 16,
+    "code": "301H030491",
+    "name": "片式电阻 RC0805FR-07300KL/0805W8F3003T5E 1/8W,300KΩ,1%,0805(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 18,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.0045,
+    "loss": 0,
+    "amt": 0.081
+   },
+   {
+    "seq": 17,
+    "code": "306110396",
+    "name": "高压陶瓷电容 HGK3AF103ZG3AW 10nF,1KV,P=7.5(万明)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门万明电子有限公司",
+    "price": 0.1331,
+    "loss": 0,
+    "amt": 0.1331
+   },
+   {
+    "seq": 18,
+    "code": "3155US1M",
+    "name": "超快恢复二极管 US1M 1A,1KV,SMA(强茂)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门镁富莱工贸有限公司",
+    "price": 0.0274,
+    "loss": 0,
+    "amt": 0.0274
+   },
+   {
+    "seq": 19,
+    "code": "604B03VHZ51R",
+    "name": "端子 B3P-VH (JST)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "深圳市恒有电子有限公司",
+    "price": 0.222,
+    "loss": 0,
+    "amt": 0.222
+   },
+   {
+    "seq": 20,
+    "code": "604B05VHZ51R",
+    "name": "端子 B5P-VH (JST)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "深圳市恒有电子有限公司",
+    "price": 0.322,
+    "loss": 0,
+    "amt": 0.644
+   },
+   {
+    "seq": 21,
+    "code": "N30101000615",
+    "name": "片式电阻 RC1206JR-0775RL/1206W4J0750T5E 1/4W,75Ω,5%,1206(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0045,
+    "loss": 0,
+    "amt": 0.0045
+   },
+   {
+    "seq": 22,
+    "code": "N30101000894",
+    "name": "片式电阻 RC1206FR-0722RL/1206W4F220JT5E 1/4W,22Ω,1%,1206(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0058,
+    "loss": 0,
+    "amt": 0.0116
+   },
+   {
+    "seq": 23,
+    "code": "N30101001049",
+    "name": "片式电阻 RC1206FR-076R8L/1206W4F680KT5E 1/4W,6.8Ω,1%,1206(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0083,
+    "loss": 0,
+    "amt": 0.0166
+   },
+   {
+    "seq": 24,
+    "code": "N30101005306",
+    "name": "片式电阻 GMR320HJCFAR100 7W,100mΩ,1%,2817(Rohm)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "北天星电子(深圳)有限公司",
+    "price": 2.38,
+    "loss": 0,
+    "amt": 4.76
+   },
+   {
+    "seq": 25,
+    "code": "N30101005309",
+    "name": "片式电阻 1210W2F3003T5E 1/2W,300KΩ,1%,1210(厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 8,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.023,
+    "loss": 0,
+    "amt": 0.184
+   },
+   {
+    "seq": 26,
+    "code": "N30103000520",
+    "name": "金属膜电阻 MF02SJJ0364A10 2WS,360KΩ,5%(厚声)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.065,
+    "loss": 0,
+    "amt": 0.195
+   },
+   {
+    "seq": 27,
+    "code": "N30103000526",
+    "name": "金属膜电阻 MF01WFF3003A10 1W,300KΩ,1%(厚声)(编带)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0828,
+    "loss": 0,
+    "amt": 0.0828
+   },
+   {
+    "seq": 28,
+    "code": "N30103000527",
+    "name": "金属膜电阻 MF02WJJ0753A10 2W,75KΩ,5%(厚声)(编带)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.092,
+    "loss": 0,
+    "amt": 0.092
+   },
+   {
+    "seq": 29,
+    "code": "N30111000138",
+    "name": "合金电阻 DSLR-K-7-3F 7W,3mΩ,1%,5930(业展)(编带)(REACH;RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "北天星电子(深圳)有限公司",
+    "price": 0.9,
+    "loss": 0,
+    "amt": 2.7
+   },
+   {
+    "seq": 30,
+    "code": "N30111000139",
+    "name": "合金电阻 LR123WF200LT4E 3W,200mΩ,1%,2512(厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 8,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.22,
+    "loss": 0,
+    "amt": 1.76
+   },
+   {
+    "seq": 31,
+    "code": "N30199000015",
+    "name": "片式电阻 1/4W,0Ω,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0042
+   },
+   {
+    "seq": 32,
+    "code": "N30199000022",
+    "name": "片式电阻 1/10W,10KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 49,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0882
+   },
+   {
+    "seq": 33,
+    "code": "N30199000047",
+    "name": "片式电阻 1/10W,1KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 25,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.045
+   },
+   {
+    "seq": 34,
+    "code": "N30199000075",
+    "name": "片式电阻 1/10W,4.7KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 9,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0162
+   },
+   {
+    "seq": 35,
+    "code": "N30199000085",
+    "name": "片式电阻 1/10W,20KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0036
+   },
+   {
+    "seq": 36,
+    "code": "N30199000101",
+    "name": "片式电阻 1/10W,2.2KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 7,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0126
+   },
+   {
+    "seq": 37,
+    "code": "N30199000108",
+    "name": "片式电阻 1/10W,22KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0036
+   },
+   {
+    "seq": 38,
+    "code": "N30199000111",
+    "name": "片式电阻 1/10W,15KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 8,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0144
+   },
+   {
+    "seq": 39,
+    "code": "N30199000117",
+    "name": "片式电阻 1/4W,100Ω,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0084
+   },
+   {
+    "seq": 40,
+    "code": "N30199000127",
+    "name": "片式电阻 1/10W,5.6KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 41,
+    "code": "N30199000137",
+    "name": "片式电阻 1/10W,470Ω,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 42,
+    "code": "N30199000146",
+    "name": "片式电阻 1/10W,3KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 8,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0144
+   },
+   {
+    "seq": 43,
+    "code": "N30199000171",
+    "name": "片式电阻 1/10W,5.1KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0036
+   },
+   {
+    "seq": 44,
+    "code": "N30199000219",
+    "name": "片式电阻 1/10W,100Ω,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 29,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0522
+   },
+   {
+    "seq": 45,
+    "code": "N30199000237",
+    "name": "片式电阻 1/10W,510Ω,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0036
+   },
+   {
+    "seq": 46,
+    "code": "N30199000335",
+    "name": "片式电阻 1/10W,1.5KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 47,
+    "code": "N30199000342",
+    "name": "片式电阻 1/10W,51KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0036
+   },
+   {
+    "seq": 48,
+    "code": "N30199000397",
+    "name": "片式电阻 1/4W,20KΩ,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0058,
+    "loss": 0,
+    "amt": 0.0058
+   },
+   {
+    "seq": 49,
+    "code": "N30199000444",
+    "name": "片式电阻 1/10W,6.2KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 50,
+    "code": "N30199000493",
+    "name": "片式电阻 1/4W,120Ω,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0043,
+    "loss": 0,
+    "amt": 0.0086
+   },
+   {
+    "seq": 51,
+    "code": "N30199000523",
+    "name": "片式电阻 1/4W,1KΩ,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0057,
+    "loss": 0,
+    "amt": 0.0228
+   },
+   {
+    "seq": 52,
+    "code": "N30199000561",
+    "name": "片式电阻 1/4W,47Ω,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 10,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0058,
+    "loss": 0,
+    "amt": 0.058
+   },
+   {
+    "seq": 53,
+    "code": "N30199000577",
+    "name": "片式电阻 1/4W,300KΩ,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 9,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0058,
+    "loss": 0,
+    "amt": 0.0522
+   },
+   {
+    "seq": 54,
+    "code": "N30199000605",
+    "name": "片式电阻 1/4W,10Ω,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0058,
+    "loss": 0,
+    "amt": 0.0348
+   },
+   {
+    "seq": 55,
+    "code": "N30199000614",
+    "name": "片式电阻 1/10W,7.5KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 13,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0234
+   },
+   {
+    "seq": 56,
+    "code": "N30199000619",
+    "name": "片式电阻 1/10W,10.5KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 57,
+    "code": "N30199000620",
+    "name": "片式电阻 1/10W,1.2KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0036
+   },
+   {
+    "seq": 58,
+    "code": "N30199000693",
+    "name": "片式电阻 1/10W,0Ω,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0054
+   },
+   {
+    "seq": 59,
+    "code": "N30199000804",
+    "name": "片式电阻 1/4W,30Ω,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0065,
+    "loss": 0,
+    "amt": 0.0195
+   },
+   {
+    "seq": 60,
+    "code": "N30199000819",
+    "name": "片式电阻 1/10W,910Ω,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.002,
+    "loss": 0,
+    "amt": 0.004
+   },
+   {
+    "seq": 61,
+    "code": "N30301000078",
+    "name": "压敏电阻 561KD14 (君耀)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.286,
+    "loss": 0,
+    "amt": 0.572
+   },
+   {
+    "seq": 62,
+    "code": "N30301000122",
+    "name": "压敏电阻 911KD14-TR 550Vac,10%,P=7.5,Φ14(175J)(君耀)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.4425,
+    "loss": 0,
+    "amt": 1.3275
+   },
+   {
+    "seq": 63,
+    "code": "N30303000192",
+    "name": "PTC热敏电阻 MZ32-47RHAGD03-C 280Vac,7A,47Ω,25%,P=8.5(安培龙)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "深圳安培龙科技股份有限公司",
+    "price": 1.0619,
+    "loss": 0,
+    "amt": 1.0619
+   },
+   {
+    "seq": 64,
+    "code": "N30303000193",
+    "name": "PTC热敏电阻 MZ32-68RNAGD01-C 440Vac,27A,68Ω,30%,P=8.5(安培龙)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "深圳安培龙科技股份有限公司",
+    "price": 2.1239,
+    "loss": 0,
+    "amt": 2.1239
+   },
+   {
+    "seq": 65,
+    "code": "N30309000009",
+    "name": "电流传感器 STK-50PL (希磁)(JCI 专用)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "安徽希磁科技股份有限公司（特采)",
+    "price": 9.2,
+    "loss": 0,
+    "amt": 9.2
+   },
+   {
+    "seq": 66,
+    "code": "N30501000394",
+    "name": "安规薄膜电容 (X2) HQX225K0275NAYCCL15S 2.2uF,10%,275Vac,26.5X13X23,P=22.5(昱电)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "厦门大毅电子有限公司",
+    "price": 1.2,
+    "loss": 0,
+    "amt": 3.6
+   },
+   {
+    "seq": 67,
+    "code": "N30503000105",
+    "name": "聚丙烯膜电容 C372J105J6SC000 1uF,5%,630V,P=15(法拉)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "厦门法拉电子股份有限公司",
+    "price": 0.65,
+    "loss": 0,
+    "amt": 1.95
+   },
+   {
+    "seq": 68,
+    "code": "N30503000217",
+    "name": "聚丙烯膜电容 C322J222J30A301 2.2nF,5%,630Vdc,P=7.5(法拉)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门法拉电子股份有限公司",
+    "price": 0.18,
+    "loss": 0,
+    "amt": 0.18
+   },
+   {
+    "seq": 69,
+    "code": "N30503000218",
+    "name": "聚丙烯膜电容 C822J102J30A301 1nF,5%,630Vdc,P=7.5(法拉)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门法拉电子股份有限公司",
+    "price": 0.22,
+    "loss": 0,
+    "amt": 0.22
+   },
+   {
+    "seq": 70,
+    "code": "N30503000219",
+    "name": "聚丙烯膜电容 MKP21-1000V474K 470nF,10%,1KVdc,P=22.5(NJTJ专用)(华裕)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "深圳市黑快能科技发展有限公司",
+    "price": 0.335,
+    "loss": 0,
+    "amt": 0.335
+   },
+   {
+    "seq": 71,
+    "code": "N30503000244",
+    "name": "聚丙烯膜电容 EZPV1B406MTC 40uF,10%,1.1KVdc,57.5X56X35,P=52.5(国创提供)(符合AEC-Q200)(Panasonic)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 72,
+    "code": "N30506000898",
+    "name": "铝电解电容 YXJ 16YXJ220MT16.3X11 220uF,20%,16V,105℃,6.3X11,P=2.5(Rubycon)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "厦门埃尔华进出口有限公司",
+    "price": 0.145,
+    "loss": 0,
+    "amt": 0.29
+   },
+   {
+    "seq": 73,
+    "code": "N30506001051",
+    "name": "铝电解电容 35YXJ100MT16.3X11 100uF,20%,35V,105℃,6.3X11,P=2.5(Rubycon)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "厦门埃尔华进出口有限公司",
+    "price": 0.1513,
+    "loss": 0,
+    "amt": 0.3026
+   },
+   {
+    "seq": 74,
+    "code": "N30506001064",
+    "name": "铝电解电容 35YXJ470MT810X16 470uF,20%,35V,105℃,10X16,P=5(Rubycon)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 4,
+    "supplier": "厦门埃尔华进出口有限公司",
+    "price": 0.3969,
+    "loss": 0,
+    "amt": 1.5876
+   },
+   {
+    "seq": 75,
+    "code": "N30506001069",
+    "name": "铝电解电容 50YXF47MT16.3X11 47uF,20%,50V,105℃,6.3X11,P=2.5(Rubycon)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "厦门埃尔华进出口有限公司",
+    "price": 0.1401,
+    "loss": 0,
+    "amt": 0.2802
+   },
+   {
+    "seq": 76,
+    "code": "N30506002046",
+    "name": "铝电解电容 LB1E471MF160B35CE0 470uF,20%,25V,105℃,8X16,P=3.5,6000h(华威)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "常州华威电子有限公司",
+    "price": 0.18,
+    "loss": 0,
+    "amt": 0.18
+   },
+   {
+    "seq": 77,
+    "code": "N30506002166",
+    "name": "铝电解电容 ELT2WM152Y80LTSP 1500uF,20%,450V,105℃,40X80,P=14.2,5000h(艾华)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "湖南艾华集团股份有限公司",
+    "price": 39.2,
+    "loss": 0,
+    "amt": 39.2
+   },
+   {
+    "seq": 78,
+    "code": "N30508000060",
+    "name": "安规陶瓷电容 (X1Y1) CD45-E2GA222M-VKA 2.2nF,20%,(X1)440Vac,(Y1)400Vac,P=10(TDK)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "瑞瑜国际贸易（上海）有限公司",
+    "price": 0.1647,
+    "loss": 0,
+    "amt": 0.3294
+   },
+   {
+    "seq": 79,
+    "code": "N30515002473",
+    "name": "片式瓷介电容 0805B475K500NT X7R,4.7uF,10%,50V,0805(风华)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.1,
+    "loss": 0,
+    "amt": 0.2
+   },
+   {
+    "seq": 80,
+    "code": "N30599000004",
+    "name": "片式瓷介电容 X7R,100nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 45,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0051,
+    "loss": 0,
+    "amt": 0.2295
+   },
+   {
+    "seq": 81,
+    "code": "N30599000010",
+    "name": "片式瓷介电容 NP0,100pF,5%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 31,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.005,
+    "loss": 0,
+    "amt": 0.155
+   },
+   {
+    "seq": 82,
+    "code": "N30599000011",
+    "name": "片式瓷介电容 X7R,1nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 10,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0048,
+    "loss": 0,
+    "amt": 0.048
+   },
+   {
+    "seq": 83,
+    "code": "N30599000014",
+    "name": "片式瓷介电容 X7R,10nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 7,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0048,
+    "loss": 0,
+    "amt": 0.0336
+   },
+   {
+    "seq": 84,
+    "code": "N30599000017",
+    "name": "片式瓷介电容 X7R,100nF,10%,50V,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0217,
+    "loss": 0,
+    "amt": 0.0217
+   },
+   {
+    "seq": 85,
+    "code": "N30599000047",
+    "name": "片式瓷介电容 X7R,3.3nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0052,
+    "loss": 0,
+    "amt": 0.0104
+   },
+   {
+    "seq": 86,
+    "code": "N30599000063",
+    "name": "片式瓷介电容 X7R,220nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "深圳市集财实业有限公司（ZZ）",
+    "price": 0.0165,
+    "loss": 0,
+    "amt": 0.033
+   },
+   {
+    "seq": 87,
+    "code": "N30599000084",
+    "name": "片式瓷介电容 X7R,470pF,10%,250V,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.0313,
+    "loss": 0,
+    "amt": 0.0626
+   },
+   {
+    "seq": 88,
+    "code": "N30599000125",
+    "name": "片式瓷介电容 X7R,1uF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 8,
+    "supplier": "北天星电子(深圳)有限公司",
+    "price": 0.0168,
+    "loss": 0,
+    "amt": 0.1344
+   },
+   {
+    "seq": 89,
+    "code": "N30599000312",
+    "name": "片式瓷介电容 X7R,470pF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.0054,
+    "loss": 0,
+    "amt": 0.0054
+   },
+   {
+    "seq": 90,
+    "code": "N30599000342",
+    "name": "片式瓷介电容 X6S,10uF,10%,35V,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 28,
+    "supplier": "苏州巨宏达电工科技有限公司",
+    "price": 0.1689,
+    "loss": 0,
+    "amt": 4.7292
+   },
+   {
+    "seq": 91,
+    "code": "N31301000176",
+    "name": "光耦 PC817X3NIP SOP4(RankC)(Sharp)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.4178,
+    "loss": 0,
+    "amt": 0.8356
+   },
+   {
+    "seq": 92,
+    "code": "N31306000294",
+    "name": "发光二极管 LTST-C191KRKT-EL 红色,0603(亮度:M,N,波长:630nm,电压:ALL)(光宝)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.0355,
+    "loss": 0,
+    "amt": 0.071
+   },
+   {
+    "seq": 93,
+    "code": "N31306000469",
+    "name": "发光二极管 LTST-C191TBKT-5A 蓝色,0603(亮度:M1/M2,波长:ALL,电压:ALL)(光宝)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "PAN Elektron (Hong-Kong) Co., Limited",
+    "price": 0.062883,
+    "loss": 0,
+    "amt": 0.251532
+   },
+   {
+    "seq": 94,
+    "code": "N31306000791",
+    "name": "发光二极管 RF-GNB191TS-CF 翠绿色,0603(亮度:430-1000mcd,波长:520-526nm,电压:2.7-3.3V)(瑞丰)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "深圳市瑞丰光电子股份有限公司（ZZ）",
+    "price": 0.0417,
+    "loss": 0,
+    "amt": 0.0834
+   },
+   {
+    "seq": 95,
+    "code": "N31501000361",
+    "name": "超快恢复二极管 US1D 1A,200V,SMA(强茂)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 9,
+    "supplier": "广州市洲光源电子有限公司（ZZ）",
+    "price": 0.094,
+    "loss": 0,
+    "amt": 0.846
+   },
+   {
+    "seq": 96,
+    "code": "N31503000090",
+    "name": "整流桥 GBJ25M 25A,1KV(固锝)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门立锝电子有限公司",
+    "price": 1.8,
+    "loss": 0,
+    "amt": 1.8
+   },
+   {
+    "seq": 97,
+    "code": "N31504000059",
+    "name": "开关二极管 1N4148WX-TP 150mA,100V,SOD323(MCC)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "厦门科力通电子科技有公司（ZZ）",
+    "price": 0.02,
+    "loss": 0,
+    "amt": 0.12
+   },
+   {
+    "seq": 98,
+    "code": "N31504000155",
+    "name": "开关二极管 BAV99 200mA,70V,SOT23(晶导微)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 9,
+    "supplier": "厦门镁富莱工贸有限公司",
+    "price": 0.02,
+    "loss": 0,
+    "amt": 0.18
+   },
+   {
+    "seq": 99,
+    "code": "N31507000185",
+    "name": "TVS SMBJ20A-13 600W,20V,SMB(Diodes)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门格亚电子科技有限公司",
+    "price": 0.133,
+    "loss": 0,
+    "amt": 0.399
+   },
+   {
+    "seq": 100,
+    "code": "N31507000282",
+    "name": "TVS P6SMB200A 600W,171V,SMB(固锝)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市威斯创电子有限公司（ZZ）",
+    "price": 0.2,
+    "loss": 0,
+    "amt": 0.2
+   },
+   {
+    "seq": 101,
+    "code": "N31507000686",
+    "name": "TVS SMF20CA 200W,20V,SOD123FL(扬杰)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0929,
+    "loss": 0,
+    "amt": 0.5574
+   },
+   {
+    "seq": 102,
+    "code": "N31511000054",
+    "name": "超快恢复二极管 US1Q-TP 1A,1.2KV,SMA(MCC)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "北天星电子(深圳)有限公司",
+    "price": 0.0885,
+    "loss": 0,
+    "amt": 0.531
+   },
+   {
+    "seq": 103,
+    "code": "N31513000020",
+    "name": "ESD保护二极管 ASM712H 12V,SOT23(扬杰)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.3325,
+    "loss": 0,
+    "amt": 0.665
+   },
+   {
+    "seq": 104,
+    "code": "N31599000074",
+    "name": "超快恢复二极管 ES2D 2A,200V,SMB(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.079,
+    "loss": 0,
+    "amt": 0.158
+   },
+   {
+    "seq": 105,
+    "code": "N31701000323",
+    "name": "三极管 DTC143ECA-TP SOT23,NPN(内置电阻4.7K)(MCC)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门科力通电子科技有限公司",
+    "price": 0.048,
+    "loss": 0,
+    "amt": 0.048
+   },
+   {
+    "seq": 106,
+    "code": "N31701000756",
+    "name": "三极管 SS8050-H NPN,25V,HFE=200-350,1.5A,SOT23(晶导微)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.0246,
+    "loss": 0,
+    "amt": 0.0738
+   },
+   {
+    "seq": 107,
+    "code": "N31800000736",
+    "name": "通信电路 ISO3082DWR SOIC16(TI)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 5.9486,
+    "loss": 0,
+    "amt": 11.8972
+   },
+   {
+    "seq": 108,
+    "code": "N31801001593",
+    "name": "微处理器 R5F526T8ADFM LFQFP64(国创提供)(Renesas)(盘式)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 109,
+    "code": "N31805000269",
+    "name": "存贮器 M24C08-RMN6TP SO8(ST)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "WT MICROELECTRONICS SINGAPORE PTE. LTD.",
+    "price": 0.241526,
+    "loss": 0,
+    "amt": 0.241526
+   },
+   {
+    "seq": 110,
+    "code": "N31805000274",
+    "name": "存贮器 M24C16-RMN6TP SO8(ST)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "北天星电子(深圳)有限公司",
+    "price": 0.267,
+    "loss": 0,
+    "amt": 0.267
+   },
+   {
+    "seq": 111,
+    "code": "N31806000081",
+    "name": "稳压器 L78M05ABDT-TR DPAK(ST)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.6039,
+    "loss": 0,
+    "amt": 1.2078
+   },
+   {
+    "seq": 112,
+    "code": "N31806000148",
+    "name": "稳压器 L78M15ABDT DPAK(ST)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "WT MICROELECTRONICS SINGAPORE PTE. LTD.",
+    "price": 0.678846,
+    "loss": 0,
+    "amt": 0.678846
+   },
+   {
+    "seq": 113,
+    "code": "N31806000726",
+    "name": "稳压器 TL432AIDBZR SOT23-3(TI)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "华联国际投资有限公司-艾睿电子中国有限公司（特采）",
+    "price": 0.5188,
+    "loss": 0,
+    "amt": 0.5188
+   },
+   {
+    "seq": 114,
+    "code": "N31807000929",
+    "name": "电源管理电路 TOP264KG-TL eSOP-12(国创提供)(PI)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 115,
+    "code": "N31808000384",
+    "name": "逻辑电路 74LVC1G74DP,125 TSSOP8(Nexperia)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳法本电子股份有限公司",
+    "price": 0.781,
+    "loss": 0,
+    "amt": 0.781
+   },
+   {
+    "seq": 116,
+    "code": "N31808000385",
+    "name": "逻辑电路 74LVC1G17GV,125 SC74A(Nexperia)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳法本电子股份有限公司",
+    "price": 0.1567,
+    "loss": 0,
+    "amt": 0.1567
+   },
+   {
+    "seq": 117,
+    "code": "N31809000044",
+    "name": "运放电路 TLV2772IDR SOIC8(TI)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "Arrow Electronics China Ltd",
+    "price": 2.965487,
+    "loss": 0,
+    "amt": 8.896461
+   },
+   {
+    "seq": 118,
+    "code": "N31813000522",
+    "name": "驱动电路 1EDI20I12MF DSO8(国创提供)(Infineon)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 119,
+    "code": "N31814000162",
+    "name": "运放电路 LM393BIDR SOIC8(TI)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "Arrow Electronics China Ltd",
+    "price": 0.36229,
+    "loss": 0,
+    "amt": 0.36229
+   },
+   {
+    "seq": 120,
+    "code": "N32202000746",
+    "name": "开关变压器 XZM-E22296 (1.2mH)(赛特勒)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门赛特勒磁电有限公司",
+    "price": 2.53,
+    "loss": 0,
+    "amt": 2.53
+   },
+   {
+    "seq": 121,
+    "code": "N32303000311",
+    "name": "工字型电感 XZM-B0810250-BD 10uH,1A,10X14,P=5(24h盐雾)(赛特勒)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门赛特勒磁电有限公司",
+    "price": 0.33,
+    "loss": 0,
+    "amt": 0.33
+   },
+   {
+    "seq": 122,
+    "code": "N32316000110",
+    "name": "共模滤波器 CM10100ZJ-1 15mH,15mΩ,10A(国创提供)(菲尔泰科)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 123,
+    "code": "N32401000632",
+    "name": "功率继电器 HF115FK/12-HS1PT 12V(防爆)(宏发)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "厦门宏发电声销售有限公司",
+    "price": 1.85,
+    "loss": 0,
+    "amt": 5.55
+   },
+   {
+    "seq": 124,
+    "code": "N32401000645",
+    "name": "功率继电器 HF167F/12-HTF 12V(宏发)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门宏发电声销售有限公司",
+    "price": 28.3186,
+    "loss": 0,
+    "amt": 28.3186
+   },
+   {
+    "seq": 125,
+    "code": "N32503000070",
+    "name": "拨码开关 DM-01-V-T/R (圜达)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市安捷诚电子有限公司",
+    "price": 1.4047,
+    "loss": 0,
+    "amt": 1.4047
+   },
+   {
+    "seq": 126,
+    "code": "N60103000205",
+    "name": "延时熔断器 TSCT20AH250V/T20A 20A,250V(引线型)(华德)(RoHS)",
+    "level": "AB级替换",
+    "form": "卡接",
+    "qty": 1,
+    "supplier": "帕太国际贸易（上海）有限公司",
+    "price": 0.29,
+    "loss": 0,
+    "amt": 0.29
+   },
+   {
+    "seq": 127,
+    "code": "N60203001214",
+    "name": "强电接插件 JCQ01-10-184 (红色)(爱瑞克)(RoHS)",
+    "level": "AB级替换",
+    "form": "插接",
+    "qty": 1,
+    "supplier": "厦门爱瑞克电子有限公司",
+    "price": 0.3832,
+    "loss": 0,
+    "amt": 0.3832
+   },
+   {
+    "seq": 128,
+    "code": "N60601000984",
+    "name": "端子 XH-2A (48h盐雾)(FAF)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.0184,
+    "loss": 0,
+    "amt": 0.0184
+   },
+   {
+    "seq": 129,
+    "code": "N60601000993",
+    "name": "端子 XH-4A (48h盐雾)(FAF)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.0443,
+    "loss": 0,
+    "amt": 0.0886
+   },
+   {
+    "seq": 130,
+    "code": "N60601000994",
+    "name": "端子 XH-4A 红色(48h盐雾)(FAF)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.046,
+    "loss": 0,
+    "amt": 0.092
+   },
+   {
+    "seq": 131,
+    "code": "N60601000998",
+    "name": "端子 XH-5A (48h盐雾)(FAF)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.0537,
+    "loss": 0,
+    "amt": 0.1074
+   },
+   {
+    "seq": 132,
+    "code": "N60601005279",
+    "name": "端子 AT561415-LS (6.0X3PX2)(合璧)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 6,
+    "supplier": "上海合璧电子元件有限公司",
+    "price": 1.2,
+    "loss": 0,
+    "amt": 7.2
+   },
+   {
+    "seq": 133,
+    "code": "N60601005308",
+    "name": "端子 PR9-455 (6.0X2PX2)(72h盐雾)(合璧)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "上海合璧电子元件有限公司",
+    "price": 0.71,
+    "loss": 0,
+    "amt": 0.71
+   },
+   {
+    "seq": 134,
+    "code": "N60812000142",
+    "name": "功率模块 FP100R12N2T7 (1.2KV,100A)(PIM模块)(国创提供)(Infineon)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 135,
+    "code": "N60812000144",
+    "name": "功率模块 RCI20C60D6U (20A,600V)(IPM模块)(国创提供)(银河边缘)(条管)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 136,
+    "code": "N70901000291",
+    "name": "螺丝组件 4X8PM 304不锈钢(带平垫、弹垫)(72h盐雾)(新沪厦)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门新沪厦五金工贸有限公司",
+    "price": 0.118,
+    "loss": 0,
+    "amt": 0.118
+   },
+   {
+    "seq": 137,
+    "code": "N70901000512",
+    "name": "螺丝 5X10PM 不锈钢(带平垫、弹垫)(磊峰)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 6,
+    "supplier": "厦门磊峰五金弹簧有限公司",
+    "price": 0.24,
+    "loss": 0,
+    "amt": 1.44
+   },
+   {
+    "seq": 138,
+    "code": "N70906000473",
+    "name": "散热片 SR6.5X5X1 (48h盐雾)(斯泰普)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 133,
+    "supplier": "深圳市日升达电子有限公司",
+    "price": 0.2178,
+    "loss": 0,
+    "amt": 28.9674
+   },
+   {
+    "seq": 139,
+    "code": "N71002000023",
+    "name": "元件护套 D14(压敏电阻套) (符合REACH)(中田)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 5,
+    "supplier": "浙江中田电子护套有限公司（特采L）",
+    "price": 0.0373,
+    "loss": 0,
+    "amt": 0.1865
+   },
+   {
+    "seq": 140,
+    "code": "N71104006877",
+    "name": "FR4印制板 GC-ACIB005 双层,喷锡,350X220X2,1拼板(RoHS)",
+    "level": "AB级替换",
+    "form": "基板",
+    "qty": 1,
+    "supplier": "惠州市永隆电路有限公司",
+    "price": 38.2785,
+    "loss": 0,
+    "amt": 38.2785
+   },
+   {
+    "seq": 141,
+    "code": "N30103000520",
+    "name": "金属膜电阻 MF02SJJ0364A10 2WS,360KΩ,5%(厚声)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 3,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.065,
+    "loss": 0,
+    "amt": 0.195
+   },
+   {
+    "seq": 142,
+    "code": "N30301000078",
+    "name": "压敏电阻 561KD14 (君耀)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 4,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.286,
+    "loss": 0,
+    "amt": 1.144
+   },
+   {
+    "seq": 143,
+    "code": "N30501000394",
+    "name": "安规薄膜电容 (X2) HQX225K0275NAYCCL15S 2.2uF,10%,275Vac,26.5X13X23,P=22.5(昱电)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 6,
+    "supplier": "厦门大毅电子有限公司",
+    "price": 1.2,
+    "loss": 0,
+    "amt": 7.2
+   },
+   {
+    "seq": 144,
+    "code": "N30508000119",
+    "name": "安规陶瓷电容 (X1Y1) CD45-E2GA472M-NKA 4.7nF,20%,400Vac,P=10(TDK)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 6,
+    "supplier": "瑞瑜国际贸易（上海）有限公司",
+    "price": 0.2488,
+    "loss": 0,
+    "amt": 1.4928
+   },
+   {
+    "seq": 145,
+    "code": "N31509000045",
+    "name": "气体放电管 2RK3600L-5 (3.6KV,3KA)(君耀)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.72,
+    "loss": 0,
+    "amt": 0.72
+   },
+   {
+    "seq": 146,
+    "code": "N32316000109",
+    "name": "共模滤波器 CMF50F04GC 4mH,5mΩ,50A(国创提供)(菲尔泰科)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "20251014业务邮件通知客供料",
+    "price": 0,
+    "loss": 0,
+    "amt": 0
+   },
+   {
+    "seq": 147,
+    "code": "N60203001201",
+    "name": "强电接插件 JCQ01-60-055 (黄绿)(爱瑞克)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门爱瑞克电子有限公司",
+    "price": 3,
+    "loss": 0,
+    "amt": 3
+   },
+   {
+    "seq": 148,
+    "code": "N60601005279",
+    "name": "端子 AT561415-LS (6.0X3PX2)(合璧)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 8,
+    "supplier": "上海合璧电子元件有限公司",
+    "price": 1.2,
+    "loss": 0,
+    "amt": 9.6
+   },
+   {
+    "seq": 149,
+    "code": "N60603000051",
+    "name": "插片 63824-5 (250,10.2X0.8)(TE)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 14,
+    "supplier": "上海史安微电子有限公司",
+    "price": 0.0782,
+    "loss": 0,
+    "amt": 1.0948
+   },
+   {
+    "seq": 150,
+    "code": "N70901000512",
+    "name": "螺丝 5X10PM 不锈钢(带平垫、弹垫)(磊峰)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 8,
+    "supplier": "厦门磊峰五金弹簧有限公司",
+    "price": 0.24,
+    "loss": 0,
+    "amt": 1.92
+   },
+   {
+    "seq": 151,
+    "code": "N71002000023",
+    "name": "元件护套 D14(压敏电阻套) (符合REACH)(中田)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 4,
+    "supplier": "浙江中田电子护套有限公司（特采L）",
+    "price": 0.0373,
+    "loss": 0,
+    "amt": 0.1492
+   },
+   {
+    "seq": 152,
+    "code": "N71104006878",
+    "name": "FR4印制板 GC-ACFB001 双层,喷锡,180.1X120X2,2拼板(RoHS)",
+    "level": "AB级替换",
+    "form": "基板",
+    "qty": 1,
+    "supplier": "惠州市永隆电路有限公司",
+    "price": 10.5675,
+    "loss": 0,
+    "amt": 10.5675
+   },
+   {
+    "seq": 153,
+    "code": "301H000A85",
+    "name": "片式电阻 RC1206JR-070RL/1206W4J0000T5E 1/4W,0Ω,5%,1206(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0084
+   },
+   {
+    "seq": 154,
+    "code": "301H036085",
+    "name": "片式电阻 RC1206JR-0736RL/1206W4J0360T5E 1/4W,36Ω,5%,1206(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0045,
+    "loss": 0,
+    "amt": 0.0045
+   },
+   {
+    "seq": 155,
+    "code": "3033056102",
+    "name": "压敏电阻 JVR10N561K87PAY 350VAC,P=7.5(直脚)(久尹)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门正顺达电子有限公司",
+    "price": 0.1842,
+    "loss": 0,
+    "amt": 0.1842
+   },
+   {
+    "seq": 156,
+    "code": "3052104B6-3",
+    "name": "安规薄膜电容 MCY104KLD2YX20 100nF,10%,275Vac,P=15(暄泰)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.108,
+    "loss": 0,
+    "amt": 0.108
+   },
+   {
+    "seq": 157,
+    "code": "3062102K9003",
+    "name": "高压陶瓷电容 CK45-B3AD102KYVNA 1nF,10%,1KV,P=5(TDK)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.068,
+    "loss": 0,
+    "amt": 0.068
+   },
+   {
+    "seq": 158,
+    "code": "3152SD106",
+    "name": "整流桥 SDB106 800V,SDB-1(MCC)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门科力通电子科技有公司（ZZ）",
+    "price": 0.2806,
+    "loss": 0,
+    "amt": 0.2806
+   },
+   {
+    "seq": 159,
+    "code": "3252JTP1230A",
+    "name": "轻触开关 JTP1230A/JT1230A (6X6X5)(Namae)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 5,
+    "supplier": "青岛朗正电子科技有限公司",
+    "price": 0.08,
+    "loss": 0,
+    "amt": 0.4
+   },
+   {
+    "seq": 160,
+    "code": "4015001R",
+    "name": "元件护套 D10 (压敏电阻套)(RoHS)",
+    "level": "AB级替换",
+    "form": "N/A",
+    "qty": 1,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.0367,
+    "loss": 0,
+    "amt": 0.0367
+   },
+   {
+    "seq": 161,
+    "code": "604B02Z3906",
+    "name": "端子 VH-2A (48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.058,
+    "loss": 0,
+    "amt": 0.116
+   },
+   {
+    "seq": 162,
+    "code": "604B03Z3206",
+    "name": "端子 VH-3A 红色(去第2针)(48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0895,
+    "loss": 0,
+    "amt": 0.0895
+   },
+   {
+    "seq": 163,
+    "code": "604B03Z3606R",
+    "name": "端子 VH-3A 蓝色(去第2针)(48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0895,
+    "loss": 0,
+    "amt": 0.179
+   },
+   {
+    "seq": 164,
+    "code": "604B07Z3906A",
+    "name": "端子 VH-7A-4 (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.2031,
+    "loss": 0,
+    "amt": 0.2031
+   },
+   {
+    "seq": 165,
+    "code": "708101525R",
+    "name": "散热片 10X15X25 (永荣生)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门市永荣生工贸有限公司",
+    "price": 0.3135,
+    "loss": 0,
+    "amt": 0.3135
+   },
+   {
+    "seq": 166,
+    "code": "N30101001433",
+    "name": "片式电阻 RC0402FR-0751RL/0402WGF510JTCE 1/16W,51Ω,1%,0402(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.001,
+    "loss": 0,
+    "amt": 0.001
+   },
+   {
+    "seq": 167,
+    "code": "N30101001525",
+    "name": "片式电阻 RC0402FR-0720KL/0402WGF2002TCE 1/16W,20KΩ,1%,0402(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 11,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.001,
+    "loss": 0,
+    "amt": 0.011
+   },
+   {
+    "seq": 168,
+    "code": "N30101002081",
+    "name": "片式电阻 RC0402JR-07510RL/0402WGJ0511TCE 1/16W,510Ω,5%,0402(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 5,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.004
+   },
+   {
+    "seq": 169,
+    "code": "N30101002248",
+    "name": "片式电阻 RC0402FR-073K4L/0402WGF3401TCE 1/16W,3.4KΩ,1%,0402(国巨/厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.001,
+    "loss": 0,
+    "amt": 0.004
+   },
+   {
+    "seq": 170,
+    "code": "N30104000124",
+    "name": "金属氧化膜电阻 MOR02SJ0683A10 2W,68KΩ,5%(厚声)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.063,
+    "loss": 0,
+    "amt": 0.063
+   },
+   {
+    "seq": 171,
+    "code": "N30199000018",
+    "name": "片式电阻 1/8W,1KΩ,5%,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0025,
+    "loss": 0,
+    "amt": 0.0025
+   },
+   {
+    "seq": 172,
+    "code": "N30199000019",
+    "name": "片式电阻 1/8W,10KΩ,5%,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0025,
+    "loss": 0,
+    "amt": 0.0025
+   },
+   {
+    "seq": 173,
+    "code": "N30199000020",
+    "name": "片式电阻 1/10W,10KΩ,5%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0015,
+    "loss": 0,
+    "amt": 0.0015
+   },
+   {
+    "seq": 174,
+    "code": "N30199000026",
+    "name": "片式电阻 1/10W,1KΩ,5%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0015,
+    "loss": 0,
+    "amt": 0.0015
+   },
+   {
+    "seq": 175,
+    "code": "N30199000027",
+    "name": "片式电阻 1/4W,10KΩ,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0168
+   },
+   {
+    "seq": 176,
+    "code": "N30199000032",
+    "name": "片式电阻 1/16W,10KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 36,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0288
+   },
+   {
+    "seq": 177,
+    "code": "N30199000034",
+    "name": "片式电阻 1/16W,4.7KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0016
+   },
+   {
+    "seq": 178,
+    "code": "N30199000047",
+    "name": "片式电阻 1/10W,1KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 179,
+    "code": "N30199000051",
+    "name": "片式电阻 1/16W,1KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 26,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0208
+   },
+   {
+    "seq": 180,
+    "code": "N30199000058",
+    "name": "片式电阻 1/10W,100KΩ,5%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0015,
+    "loss": 0,
+    "amt": 0.0015
+   },
+   {
+    "seq": 181,
+    "code": "N30199000065",
+    "name": "片式电阻 1/8W,1.5KΩ,5%,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0025,
+    "loss": 0,
+    "amt": 0.0075
+   },
+   {
+    "seq": 182,
+    "code": "N30199000069",
+    "name": "片式电阻 1/16W,100Ω,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0008
+   },
+   {
+    "seq": 183,
+    "code": "N30199000075",
+    "name": "片式电阻 1/10W,4.7KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 184,
+    "code": "N30199000076",
+    "name": "片式电阻 1/4W,510KΩ,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0084
+   },
+   {
+    "seq": 185,
+    "code": "N30199000084",
+    "name": "片式电阻 1/8W,100Ω,5%,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0025,
+    "loss": 0,
+    "amt": 0.0025
+   },
+   {
+    "seq": 186,
+    "code": "N30199000117",
+    "name": "片式电阻 1/4W,100Ω,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0084
+   },
+   {
+    "seq": 187,
+    "code": "N30199000126",
+    "name": "片式电阻 1/4W,20Ω,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0043,
+    "loss": 0,
+    "amt": 0.0258
+   },
+   {
+    "seq": 188,
+    "code": "N30199000134",
+    "name": "片式电阻 1/4W,150KΩ,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0042
+   },
+   {
+    "seq": 189,
+    "code": "N30199000163",
+    "name": "片式电阻 1/16W,470Ω,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0016
+   },
+   {
+    "seq": 190,
+    "code": "N30199000227",
+    "name": "片式电阻 1/4W,10Ω,5%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0042,
+    "loss": 0,
+    "amt": 0.0042
+   },
+   {
+    "seq": 191,
+    "code": "N30199000245",
+    "name": "片式电阻 1/16W,10Ω,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0016
+   },
+   {
+    "seq": 192,
+    "code": "N30199000253",
+    "name": "片式电阻 1/16W,10KΩ,1%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 5,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.001,
+    "loss": 0,
+    "amt": 0.005
+   },
+   {
+    "seq": 193,
+    "code": "N30199000254",
+    "name": "片式电阻 1/10W,40.2KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 194,
+    "code": "N30199000325",
+    "name": "片式电阻 1/10W,30KΩ,5%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0015,
+    "loss": 0,
+    "amt": 0.0015
+   },
+   {
+    "seq": 195,
+    "code": "N30199000344",
+    "name": "片式电阻 1/4W,1.5Ω,1%,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0058,
+    "loss": 0,
+    "amt": 0.0174
+   },
+   {
+    "seq": 196,
+    "code": "N30199000347",
+    "name": "片式电阻 1/10W,39KΩ,5%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0015,
+    "loss": 0,
+    "amt": 0.0015
+   },
+   {
+    "seq": 197,
+    "code": "N30199000369",
+    "name": "片式电阻 1/16W,680Ω,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 12,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0096
+   },
+   {
+    "seq": 198,
+    "code": "N30199000378",
+    "name": "片式电阻 1/10W,75KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 199,
+    "code": "N30199000414",
+    "name": "片式电阻 1/10W,18KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 200,
+    "code": "N30199000419",
+    "name": "片式电阻 1/16W,6.8KΩ,1%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.001,
+    "loss": 0,
+    "amt": 0.004
+   },
+   {
+    "seq": 201,
+    "code": "N30199000473",
+    "name": "片式电阻 1/16W,2KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0032
+   },
+   {
+    "seq": 202,
+    "code": "N30199000478",
+    "name": "片式电阻 1/16W,3.3KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 8,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0064
+   },
+   {
+    "seq": 203,
+    "code": "N30199000483",
+    "name": "片式电阻 1/10W,13KΩ,1%,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0018
+   },
+   {
+    "seq": 204,
+    "code": "N30199000518",
+    "name": "片式电阻 1/16W,5.1KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0008
+   },
+   {
+    "seq": 205,
+    "code": "N30199000586",
+    "name": "片式电阻 1/16W,15KΩ,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0016
+   },
+   {
+    "seq": 206,
+    "code": "N30199000618",
+    "name": "片式电阻 1/16W,200Ω,5%,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厚声国际贸易（昆山）有限公司",
+    "price": 0.0008,
+    "loss": 0,
+    "amt": 0.0032
+   },
+   {
+    "seq": 207,
+    "code": "N30199000666",
+    "name": "片式电阻 3/4W,68KΩ,5%,2010(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 12,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0274,
+    "loss": 0,
+    "amt": 0.3288
+   },
+   {
+    "seq": 208,
+    "code": "N30302000104",
+    "name": "NTC热敏电阻 SCK08053MSY008 3A,R25=5Ω(20%,φ8)(兴勤)(编带)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "东莞为勤电子有限公司",
+    "price": 0.2548,
+    "loss": 0,
+    "amt": 0.2548
+   },
+   {
+    "seq": 209,
+    "code": "N30503000098",
+    "name": "聚丙烯膜电容 C312J222K3SA31A 2.2nF,10%,630Vdc,P=7.5(法拉)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门法拉电子股份有限公司",
+    "price": 0.102,
+    "loss": 0,
+    "amt": 0.102
+   },
+   {
+    "seq": 210,
+    "code": "N30506000690",
+    "name": "铝电解电容 RGA330M2WBK-1620 33uF,20%,450V,105℃,16X20,P=7.5(立隆)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "湖南艾华集团股份有限公司",
+    "price": 0.88,
+    "loss": 0,
+    "amt": 0.88
+   },
+   {
+    "seq": 211,
+    "code": "N30506000801",
+    "name": "铝电解电容 VEJ470M1HTR-0607 47uF,20%,50V,6.3X7.7,SMD(立隆)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门安瑞信电子科技有限公司",
+    "price": 0.165,
+    "loss": 0,
+    "amt": 0.165
+   },
+   {
+    "seq": 212,
+    "code": "N30506000937",
+    "name": "铝电解电容 VEJ101M1ETR-0607 100uF,20%,25V,105℃,6.3X7.7,SMT(立隆)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.15,
+    "loss": 0,
+    "amt": 0.9
+   },
+   {
+    "seq": 213,
+    "code": "N30506000994",
+    "name": "铝电解电容 VEJ221M1CTR-0607 220uF,20%,16V,6.3X7.7,SMD(立隆)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 6,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.155,
+    "loss": 0,
+    "amt": 0.93
+   },
+   {
+    "seq": 214,
+    "code": "N30506001223",
+    "name": "铝电解电容 ERJ1EM102G20B50T 1000uF,20%,25V,105℃,10X20,P=5,10000h(艾华)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "湖南艾华集团股份有限公司",
+    "price": 0.45,
+    "loss": 0,
+    "amt": 0.9
+   },
+   {
+    "seq": 215,
+    "code": "N30506001238",
+    "name": "铝电解电容 VEJ100M1CTR-0405 10uF,20%,16V,105℃,4X5.3,SMD(立隆)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.112,
+    "loss": 0,
+    "amt": 0.112
+   },
+   {
+    "seq": 216,
+    "code": "N30508000057",
+    "name": "安规陶瓷电容 DE1E3KX222MN4AN01F 2.2nF,20%,250Vac,P=10(Murata)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "深圳市仁天芯科技有限公司",
+    "price": 0.15,
+    "loss": 0,
+    "amt": 0.15
+   },
+   {
+    "seq": 217,
+    "code": "N30515002148",
+    "name": "片式瓷介电容 CC0402KRNPO9BN150 NP0,15pF,10%,50V,0402(国巨)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.0025,
+    "loss": 0,
+    "amt": 0.005
+   },
+   {
+    "seq": 218,
+    "code": "N30599000004",
+    "name": "片式瓷介电容 X7R,100nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0051,
+    "loss": 0,
+    "amt": 0.0153
+   },
+   {
+    "seq": 219,
+    "code": "N30599000005",
+    "name": "片式瓷介电容 X7R,100nF,10%,50V,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0086,
+    "loss": 0,
+    "amt": 0.0344
+   },
+   {
+    "seq": 220,
+    "code": "N30599000006",
+    "name": "片式瓷介电容 X7R,100nF,10%,25V,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 87,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0024,
+    "loss": 0,
+    "amt": 0.2088
+   },
+   {
+    "seq": 221,
+    "code": "N30599000012",
+    "name": "片式瓷介电容 X7R,1nF,10%,50V,0402(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 12,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0018,
+    "loss": 0,
+    "amt": 0.0216
+   },
+   {
+    "seq": 222,
+    "code": "N30599000031",
+    "name": "片式瓷介电容 X7R,220nF,10%,25V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "深圳市集财实业有限公司（ZZ）",
+    "price": 0.0112,
+    "loss": 0,
+    "amt": 0.0224
+   },
+   {
+    "seq": 223,
+    "code": "N30599000047",
+    "name": "片式瓷介电容 X7R,3.3nF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0052,
+    "loss": 0,
+    "amt": 0.0052
+   },
+   {
+    "seq": 224,
+    "code": "N30599000207",
+    "name": "片式瓷介电容 X5R,1uF,10%,50V,0603(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 21,
+    "supplier": "深圳市集财实业有限公司（ZZ）",
+    "price": 0.0108,
+    "loss": 0,
+    "amt": 0.2268
+   },
+   {
+    "seq": 225,
+    "code": "N30599000240",
+    "name": "片式瓷介电容 X7R,1uF,10%,16V,0805(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0167,
+    "loss": 0,
+    "amt": 0.0167
+   },
+   {
+    "seq": 226,
+    "code": "N30599000250",
+    "name": "片式瓷介电容 X7R,10uF,10%,25V,1206(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.0485,
+    "loss": 0,
+    "amt": 0.097
+   },
+   {
+    "seq": 227,
+    "code": "N31301000157",
+    "name": "光耦 LTV-816S-TA1-D-Cu SOP4(CTR=300-600)(光宝)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "上海潘亚电子有限公司",
+    "price": 0.1665,
+    "loss": 0,
+    "amt": 0.666
+   },
+   {
+    "seq": 228,
+    "code": "N31306000294",
+    "name": "发光二极管 LTST-C191KRKT-EL 红色,0603(亮度:M,N,波长:630nm,电压:ALL)(光宝)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.0355,
+    "loss": 0,
+    "amt": 0.0355
+   },
+   {
+    "seq": 229,
+    "code": "N31306000307",
+    "name": "发光二极管 LTST-C190GKT-EL 绿色,0603(亮度:ALL,波长:570nm,电压:2.1V)(光宝)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "PAN Elektron (Hong-Kong) Co., Limited",
+    "price": 0.039302,
+    "loss": 0,
+    "amt": 0.157208
+   },
+   {
+    "seq": 230,
+    "code": "N31502000138",
+    "name": "肖特基二极管 MBR10200FCT 10A,200V,ITO-220AB(MCC)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "广州市洲光源电子有限公司（ZZ）",
+    "price": 0.7,
+    "loss": 0,
+    "amt": 0.7
+   },
+   {
+    "seq": 231,
+    "code": "N31504000110",
+    "name": "开关二极管 1SS181 100mA,80V,SOT23(MCC)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 10,
+    "supplier": "厦门科力通电子科技有公司（ZZ）",
+    "price": 0.075,
+    "loss": 0,
+    "amt": 0.75
+   },
+   {
+    "seq": 232,
+    "code": "N31507000109",
+    "name": "TVS UDD32C05L01 350W,5V,SOD323(君耀)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "深圳市超利维实业有限公司",
+    "price": 0.097,
+    "loss": 0,
+    "amt": 0.194
+   },
+   {
+    "seq": 233,
+    "code": "N31507000425",
+    "name": "TVS P6SMB6.8CA 600W,6.8V,SMB(君耀)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 12,
+    "supplier": "厦门美赫电子有限公司",
+    "price": 0.15,
+    "loss": 0,
+    "amt": 1.8
+   },
+   {
+    "seq": 234,
+    "code": "N31599000008",
+    "name": "整流管 M7 1A,1KV,SMA(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门镁富莱工贸有限公司",
+    "price": 0.0169,
+    "loss": 0,
+    "amt": 0.0676
+   },
+   {
+    "seq": 235,
+    "code": "N31599000010",
+    "name": "开关二极管 BAV99 SOT23(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门镁富莱工贸有限公司",
+    "price": 0.02,
+    "loss": 0,
+    "amt": 0.08
+   },
+   {
+    "seq": 236,
+    "code": "N31599000011",
+    "name": "超快恢复二极管 US1M 1A,1KV,SMA(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "厦门镁富莱工贸有限公司",
+    "price": 0.0274,
+    "loss": 0,
+    "amt": 0.0548
+   },
+   {
+    "seq": 237,
+    "code": "N31599000026",
+    "name": "开关二极管 1N4148W 150mA,100V,SOD123(编带)(RoHS)(互换件)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.0138,
+    "loss": 0,
+    "amt": 0.0552
+   },
+   {
+    "seq": 238,
+    "code": "N31601000170",
+    "name": "数码管 BSR0941YBK 红色(共阴极,4位)(48h盐雾)(倍司特)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门倍司特电子有限公司",
+    "price": 1.7608,
+    "loss": 0,
+    "amt": 1.7608
+   },
+   {
+    "seq": 239,
+    "code": "N31701000313",
+    "name": "三极管 S9013-H NPN,25V,HFE=200-350,500mA,SOT23(长电)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门博天晟电子科技有限公司（ZZ）",
+    "price": 0.0268,
+    "loss": 0,
+    "amt": 0.0804
+   },
+   {
+    "seq": 240,
+    "code": "N31800000311",
+    "name": "驱动电路 ULN2003G-S16-R SOP16(30V,500mA)(UTC)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 3,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.3176,
+    "loss": 0,
+    "amt": 0.9528
+   },
+   {
+    "seq": 241,
+    "code": "N31800000332",
+    "name": "集成电路 MAX13085EESA SO8(Maxim)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 4,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 2.3562,
+    "loss": 0,
+    "amt": 9.4248
+   },
+   {
+    "seq": 242,
+    "code": "N31801000628",
+    "name": "微处理器 STM32F407ZGT6 LQFP144(ST)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 18.581,
+    "loss": 0,
+    "amt": 18.581
+   },
+   {
+    "seq": 243,
+    "code": "N31805000073",
+    "name": "存贮器 BR24G02FJ-3GTE2 SOP-J8(Rohm)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "帕太国际贸易（上海）有限公司",
+    "price": 0.3355,
+    "loss": 0,
+    "amt": 0.3355
+   },
+   {
+    "seq": 244,
+    "code": "N31806000199",
+    "name": "稳压器 KIA7805AF-RTF/P(H) DPAK(KEC)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市怡海能达有限公司",
+    "price": 0.5204,
+    "loss": 0,
+    "amt": 0.5204
+   },
+   {
+    "seq": 245,
+    "code": "N31806000208",
+    "name": "稳压器 LD1117S50CTR SOT223(ST)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门元顺微电子技术有限公司",
+    "price": 0.1726,
+    "loss": 0,
+    "amt": 0.1726
+   },
+   {
+    "seq": 246,
+    "code": "N31806000341",
+    "name": "稳压器 TL431NSG-AE2-R SOT23-3(2.5V,0.5%,脚位:C-R-A)(UTC)(编带)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门元顺微电子技术有限公司",
+    "price": 0.0885,
+    "loss": 0,
+    "amt": 0.0885
+   },
+   {
+    "seq": 247,
+    "code": "N31807000094",
+    "name": "电源管理电路 MP1470GJ-Z TSOT23-6(MPS)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "Eastern International (HK) Limited",
+    "price": 0.544506,
+    "loss": 0,
+    "amt": 0.544506
+   },
+   {
+    "seq": 248,
+    "code": "N31807000377",
+    "name": "电源管理电路 OB2365TAP-H DIP8(铱科专用)(昂宝)(HF;RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门亿思达电子有限公司",
+    "price": 1.6815,
+    "loss": 0,
+    "amt": 1.6815
+   },
+   {
+    "seq": 249,
+    "code": "N31813000096",
+    "name": "驱动电路 TBD62003APG DIP16(Toshiba)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "AVNET SUNRISE LTD",
+    "price": 0.678846,
+    "loss": 0,
+    "amt": 1.357692
+   },
+   {
+    "seq": 250,
+    "code": "N31813000155",
+    "name": "驱动电路 TM1650 SOP16(天微)(天加专用)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.4059,
+    "loss": 0,
+    "amt": 0.4059
+   },
+   {
+    "seq": 251,
+    "code": "N32002000072",
+    "name": "晶体谐振器 SZJF-4.000-9S/SM-20-1-10-P-T&R 4MHz,10ppm,20pF,SMD(晶峰)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市晶峰晶体科技有限公司",
+    "price": 0.28,
+    "loss": 0,
+    "amt": 0.28
+   },
+   {
+    "seq": 252,
+    "code": "N32202000441",
+    "name": "开关变压器 EE28-66-6V (华联科技)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门华联电子科技有限公司",
+    "price": 4.3844,
+    "loss": 0,
+    "amt": 4.3844
+   },
+   {
+    "seq": 253,
+    "code": "N32304000139",
+    "name": "片式线绕电感 VLS252012HBX-6R8M-1 (TDK)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "南京商络电子股份有限公司",
+    "price": 0.155,
+    "loss": 0,
+    "amt": 0.155
+   },
+   {
+    "seq": 254,
+    "code": "N32304000313",
+    "name": "片式线绕电感 SWPA8040S330MT 33uH,2.4A(顺络)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "厦门翔烨云供应链科技有限公司",
+    "price": 0.2794,
+    "loss": 0,
+    "amt": 0.2794
+   },
+   {
+    "seq": 255,
+    "code": "N32306000044",
+    "name": "带骨架电感 LB20ET-03 22mH,1A(扼流圈)(新纪元)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门华联电子科技有限公司",
+    "price": 1.6451,
+    "loss": 0,
+    "amt": 1.6451
+   },
+   {
+    "seq": 256,
+    "code": "N32401000217",
+    "name": "功率继电器 HF46F/12-HS1 (宏发)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 10,
+    "supplier": "厦门宏发电声销售有限公司",
+    "price": 0.9,
+    "loss": 0,
+    "amt": 9
+   },
+   {
+    "seq": 257,
+    "code": "N32503000117",
+    "name": "拨码开关 YAD-08HR-2 (72h盐雾)(优高)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 1,
+    "supplier": "深圳市安捷诚电子有限公司",
+    "price": 1.395,
+    "loss": 0,
+    "amt": 1.395
+   },
+   {
+    "seq": 258,
+    "code": "N32503000118",
+    "name": "拨码开关 YAD-06HR-2 (72h盐雾)(优高)(编带)(RoHS)",
+    "level": "AB级替换",
+    "form": "SMT",
+    "qty": 2,
+    "supplier": "深圳优高电子有限公司（ZZ）",
+    "price": 1.4159,
+    "loss": 0,
+    "amt": 2.8318
+   },
+   {
+    "seq": 259,
+    "code": "N60103000079",
+    "name": "延时熔断器 50CT050H 5A,250V,Φ5.2X20(陶瓷管无引线)(好利)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "好利来（厦门）电路保护科技有限公司",
+    "price": 0.2632,
+    "loss": 0,
+    "amt": 0.2632
+   },
+   {
+    "seq": 260,
+    "code": "N60601001310",
+    "name": "端子 TJC2508-5A 黑色(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.077,
+    "loss": 0,
+    "amt": 0.154
+   },
+   {
+    "seq": 261,
+    "code": "N60601001317",
+    "name": "端子 TJC2508-5A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.0692,
+    "loss": 0,
+    "amt": 0.0692
+   },
+   {
+    "seq": 262,
+    "code": "N60601001318",
+    "name": "端子 TJC2508-5A 蓝色(2.5X5P)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.1,
+    "loss": 0,
+    "amt": 0.1
+   },
+   {
+    "seq": 263,
+    "code": "N60601001375",
+    "name": "端子 TJC2508-4A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0554,
+    "loss": 0,
+    "amt": 0.0554
+   },
+   {
+    "seq": 264,
+    "code": "N60601001389",
+    "name": "端子 VH-3A 红色(48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.0895,
+    "loss": 0,
+    "amt": 0.0895
+   },
+   {
+    "seq": 265,
+    "code": "N60601001390",
+    "name": "端子 VH-3A 蓝色(48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0895,
+    "loss": 0,
+    "amt": 0.0895
+   },
+   {
+    "seq": 266,
+    "code": "N60601001438",
+    "name": "端子 B04B-XARK-1 红(JST)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.16,
+    "loss": 0,
+    "amt": 0.16
+   },
+   {
+    "seq": 267,
+    "code": "N60601001586",
+    "name": "端子 TJC2509-2A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.0449,
+    "loss": 0,
+    "amt": 0.0449
+   },
+   {
+    "seq": 268,
+    "code": "N60601001588",
+    "name": "端子 TJC2509-4A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.0785,
+    "loss": 0,
+    "amt": 0.0785
+   },
+   {
+    "seq": 269,
+    "code": "N60601001590",
+    "name": "端子 TJC2509-6A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.1176,
+    "loss": 0,
+    "amt": 0.1176
+   },
+   {
+    "seq": 270,
+    "code": "N60601001592",
+    "name": "端子 TJC2509-8A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.168,
+    "loss": 0,
+    "amt": 0.168
+   },
+   {
+    "seq": 271,
+    "code": "N60601001594",
+    "name": "端子 TJC2509-10A (CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.1961,
+    "loss": 0,
+    "amt": 0.1961
+   },
+   {
+    "seq": 272,
+    "code": "N60601001619",
+    "name": "端子 VH-3A(去第2针) (48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.082,
+    "loss": 0,
+    "amt": 0.082
+   },
+   {
+    "seq": 273,
+    "code": "N60601001620",
+    "name": "端子 VH-3A(去第2针) 黑色(48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.092,
+    "loss": 0,
+    "amt": 0.184
+   },
+   {
+    "seq": 274,
+    "code": "N60601001672",
+    "name": "端子 VH-3A 黄色(去第2针)(48h盐雾)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0895,
+    "loss": 0,
+    "amt": 0.0895
+   },
+   {
+    "seq": 275,
+    "code": "N60601001775",
+    "name": "端子 TJC2508-5A 红色(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0796,
+    "loss": 0,
+    "amt": 0.0796
+   },
+   {
+    "seq": 276,
+    "code": "N60601002095",
+    "name": "端子 VH-3A 绿色(去第2针)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.092,
+    "loss": 0,
+    "amt": 0.092
+   },
+   {
+    "seq": 277,
+    "code": "N60601002533",
+    "name": "端子 VH-2A 绿色(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门联胜鑫电子有限公司",
+    "price": 0.058,
+    "loss": 0,
+    "amt": 0.058
+   },
+   {
+    "seq": 278,
+    "code": "N60601002724",
+    "name": "端子 TJC2509-2A 红色(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市嘉得电子有限公司",
+    "price": 0.0467,
+    "loss": 0,
+    "amt": 0.0467
+   },
+   {
+    "seq": 279,
+    "code": "N60601003395",
+    "name": "端子 TJC2508-4A 红色(2.5X4P)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.062,
+    "loss": 0,
+    "amt": 0.062
+   },
+   {
+    "seq": 280,
+    "code": "N60601003512",
+    "name": "端子 VH-3A 橙色(去第2针)(CWB)(RoHS)",
+    "level": "AB级替换",
+    "form": "N/A",
+    "qty": 2,
+    "supplier": "乐清市合润电子科技有限公司",
+    "price": 0.0895,
+    "loss": 0,
+    "amt": 0.179
+   },
+   {
+    "seq": 281,
+    "code": "N60602000254",
+    "name": "接线排 YK3030903002G (Anytek)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "厦门市向荣发电子有限公司",
+    "price": 6.2975,
+    "loss": 0,
+    "amt": 6.2975
+   },
+   {
+    "seq": 282,
+    "code": "N60604000340",
+    "name": "插座 1734366-2 (USB座,立式)(TE)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 1,
+    "supplier": "上海史安微电子有限公司",
+    "price": 1.9,
+    "loss": 0,
+    "amt": 1.9
+   },
+   {
+    "seq": 283,
+    "code": "N60606000043",
+    "name": "卡座 KH172-A,P＝6.5 (保险丝卡座D5X20)(磊峰)(RoHS)",
+    "level": "AB级替换",
+    "form": "插焊",
+    "qty": 2,
+    "supplier": "厦门磊峰五金弹簧有限公司",
+    "price": 0.11,
+    "loss": 0,
+    "amt": 0.22
+   },
+   {
+    "seq": 284,
+    "code": "N70901000288",
+    "name": "螺丝组件 3X8PM 304不锈钢(带平垫、弹垫)(72h盐雾)(新沪厦)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门新沪厦五金工贸有限公司",
+    "price": 0.0822,
+    "loss": 0,
+    "amt": 0.0822
+   },
+   {
+    "seq": 285,
+    "code": "N71002000022",
+    "name": "元件护套 D5X20(保险丝套管) (符合REACH)(中田)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "浙江中田电子护套有限公司（特采L）",
+    "price": 0.0348,
+    "loss": 0,
+    "amt": 0.0348
+   },
+   {
+    "seq": 286,
+    "code": "N71104006605",
+    "name": "FR4印制板 TE1003 双层,喷锡,200X200X1.6,1拼板(永隆)(RoHS)",
+    "level": "AB级替换",
+    "form": "基板",
+    "qty": 1,
+    "supplier": "惠州市永隆电路有限公司",
+    "price": 12.5782,
+    "loss": 0,
+    "amt": 12.5782
+   },
+   {
+    "seq": 287,
+    "code": "N60703001638",
+    "name": "标签 BQ300200W002-NJTJ (26P电气原理图)(D5A13H500001)(背胶)(RoHS)",
+    "level": "AB级替换",
+    "form": "贴装",
+    "qty": 1,
+    "supplier": "厦门亿华辉工贸有限公司",
+    "price": 2.035,
+    "loss": 0,
+    "amt": 2.035
+   }
+  ],
+  "structure": [
+   {
+    "seq": 288,
+    "code": "4013430R",
+    "name": "塑胶线夹 3.6X300 (尼龙扣)(正顺达)(RoHS)",
+    "level": "AB级替换",
+    "form": "N/A",
+    "qty": 6,
+    "supplier": "厦门正顺达电子有限公司",
+    "price": 0.099,
+    "loss": 0,
+    "amt": 0.594
+   },
+   {
+    "seq": 289,
+    "code": "N31805000286",
+    "name": "存贮器 SX770 (U盘)(32G)(联想)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "增利(上海)电子科技有限公司",
+    "price": 28,
+    "loss": 0,
+    "amt": 28
+   },
+   {
+    "seq": 290,
+    "code": "N60202002907",
+    "name": "弱电接插件 JCR04-70-036 (朝宏)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 2.17,
+    "loss": 0,
+    "amt": 2.17
+   },
+   {
+    "seq": 291,
+    "code": "N60202002908",
+    "name": "弱电接插件 JCR02-10-131 (朝宏)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 1.37,
+    "loss": 0,
+    "amt": 1.37
+   },
+   {
+    "seq": 292,
+    "code": "N60202002909",
+    "name": "弱电接插件 JCR01-150-004 (朝宏)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 38.3,
+    "loss": 0,
+    "amt": 38.3
+   },
+   {
+    "seq": 293,
+    "code": "N60203001231",
+    "name": "强电接插件 JCQ04-70-006 (朝宏)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 4.58,
+    "loss": 0,
+    "amt": 4.58
+   },
+   {
+    "seq": 294,
+    "code": "N60203001232",
+    "name": "强电接插件 JCQ03-180-001 (朝宏)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 128.72,
+    "loss": 0,
+    "amt": 128.72
+   },
+   {
+    "seq": 295,
+    "code": "N60203001257",
+    "name": "强电接插件 JCQ01-60-058 (20P电源线)(驱动接滤波)(N)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 3.51,
+    "loss": 0,
+    "amt": 3.51
+   },
+   {
+    "seq": 296,
+    "code": "N60203001261",
+    "name": "强电接插件 JCQ01-20-334 (20P电源线)(滤波接线排)(N)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 2.1,
+    "loss": 0,
+    "amt": 2.1
+   },
+   {
+    "seq": 297,
+    "code": "N60203001262",
+    "name": "强电接插件 JCQ01-60-059 (26P电源线)(驱动接滤波)(R)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 17.42,
+    "loss": 0,
+    "amt": 17.42
+   },
+   {
+    "seq": 298,
+    "code": "N60203001263",
+    "name": "强电接插件 JCQ01-60-060 (26P电源线)(驱动接滤波)(S)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 17.11,
+    "loss": 0,
+    "amt": 17.11
+   },
+   {
+    "seq": 299,
+    "code": "N60203001264",
+    "name": "强电接插件 JCQ01-60-061 (26P电源线)(驱动接滤波)(T)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 16.85,
+    "loss": 0,
+    "amt": 16.85
+   },
+   {
+    "seq": 300,
+    "code": "N60203001266",
+    "name": "强电接插件 JCQ01-10-190 (26P电源线)(滤波接线排)(R)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 5.88,
+    "loss": 0,
+    "amt": 5.88
+   },
+   {
+    "seq": 301,
+    "code": "N60203001267",
+    "name": "强电接插件 JCQ01-10-191 (26P电源线)(滤波接线排)(S)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 5.88,
+    "loss": 0,
+    "amt": 5.88
+   },
+   {
+    "seq": 302,
+    "code": "N60203001268",
+    "name": "强电接插件 JCQ01-10-192 (26P电源线)(滤波接线排)(T)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市朝宏电子科技有限公司",
+    "price": 6.05,
+    "loss": 0,
+    "amt": 6.05
+   },
+   {
+    "seq": 303,
+    "code": "N60602000345",
+    "name": "接线排 T1601-2 (28.8X4P)(B00000004772)(天加专用))(黄中电器)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门市向荣发电子有限公司",
+    "price": 16.1,
+    "loss": 0,
+    "amt": 16.1
+   },
+   {
+    "seq": 304,
+    "code": "N60703001632",
+    "name": "标签 BQ5525Y001-NJTJ (警告标识)(B21101QZ)(背胶)(RoHS)",
+    "level": "AB级替换",
+    "form": "贴装",
+    "qty": 1,
+    "supplier": "厦门亿华辉工贸有限公司",
+    "price": 0.053,
+    "loss": 0,
+    "amt": 0.053
+   },
+   {
+    "seq": 305,
+    "code": "N60703001633",
+    "name": "标签 BQ297210W001-NJTJ (参数查询标识)(B2110213)(背胶)(RoHS)",
+    "level": "AB级替换",
+    "form": "贴装",
+    "qty": 1,
+    "supplier": "厦门亿华辉工贸有限公司",
+    "price": 1.389,
+    "loss": 0,
+    "amt": 1.389
+   },
+   {
+    "seq": 306,
+    "code": "N70901000291",
+    "name": "螺丝组件 4X8PM 304不锈钢(带平垫、弹垫)(72h盐雾)(新沪厦)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 4,
+    "supplier": "厦门新沪厦五金工贸有限公司",
+    "price": 0.118,
+    "loss": 0,
+    "amt": 0.472
+   },
+   {
+    "seq": 307,
+    "code": "N70901000396",
+    "name": "螺丝组件 4X12PM 304不锈钢(带平垫、弹垫)(72h盐雾)(新沪厦/磊峰)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 14,
+    "supplier": "厦门磊峰五金弹簧有限公司",
+    "price": 0.13,
+    "loss": 0,
+    "amt": 1.82
+   },
+   {
+    "seq": 308,
+    "code": "N70901000683",
+    "name": "螺丝 4X25PA SUS304(72h盐雾)(新沪厦)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 4,
+    "supplier": "厦门新沪厦五金工贸有限公司",
+    "price": 0.085,
+    "loss": 0,
+    "amt": 0.34
+   },
+   {
+    "seq": 309,
+    "code": "N70901000686",
+    "name": "螺丝 4X30PM SUS304(72h盐雾)(新沪厦)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 3,
+    "supplier": "厦门新沪厦五金工贸有限公司",
+    "price": 0.14,
+    "loss": 0,
+    "amt": 0.42
+   },
+   {
+    "seq": 310,
+    "code": "N70901000687",
+    "name": "螺丝组件 PM5X10-D10 H65黄铜(4.8,100HV)(黄铜平垫)(新沪厦)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 3,
+    "supplier": "厦门新沪厦五金工贸有限公司",
+    "price": 1.2,
+    "loss": 0,
+    "amt": 3.6
+   },
+   {
+    "seq": 311,
+    "code": "N70917000057",
+    "name": "金属架 NJTJ (20P)(电控驱动安装板组件)(P7B2D6300008)(广汇田)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门旺永机械有限公司",
+    "price": 60,
+    "loss": 0,
+    "amt": 60
+   },
+   {
+    "seq": 312,
+    "code": "N70917000058",
+    "name": "金属架 NJTJ (20P)(电控主控安装板组件)(P7B2D6300010)(广汇田)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门旺永机械有限公司",
+    "price": 33,
+    "loss": 0,
+    "amt": 33
+   },
+   {
+    "seq": 313,
+    "code": "N70917000070",
+    "name": "金属架 NJTJ (散热器固定架)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "厦门旺永机械有限公司",
+    "price": 1.9,
+    "loss": 0,
+    "amt": 1.9
+   },
+   {
+    "seq": 314,
+    "code": "N71010002861",
+    "name": "塑胶壳 N302D5200001-NJTJ (主控制板底托)(天加专用)(依友)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "南京依友空调配件有限公司",
+    "price": 7.9204,
+    "loss": 0,
+    "amt": 7.9204
+   },
+   {
+    "seq": 315,
+    "code": "N71010002954",
+    "name": "塑胶壳 P70046200009-NJTJ (下压线扣)(天加专用)(依友)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "南京依友空调配件有限公司",
+    "price": 4.1327,
+    "loss": 0,
+    "amt": 4.1327
+   },
+   {
+    "seq": 316,
+    "code": "N71010002955",
+    "name": "塑胶壳 P70046200010-NJTJ (上压线扣)(天加专用)(依友)(RoHS)",
+    "level": "AB级替换",
+    "form": "锁接",
+    "qty": 1,
+    "supplier": "南京依友空调配件有限公司",
+    "price": 4.1327,
+    "loss": 0,
+    "amt": 4.1327
+   },
+   {
+    "seq": 317,
+    "code": "N71012000335",
+    "name": "塑胶座 U型线卡 (P71468600001)(天加专用)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 3,
+    "supplier": "厦门罗克科技有限公司",
+    "price": 0.682,
+    "loss": 0,
+    "amt": 2.046
+   },
+   {
+    "seq": 318,
+    "code": "N71014000079",
+    "name": "塑胶线夹 5X150 (插销自锁式)(孔径5)(广汇田)(RoHS)",
+    "level": "AB级替换",
+    "form": "卡接",
+    "qty": 2,
+    "supplier": "厦门广汇田电子设备有限公司",
+    "price": 0.25,
+    "loss": 0,
+    "amt": 0.5
+   },
+   {
+    "seq": 319,
+    "code": "N71014000080",
+    "name": "塑胶线夹 CHA-5 白色(插销式线夹)(罗克)(RoHS)",
+    "level": "AB级替换",
+    "form": "组装",
+    "qty": 1,
+    "supplier": "厦门罗克科技有限公司",
+    "price": 0.12,
+    "loss": 0,
+    "amt": 0.12
+   }
+  ],
+  "packaging": [
+   {
+    "code": "4013430R",
+    "name": "塑胶线夹 3.6X300 (尼龙扣)(正顺达)(RoHS)",
+    "qty": 2,
+    "supplier": "厦门正顺达电子有限公司",
+    "price": 0.099,
+    "loss": 0,
+    "amt": 0.198,
+    "mold_w": null
+   },
+   {
+    "code": "N40501000405",
+    "name": "纸箱 665X393X405 (RoHS)",
+    "qty": 1,
+    "supplier": "厦门比瑞特包装科技有限公司",
+    "price": 10.98,
+    "loss": 0,
+    "amt": 10.98,
+    "mold_w": null
+   },
+   {
+    "code": "N40505000136",
+    "name": "塑料袋 355X245 (凹凸)(RoHS)",
+    "qty": 1,
+    "supplier": "厦门比瑞特包装科技有限公司",
+    "price": 0.25,
+    "loss": 0,
+    "amt": 0.25,
+    "mold_w": null
+   },
+   {
+    "code": "N40505000140",
+    "name": "塑料袋 372X322X700 (防静电,厚度0.1mm)(RoHS)",
+    "qty": 1,
+    "supplier": "厦门比瑞特包装科技有限公司",
+    "price": 3.39,
+    "loss": 0,
+    "amt": 3.39,
+    "mold_w": null
+   },
+   {
+    "code": "N40511000095",
+    "name": "泡沫 660×399×115 (EPS料,右侧，DRV-20P,26P包装用)(RoHS)",
+    "qty": 1,
+    "supplier": "厦门鹏源鑫工贸有限公司",
+    "price": 22.1,
+    "loss": 0,
+    "amt": 22.1,
+    "mold_w": 16667
+   },
+   {
+    "code": "N40511000096",
+    "name": "泡沫 660×399×146 (EPS料,左侧，DRV-20P,26P包装用)(RoHS)",
+    "qty": 1,
+    "supplier": "厦门鹏源鑫工贸有限公司",
+    "price": 24.7,
+    "loss": 0,
+    "amt": 24.7,
+    "mold_w": 16667
+   },
+   {
+    "code": "N40512000282",
+    "name": "泡沫棉 40X20X199 (右侧EVA棉块2)(高密度)(防静电)(RoHS)",
+    "qty": 2,
+    "supplier": "厦门市达唯工贸有限公司",
+    "price": 1.0619,
+    "loss": 0,
+    "amt": 2.1238,
+    "mold_w": null
+   },
+   {
+    "code": "N60703001395",
+    "name": "标签 BQ12080W001-HL (格式标签)(1寸卷芯,外径83mm)(RoHS)",
+    "qty": 1,
+    "supplier": "厦门亿华辉工贸有限公司（ZZ）",
+    "price": 0.0347,
+    "loss": 0,
+    "amt": 0.0347,
+    "mold_w": null
+   }
+  ],
+  "aux": [
+   {
+    "code": "N40716000018",
+    "name": "锡丝 BSD620-W Sn0.3Ag0.7Cu(φ3.0)(博士达)(RoHS)",
+    "qty": 0.001723778,
+    "unit": "KG",
+    "price": 309.2832,
+    "amt": 0.5331355759,
+    "note": ""
+   },
+   {
+    "code": "N40716000015",
+    "name": "锡丝 YTW101 Sn0.7Cu,Flux2.4％(φ0.8)(亚通)(RoHS)",
+    "qty": 0.099898221,
+    "unit": "KG",
+    "price": 265.4779,
+    "amt": 26.5207699248,
+    "note": "按V3.0计算用量"
+   },
+   {
+    "code": "458F007",
+    "name": "助焊剂 TF-328 (深圳同方)(RoHS)",
+    "qty": 0.005,
+    "unit": "L",
+    "price": 15.8828,
+    "amt": 0.079414,
+    "note": ""
+   },
+   {
+    "code": "409012",
+    "name": "导热硅脂 HZ-KS101 (百合花)(RoHS)",
+    "qty": 0.0049,
+    "unit": "BOT",
+    "price": 6.1538,
+    "amt": 0.03015362,
+    "note": ""
+   },
+   {
+    "code": "N40719000013",
+    "name": "锡膏 TF-2600(DN代码:9YC89C1) (Sn96.5Ag3.0Cu0.5)(RoHS)",
+    "qty": 0.000816375,
+    "unit": "KG",
+    "price": 681.8053,
+    "amt": 0.5566088018,
+    "note": ""
+   },
+   {
+    "code": "N40703000010",
+    "name": "硅胶 SB4568W (瞬利)(RoHS)",
+    "qty": 0.212,
+    "unit": "G",
+    "price": 0.1044,
+    "amt": 0.0221328,
+    "note": ""
+   },
+   {
+    "code": "N40701000019",
+    "name": "绝缘漆 EA9187LH (道康宁)(RoHS)",
+    "qty": 9.742268041,
+    "unit": "G",
+    "price": 0.3,
+    "amt": 2.9226804123,
+    "note": ""
+   },
+   {
+    "code": "N40719000013",
+    "name": "锡膏 TF-2600(DN代码:9YC89C1) (Sn96.5Ag3.0Cu0.5)(RoHS)",
+    "qty": 0.00147525,
+    "unit": "KG",
+    "price": 681.8053,
+    "amt": 1.0058332688,
+    "note": ""
+   },
+   {
+    "code": "N40703000010",
+    "name": "硅胶 SB4568W (瞬利)(RoHS)",
+    "qty": 0.66,
+    "unit": "G",
+    "price": 0.1044,
+    "amt": 0.068904,
+    "note": ""
+   },
+   {
+    "code": "N40716000018",
+    "name": "锡丝 BSD620-W Sn0.3Ag0.7Cu(φ3.0)(博士达)(RoHS)",
+    "qty": 0.0048079826,
+    "unit": "KG",
+    "price": 309.2832,
+    "amt": 1.4870282441,
+    "note": "已按V3.0更新用量"
+   },
+   {
+    "code": "458F007",
+    "name": "助焊剂 TF-328 (深圳同方)(RoHS)",
+    "qty": 0.0034571429,
+    "unit": "L",
+    "price": 15.8828,
+    "amt": 0.0549091093,
+    "note": ""
+   },
+   {
+    "code": "N40701000020",
+    "name": "绝缘漆 EA9187LUV (道康宁)(RoHS)",
+    "qty": 6.088917526,
+    "unit": "G",
+    "price": 0.545,
+    "amt": 3.3184600517,
+    "note": ""
+   },
+   {
+    "code": "N40703000010",
+    "name": "硅胶 SB4568W (瞬利)(RoHS)",
+    "qty": 0.09,
+    "unit": "G",
+    "price": 0.1044,
+    "amt": 0.009396,
+    "note": ""
+   },
+   {
+    "code": "458F007",
+    "name": "助焊剂 TF-328 (深圳同方)(RoHS)",
+    "qty": 0.0006656,
+    "unit": "L",
+    "price": 15.8828,
+    "amt": 0.0105715917,
+    "note": ""
+   },
+   {
+    "code": "N40701000019",
+    "name": "绝缘漆 EA9187LH (道康宁)(RoHS)",
+    "qty": 1.753608247,
+    "unit": "G",
+    "price": 0.3,
+    "amt": 0.5260824741,
+    "note": ""
+   },
+   {
+    "code": "N40716000018",
+    "name": "锡丝 BSD620-W Sn0.3Ag0.7Cu(φ3.0)(博士达)(RoHS)",
+    "qty": 0.00257704,
+    "unit": "KG",
+    "price": 309.2832,
+    "amt": 0.7970351777,
+    "note": "已按V3.0版本报价"
+   },
+   {
+    "code": "合计",
+    "name": null,
+    "qty": null,
+    "unit": null,
+    "price": null,
+    "amt": 37.9431150522,
+    "note": null
+   }
+  ]
+ },
+ "sheet3": {
+  "smt": [
+   {
+    "name": "贴片、机插加工成本",
+    "spec": null,
+    "qty": null,
+    "price": null,
+    "amt": null
+   },
+   {
+    "name": "工序",
+    "spec": "点数",
+    "qty": "单点成本",
+    "price": "金额",
+    "amt": null
+   },
+   {
+    "name": "贴片",
+    "spec": 1101.001,
+    "qty": 0.0056,
+    "price": 6.1656,
+    "amt": null
+   },
+   {
+    "name": "机插",
+    "spec": 14,
+    "qty": 0.0171,
+    "price": 0.2394,
+    "amt": null
+   },
+   {
+    "name": "预烧写",
+    "spec": 0,
+    "qty": 0.0498,
+    "price": 0,
+    "amt": null
+   }
+  ],
+  "labor_hdr": {
+   "cols": [
+    "分段名称",
+    "工序类别",
+    "生产定额",
+    "工序",
+    "人数",
+    "人工成本"
+   ]
+  },
+  "labor": [
+   {
+    "seg": "装配段",
+    "cat": "装配",
+    "quota": 12,
+    "proc": "",
+    "persons": 10,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "FCT",
+    "quota": 12,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "外观检验",
+    "quota": 12,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "OQC",
+    "quota": 12,
+    "proc": "",
+    "persons": 0.24,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "产前准备",
+    "quota": 12,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "杂项设备",
+    "quota": 12,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "维修清尾",
+    "quota": 12,
+    "proc": "",
+    "persons": 0.36,
+    "cost": "/"
+   },
+   {
+    "seg": "装配段",
+    "cat": "包装",
+    "quota": 12,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "焊接",
+    "quota": 80,
+    "proc": "",
+    "persons": 5,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "插件",
+    "quota": 80,
+    "proc": "",
+    "persons": 9,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "维修清尾",
+    "quota": 80,
+    "proc": "",
+    "persons": 0.5,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "喷漆",
+    "quota": 80,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "杂项设备",
+    "quota": 80,
+    "proc": "",
+    "persons": 0.4,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "波峰焊",
+    "quota": 80,
+    "proc": "",
+    "persons": 0.4,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "产前准备",
+    "quota": 80,
+    "proc": "",
+    "persons": 0.5,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "整形",
+    "quota": 80,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "外观检验",
+    "quota": 80,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "ICT",
+    "quota": 80,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "在线烧写",
+    "quota": 80,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "FCT",
+    "quota": 80,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "外观检验",
+    "quota": 40,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "FCT",
+    "quota": 40,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "装配",
+    "quota": 40,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "焊接",
+    "quota": 40,
+    "proc": "",
+    "persons": 6,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "维修清尾",
+    "quota": 40,
+    "proc": "",
+    "persons": 0.4,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "杂项设备",
+    "quota": 40,
+    "proc": "",
+    "persons": 0.3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "产前准备",
+    "quota": 40,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段2",
+    "cat": "OQC",
+    "quota": 40,
+    "proc": "",
+    "persons": 0.5,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "焊接",
+    "quota": 110,
+    "proc": "",
+    "persons": 3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "ICT",
+    "quota": 110,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "在线烧写",
+    "quota": 110,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "FCT",
+    "quota": 110,
+    "proc": "",
+    "persons": 3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "外观检验",
+    "quota": 110,
+    "proc": "",
+    "persons": 2,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "整形",
+    "quota": 110,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "OQC",
+    "quota": 110,
+    "proc": "",
+    "persons": 0.3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "波峰焊",
+    "quota": 110,
+    "proc": "",
+    "persons": 0.4,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "插件",
+    "quota": 110,
+    "proc": "",
+    "persons": 9,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "杂项设备",
+    "quota": 110,
+    "proc": "",
+    "persons": 0.3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "喷漆",
+    "quota": 110,
+    "proc": "",
+    "persons": 0.3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "维修清尾",
+    "quota": 110,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "产前准备",
+    "quota": 110,
+    "proc": "",
+    "persons": 0.5,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "外观检验",
+    "quota": 240,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "插件",
+    "quota": 240,
+    "proc": "",
+    "persons": 6,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "焊接",
+    "quota": 240,
+    "proc": "",
+    "persons": 7,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "ICT",
+    "quota": 240,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "整形",
+    "quota": 240,
+    "proc": "",
+    "persons": 1,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "OQC",
+    "quota": 240,
+    "proc": "",
+    "persons": 0.4,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "波峰焊",
+    "quota": 240,
+    "proc": "",
+    "persons": 0.4,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "杂项设备",
+    "quota": 240,
+    "proc": "",
+    "persons": 0.3,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "喷漆",
+    "quota": 240,
+    "proc": "",
+    "persons": 0.5,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "维修清尾",
+    "quota": 240,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   },
+   {
+    "seg": "插焊段",
+    "cat": "产前准备",
+    "quota": 240,
+    "proc": "",
+    "persons": 0.6,
+    "cost": "/"
+   }
+  ],
+  "labor_total": 82.0882,
+  "tooling_hdr": [
+   "工艺",
+   "工装名称",
+   "数量",
+   "单价",
+   "年需求",
+   "工装成本",
+   "金额"
+  ],
+  "tooling": [
+   {
+    "tech": "装配",
+    "name": "装配工装",
+    "qty": 2,
+    "price": 2000,
+    "annual": 5000,
+    "unit_cost": 0.2667,
+    "amt": 4000
+   },
+   {
+    "tech": "自动测试",
+    "name": "测试工装",
+    "qty": 2,
+    "price": 4000,
+    "annual": 5000,
+    "unit_cost": 0.5333,
+    "amt": 8000
+   },
+   {
+    "tech": "波峰焊",
+    "name": "波峰焊托盘",
+    "qty": 15,
+    "price": 300,
+    "annual": 5000,
+    "unit_cost": 0.3,
+    "amt": 4500
+   },
+   {
+    "tech": "双面喷漆",
+    "name": "喷漆托盘",
+    "qty": 0,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "自动测试",
+    "name": "自动测试工装",
+    "qty": 2,
+    "price": 4000,
+    "annual": 5000,
+    "unit_cost": 0.5333,
+    "amt": 8000
+   },
+   {
+    "tech": "ICT",
+    "name": "ICT针床",
+    "qty": 1,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "装配",
+    "name": "装配工装",
+    "qty": 3,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "自动焊锡机",
+    "name": "自动焊接",
+    "qty": 3,
+    "price": 400,
+    "annual": 5000,
+    "unit_cost": 0.08,
+    "amt": 1200
+   },
+   {
+    "tech": "双面喷漆",
+    "name": "喷漆托盘",
+    "qty": 15,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "ICT",
+    "name": "ICT针床",
+    "qty": 1,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "自动测试",
+    "name": "自动测试",
+    "qty": 3,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "波峰焊",
+    "name": "波峰焊托盘",
+    "qty": 0,
+    "price": 0,
+    "annual": 0,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "波峰焊",
+    "name": "波峰焊托盘",
+    "qty": 25,
+    "price": 300,
+    "annual": 5000,
+    "unit_cost": 0.5,
+    "amt": 7500
+   },
+   {
+    "tech": "单面喷漆",
+    "name": "喷漆托盘",
+    "qty": 15,
+    "price": 0,
+    "annual": 5000,
+    "unit_cost": 0,
+    "amt": 0
+   },
+   {
+    "tech": "自动测试",
+    "name": "自动测试工装",
+    "qty": 3,
+    "price": 4000,
+    "annual": 5000,
+    "unit_cost": 0.8,
+    "amt": 12000
+   },
+   {
+    "tech": "ICT",
+    "name": "ICT针床",
+    "qty": 1,
+    "price": 3500,
+    "annual": 5000,
+    "unit_cost": 0.2333,
+    "amt": 3500
+   },
+   {
+    "tech": "合计",
+    "name": null,
+    "qty": null,
+    "price": null,
+    "annual": null,
+    "unit_cost": "直接向客户收取",
+    "amt": 48700
+   }
+  ],
+  "tool_total": 48700,
+  "tool_note": "合计",
+  "cost_sum": [
+   {
+    "name": "加工成本汇总",
+    "unit": null,
+    "qty": null,
+    "val": null,
+    "note": null
+   },
+   {
+    "name": "工序类别",
+    "unit": "成本组成",
+    "qty": null,
+    "val": "金额",
+    "note": null
+   },
+   {
+    "name": "贴片、机插",
+    "unit": "1",
+    "qty": "贴片加工成本",
+    "val": 6.1656,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "2",
+    "qty": "机插加工成本",
+    "val": 0.2394,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": null,
+    "qty": "预烧写加工成本",
+    "val": 0,
+    "note": null
+   },
+   {
+    "name": "插焊、测试及其他工序",
+    "unit": "3",
+    "qty": "人工成本",
+    "val": 82.0882,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "4",
+    "qty": "折旧（专用）",
+    "val": 0.8424,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "5",
+    "qty": "折旧（公共）",
+    "val": 2.2,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "6",
+    "qty": "水电（专用）",
+    "val": 1.4745,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "7",
+    "qty": "水电（公共）",
+    "val": 1.4776,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "8",
+    "qty": "工装",
+    "val": 0,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "9",
+    "qty": "低耗",
+    "val": 4.5477,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "10",
+    "qty": "管理人员工资",
+    "val": 21.3676,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "11",
+    "qty": "其他",
+    "val": 6.0253,
+    "note": null
+   },
+   {
+    "name": null,
+    "unit": "12",
+    "qty": "检验成本",
+    "val": 0,
+    "note": null
+   },
+   {
+    "name": "合计",
+    "unit": null,
+    "qty": null,
+    "val": 126.4283,
+    "note": null
+   }
+  ],
+  "mold": [
+   {
+    "name": "模具开发费用",
+    "qty": null,
+    "unit": null,
+    "price": null,
+    "amt": null,
+    "note": null
+   },
+   {
+    "name": "物料代码",
+    "qty": "物料名称",
+    "unit": "用量",
+    "price": "单价",
+    "amt": "金额",
+    "note": null
+   },
+   {
+    "name": "N40511000095",
+    "qty": "泡沫 660×399×115 (EPS料,右侧，DRV-20P,26P包装用)(RoHS)",
+    "unit": 1,
+    "price": 14749.5575221239,
+    "amt": 14749.5575221239,
+    "note": null
+   },
+   {
+    "name": "N40511000096",
+    "qty": "泡沫 660×399×146 (EPS料,左侧，DRV-20P,26P包装用)(RoHS)",
+    "unit": 1,
+    "price": 14749.5575221239,
+    "amt": 14749.5575221239,
+    "note": null
+   },
+   {
+    "name": null,
+    "qty": null,
+    "unit": null,
+    "price": null,
+    "amt": 0,
+    "note": null
+   },
+   {
+    "name": null,
+    "qty": null,
+    "unit": null,
+    "price": "合计",
+    "amt": 29499.1150442478,
+    "note": null
+   }
+  ],
+  "soft": [
+   [
+    "软件开发费用",
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "序号",
+    "项目",
+    "工作量（人天)",
+    "单价(元/人天)",
+    "金额",
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    "合计",
+    0,
+    null
+   ]
+  ],
+  "hard": [
+   [
+    "硬件开发费用",
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "序号",
+    "项目",
+    "工作量（人天)",
+    "单价(元/人天)",
+    "金额",
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    "合计",
+    0,
+    null
+   ]
+  ],
+  "exp": [
+   [
+    "实验费用",
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    "序号",
+    "项目",
+    "时间（小时)",
+    "单价",
+    "金额",
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    null,
+    0,
+    null
+   ],
+   [
+    null,
+    null,
+    null,
+    "合计",
+    0,
+    null
+   ]
+  ]
+ },
+ "customer_supply": [
+  {
+   "row": 1,
+   "vals": [
+    "26P",
+    "D5A13H000000",
+    null,
+    null,
+    "TIMS735EXV/9A4A",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "row": 2,
+   "vals": [
+    "序号",
+    "物料",
+    "型号",
+    "位号",
+    "数量",
+    "工艺",
+    "品牌",
+    "备注",
+    "单价",
+    "渠道",
+    "交期"
+   ]
+  },
+  {
+   "row": 3,
+   "vals": [
+    2,
+    "薄膜电容",
+    "40μF/1100V/4Pin",
+    "C125, C126, C127",
+    3,
+    "HI",
+    "松下",
+    "家中机也用",
+    23.98,
+    "港德",
+    "4W"
+   ]
+  },
+  {
+   "row": 4,
+   "vals": [
+    3,
+    "共模滤波器",
+    "CMF50F04QX1 4mH,50A(赛特勒)(RoHS)",
+    "L1,2",
+    2,
+    "N32302000353",
+    "菲尔泰科",
+    null,
+    45.8,
+    "菲尔泰科",
+    "3W"
+   ]
+  },
+  {
+   "row": 5,
+   "vals": [
+    4,
+    "共模电感",
+    "CM10100ZJ-1/9A/15mH",
+    "L2",
+    1,
+    "HI",
+    "菲尔泰科",
+    null,
+    7,
+    "菲尔泰科",
+    "2W"
+   ]
+  },
+  {
+   "row": 6,
+   "vals": [
+    5,
+    "PIM",
+    "100A/1200V/FP100R12N2T7",
+    "A1",
+    1,
+    "HI",
+    "英飞凌",
+    null,
+    307.3,
+    "晶川",
+    "4-6W"
+   ]
+  },
+  {
+   "row": 7,
+   "vals": [
+    6,
+    "栅极驱动IC",
+    "1EDI20I12MF/SOP-8",
+    "N8, N9, N10, N11, N12, N13",
+    6,
+    "SMT",
+    "英飞凌",
+    null,
+    3.83,
+    "晶川",
+    "4-6W"
+   ]
+  },
+  {
+   "row": 8,
+   "vals": [
+    7,
+    "IPM",
+    "功率模块 RCI20C60D6U (20A,600V)(IPM模块)(NJTJ专用)(银河边缘)(RoHS)",
+    "A2, A3",
+    2,
+    "HI",
+    "国创",
+    null,
+    23,
+    "银河",
+    "4W"
+   ]
+  },
+  {
+   "row": 9,
+   "vals": [
+    8,
+    "ACDC",
+    "TOP264K/ESOP-12B",
+    "N3",
+    1,
+    "HI",
+    "PI",
+    null,
+    2.818,
+    "北高智",
+    "4-6W"
+   ]
+  },
+  {
+   "row": 10,
+   "vals": [
+    9,
+    "MCU",
+    "R5F526T8ADFM/LQFP64",
+    "N22, N23",
+    2,
+    "SMT",
+    "瑞萨",
+    "　家中机也用",
+    7.75,
+    "新晔",
+    "12W"
+   ]
+  },
+  {
+   "row": 11,
+   "vals": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    554.3197,
+    null,
+    null
+   ]
+  },
+  {
+   "row": 12,
+   "vals": [
+    "20P",
+    "D5A13G000000",
+    null,
+    null,
+    "TIMS560EXV9B4A",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ ],
+ "sheet1_e": {
+  "10": {
+   "label": "备注",
+   "val": "工装、模具费直接向客户收取；(N10305002124与N10305002125共用)             已扣除8颗客供料核算成本  "
+  },
+  "11": {
+   "label": "成本及费用组成",
+   "val": "金额"
+  },
+  "12": {
+   "label": "材料成本",
+   "val": 358.463161
+  },
+  "13": {
+   "label": "结构件",
+   "val": 416.4798
+  },
+  "14": {
+   "label": "包装材料",
+   "val": 63.7765
+  },
+  "15": {
+   "label": "辅助材料",
+   "val": 37.94311505
+  },
+  "16": {
+   "label": "",
+   "val": 876.66257605
+  },
+  "17": {
+   "label": "加工成本",
+   "val": 6.1656
+  },
+  "18": {
+   "label": "机插加工成本",
+   "val": 0.2394
+  },
+  "19": {
+   "label": "预烧写加工成本",
+   "val": 0
+  },
+  "20": {
+   "label": "人工成本",
+   "val": 82.0882
+  },
+  "21": {
+   "label": "折旧（专用）",
+   "val": 0.8424
+  },
+  "22": {
+   "label": "折旧（公共）",
+   "val": 2.2
+  },
+  "23": {
+   "label": "水电（专用）",
+   "val": 1.4745
+  },
+  "24": {
+   "label": "水电（公共）",
+   "val": 1.4776
+  },
+  "25": {
+   "label": "工装",
+   "val": 0
+  },
+  "26": {
+   "label": "低耗",
+   "val": 4.5477
+  },
+  "27": {
+   "label": "管理人员工资",
+   "val": 21.3676
+  },
+  "28": {
+   "label": "其他",
+   "val": 6.0253
+  },
+  "29": {
+   "label": "检验成本",
+   "val": 0
+  },
+  "30": {
+   "label": "",
+   "val": 126.4283
+  },
+  "31": {
+   "label": "其他费用",
+   "val": 48700
+  },
+  "32": {
+   "label": "模具费",
+   "val": 29499.11504425
+  },
+  "37": {
+   "label": "",
+   "val": 78199.11504425
+  },
+  "39": {
+   "label": "料工费成本（合计）",
+   "val": 1003.09087605
+  },
+  "40": {
+   "label": "",
+   "val": 13.54172683
+  },
+  "41": {
+   "label": "",
+   "val": 11.62361115
+  },
+  "42": {
+   "label": "主营业务成本",
+   "val": 1028.25621403
+  },
+  "43": {
+   "label": "建议毛利率",
+   "val": 0.3
+  },
+  "44": {
+   "label": "建议售价",
+   "val": 1468.93744861
+  }
+ }
+}
